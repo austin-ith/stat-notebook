@@ -1,0 +1,136 @@
+---
+title: "Stephanie's Housing Request"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+    toc: true
+    toc_float: true
+---
+
+**Week 2 Analysis**
+
+```{r, include=FALSE}
+library(mosaic)
+library(tidyverse)
+library(pander)
+library(DT)
+library(plotly)
+library(sf)
+library(raster)
+library(dplyr)
+library(spData)
+library(tmap)
+library(leaflet)
+library(mapview)
+library(ggplot2)
+library(shiny)
+library(sp)
+
+Rent <- read_csv("../Data/Rent.csv")
+```
+
+<br />
+
+## Background
+
+Stephanie[^1] is a student that will be starting school at BYU-Idaho next semester. Suppose she sent you the following email.
+
+----
+
+"Hi. My name is Stephanie. I would like to learn about what housing options I have for living at BYU-Idaho next semester. It will be my first semester there, so I would like to find something that is close to campus and around $300 a month in rent. I'm not too picky on roommates, but I would like somewhere that has a lot of people around so I can get to know as many people as possible. Thanks in advance!"
+
+----
+
+Write your response to Stephanie below. Use the "Rent" dataset, good statistical analysis, and clear writing to make some well supported suggestions to her about apartments that meet her stated criterions. You are free to use other criterion that you think she might find more meaningful as well.
+
+## Response
+
+Hi Stephanie,
+
+I'm glad you've reached out, as you can see from the interactive map below, there are definitely a lot of options in Rexburg. By hovering over the apartments, shown as dots, you'll find the walking minutes. By clicking on the apartment, you'll find the apartment name, capacity, price per semester, and Walking Minutes. 
+
+
+```{r}
+
+rentWomen <- filter(Rent, (Gender == "F") & (Longitude != "NA") & (Latitude != "NA"))
+
+rentSim <- dplyr::select(rentWomen, c(Apartment, 
+                                      Capacity,
+                                      Price,
+                                      WalkingMinutes,
+                                      Latitude,
+                                      Longitude))
+Apartments <- st_as_sf(x = rentSim, 
+                       coords = c("Longitude", "Latitude"),
+                       crs = "+proj=longlat +datum=WGS84")
+mapview(Apartments, 
+        zcol="WalkingMinutes")
+```
+
+To narrow down the right options, we'll analyze and break down your three criteria: Distance, Price, and Capacity. 
+
+<h3>Distance and Price</h3>
+
+Looking first at getting down to the right  distance. The Five number Summary below shows the range of distance of all female apartments in Rexburg. We'll specifically narrow the results to just the minimum to median(or average) range of distance by Walking Minutes.
+
+<center><h4>Five Number Summary<br>of Walking Minutes to Campus</h4> </center>
+```{R}
+rentdist <- summary(rentWomen$WalkingMinutes)
+pander(rentdist)
+```
+
+According to the Five Number Summary we are looking for apartments that have a walking distance to campus of 1-5 minutes. When setting our maximum price per month $350 per month or less, the interactive scatter plot below displays the apartments that fall with into the criteria, with the size of dot indicating the capacity of the Apartment complex. The larger the dot, the higher the capacity. By hovering over the dot's you'll see the Apartment, Price per Month, and Walking Minutes.
+
+```{R warning=FALSE}
+RentWomen1 <- rentWomen %>% 
+  mutate(PricePerMonth = round(Price/3, 2),
+         WithinRange = ifelse(PricePerMonth <=350 & WalkingMinutes <= 5, "Within Criteria", "Outside Criteria"))
+
+plot_ly(RentWomen1) %>% 
+  add_markers(y= ~PricePerMonth, 
+              x= ~WalkingMinutes,
+              text= ~Apartment,
+              size = ~Capacity,
+              color = ~WithinRange,
+              colors = c("blue","red")) %>%
+              layout(title = "BYU-Idaho Female Housing",
+              xaxis = list(title = "Walking Minutes from Campus"),
+              yaxis = list(title = "One Semester Price by Month"))
+
+```
+
+<h3>Capacity</h3>
+
+Taking only the apartments that fall with our criteria up to this point, lets getter a better idea of the capacity of each Apartment Complex. The five number summary below shows us the capacities of the 12 apartments that meet our criteria. 
+
+<center><h4>Five Number Summary<br>of Apartment Capacity</h4> </center>
+
+```{r}
+rentWomen2 <- filter(RentWomen1, WithinRange == "Within Criteria")
+
+rentcapacity <- summary(rentWomen2$Capacity)
+pander(rentcapacity)
+```
+
+According to the Summary above, the median is around a 52 person capacity. A capacity higher than this number will give you the greatest chance of meeting many new people. The table below shows the remaining 6 apartments that meet this criteria up to this point sorted by Capacity and Walking Minutes.
+
+```{R}
+rentWomen3 <- rentWomen2 %>% 
+  filter(Capacity > 52.5) %>%
+  dplyr::select(Apartment, PricePerMonth, Capacity, WalkingMinutes, Website) %>% 
+  arrange(-Capacity, WalkingMinutes) %>% 
+  DT::datatable()
+rentWomen3
+
+```
+
+## Conclusion
+
+After running all of the woman's apartments through your criteria, the table above shows Birch Plaza as your best option. It not only has the highest capacity but also quickest walking time to Campus. The price is affordable, being close to to the $300 a month you'd requested. Feel free to look at all the other options on this list, as they all have other considerations that may be of interest to you (you'll find websites for each apartment in the table above for your convenience). I hope this helps, good luck in your decision. 
+
+Thanks,
+
+Austin
+
+[^1]: Note that Stephanie is a fictional character who is based on real experiences of many faculty and staff here at BYU-Idaho.

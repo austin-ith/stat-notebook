@@ -1,0 +1,375 @@
+---
+title: "Truck Price Analysis"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(mosaic)
+library(tidyverse)
+library(ggplot2)
+library(car)
+library(pander)
+library(DT)
+
+truck <- read_csv("../../Data/truck.csv")
+
+```
+
+## Background
+
+Cars and Trucks values, while having many factors, are largely determined by their mileage. As the mileage of the car or truck goes up, the value of the vehicle decreases. Mitchell, my brother, recently bought a 2015 Ford F150 XLT at 26,000 miles for the price of $29,000. Taking a data set gathered from [KSL](www.ksl.com) of Ford F150 XLT trucks, we will determine two things:
+
+ 1. An estimate of the cost per mile for the Ford F-150 XLT. (Or in other words, at what rate in dollars does this vehicle depreciate per mile)
+ 2. The best dollar-per-mile value at which to sell the vehicle. (Mitchell has considered selling the vehicle at 150,000 miles)
+ 
+The following scatter plot shows the data gathered with each point representing a vehicles price and mileage;
+
+<center>
+```{r}
+truck %>% 
+  ggplot(aes(x = mileage, y = price)) +
+  geom_point(aes(color = "a")) +
+  theme_bw() +
+  labs(x = "Mileage",
+       y = "Price",
+       title = "Ford F150 XLT Price Per Mile") +
+  geom_point(size = 3, aes(x = 26000, y =29000, color = "b")) +
+  scale_y_continuous(breaks = seq(0,50000, by = 5000),
+                     labels = c("$0","$5,000","$10,000","$15,000","$20,000","$25,000","$30,000",
+                                "$35,000","$40,000","$45,000","$50,000")) +
+  scale_x_continuous(breaks = seq(0,200000, by = 50000),
+                     labels = c("0","50,000","100,000","150,000","200,000")) +
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = c(0.8,.85),
+        legend.text = element_text(size=12))  +
+  scale_color_manual("", values = c("dodgerblue3", "red"), labels = c("All Trucks","Mitchell's Truck"))
+```
+</center>
+
+## Analysis {.tabset}
+
+
+### Hypothesis
+
+As you can see from the scatterplot above, this data appears to be perfect for a linear regression. For this analysis, we will use the mathematical model of the linear regression as follows:
+
+<center>
+
+$$
+\underbrace{Y_i}_\text{Truck Price} = \beta_0 + \beta_1 \underbrace{X_i}_\text{Mileage} + \epsilon_i \quad \text{where} \ \epsilon_i \sim N(0,\sigma^2)
+$$
+</center>
+
+Our hypothesis is that the slope of the regression model, or $\beta_1$, is not 0. This means that there is a meaningful relationship between the average mileage and the cars price. See formal hypothesis below.
+
+<center>
+$$
+H_0:\beta_1 = 0
+$$
+
+$$
+H_a:\beta_1 \neq 0
+$$
+$$
+\alpha = 0.05
+$$
+
+</center>
+
+### Regression (Without Transformation)
+
+#### Regression
+
+Running the regression model, we get the following results.
+
+<center>
+
+```{r message=FALSE}
+truck.lm <- lm(price~mileage, data = truck)
+summary(truck.lm) %>% 
+  pander()
+```
+
+</center>
+
+With this particular data set, I'd like to point out that our intercept and slope are both significant and meaningful with the intercept having a p-value = 3.015e-90 and the slope having a p-value = 6.974e-46 which of course are less than $\alpha$=0.05. The following plot shows a simple regression line within our data. 
+
+```{r}
+truck %>% 
+  ggplot(aes(x = mileage, y = price)) +
+  geom_point(aes(color = "a")) +
+  geom_smooth(method = "lm", se = F, color = "orange") +
+  theme_bw() +
+  labs(x = "Mileage",
+       y = "Price",
+       title = "Ford F150 XLT Price Per Mile") +
+  geom_point(size = 3, aes(x = 26000, y =29000, color = "b")) +
+  scale_y_continuous(breaks = seq(0,50000, by = 5000),
+                     labels = c("$0","$5,000","$10,000","$15,000","$20,000","$25,000","$30,000",
+                                "$35,000","$40,000","$45,000","$50,000")) +
+  scale_x_continuous(breaks = seq(0,200000, by = 50000),
+                     labels = c("0","50,000","100,000","150,000","200,000")) +
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = c(0.8,.85),
+        legend.text = element_text(size=12))  +
+  scale_color_manual("", values = c("dodgerblue3", "red"), labels = c("All Trucks","Mitchell's Truck"))
+```
+
+
+Upon looking at this plot, things looks good; However, to make sure that the regression performed is appropriate, lets take a look at the following Residuals vs Fitted, Normal Q-Q, and residuals vs Order diagnotic plots below. 
+
+#### Diagnostic Plots
+
+<center>
+```{r}
+par(mfrow=c(1,3))
+plot(truck.lm, which=1)
+qqPlot(truck.lm$residuals, id = FALSE, main = "QQ Plot",
+       ylab = "Residuals")
+plot(truck.lm$residuals, main = "Residuals vs Order", xlab="",ylab="Residuals")
+```
+</center>
+
+
+From these plots there are a few of red flags. The residuals vs. fitted-values plot shows a violation with both constant variance and the linear relation. The Q-Q plot also shows problems with normality because some of the dots are out of bounds. The Residuals vs Order plot isn't great but would be okay for this study. This regression, as it currently stands isn't appropriate; however, all is not lost. Lets perform a transformation of the data. 
+
+
+### Regression (With Transformation)
+
+#### Boxcox
+
+As shown in the last section, a regular regression wasn't appropriate. We are going to look at the possibility of a transformation using the follow formula:
+$$
+Y' = Y^\lambda \quad \text{(Y Transformation)}
+$$
+
+Using this, below is the Box-Cox graph for the trucks data:
+
+<center>
+```{r}
+boxCox(truck.lm)
+```
+</center>
+
+From the Box-Cox graph above, its suggested that we should be using $\lambda$ = 0.5. Or:
+$$
+Y' = Y^\text{0.5} \quad \text{(Y Transformation)}
+$$
+
+Putting this back into the original units, we have:
+$$
+  \hat{Y_i} = (\beta_0 + \beta_1X)^2
+$$
+
+Okay, running the regression model on this transformation, we get the following results.
+
+<center>
+
+```{r message=FALSE}
+truck.lm.t <- lm(sqrt(price)~mileage, data = truck)
+t <- truck.lm.t$coefficients
+summary(truck.lm.t) %>% 
+  pander()
+```
+
+</center>
+
+And again, our intercept and slope are meaningful with the intercept having a p-value = 1.026e-119 and the slope having a p-value = 2.679e-50 which of course are less than $\alpha$=0.05. The following plot shows a simple regression line with and without the transformation within our data. 
+
+```{r message=FALSE, warning=FALSE}
+truck %>% 
+  ggplot(aes(x = mileage, y = price)) +
+  geom_point(aes(color = "a", linetype = "a")) +
+  geom_smooth(method = "lm", se = F, aes(color = "c",linetype = "c")) +
+  stat_function(fun = function(x) (t[1] +t[2]*x)**2, aes(color = "d", linetype = "d"), size = 1.5) +
+  theme_bw() +
+  labs(x = "Mileage",
+       y = "Price",
+       title = "Ford F150 XLT Price Per Mile") +
+  geom_point(size = 3, aes(x = 26000, y =29000, color = "b", linetype = "b")) +
+  scale_y_continuous(breaks = seq(0,50000, by = 5000),
+                     labels = c("$0","$5,000","$10,000","$15,000","$20,000","$25,000","$30,000",
+                                "$35,000","$40,000","$45,000","$50,000")) +
+  scale_x_continuous(breaks = seq(0,200000, by = 50000),
+                     labels = c("0","50,000","100,000","150,000","200,000")) +
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = c(0.8,.80),
+        legend.text = element_text(size=12))  +
+  scale_color_manual("", values = c("dodgerblue3", "red","orange","green"), labels = c("All Trucks","Mitchell's Truck",
+                                                                "Without Transformation",
+                                                                "With Transformation")) +
+  scale_linetype_manual("", values = c(NA, NA, 1,1), labels = c("All Trucks","Mitchell's Truck",
+                                                                "Without Transformation",
+                                                                "With Transformation"))
+  
+  
+```
+
+
+This looks to fit our data better, lets take a look at the following Residuals vs Fitted, Normal Q-Q, and residuals vs Order diagnotic plots below. 
+
+#### Diagnostic Plots
+
+<center>
+```{r}
+par(mfrow=c(1,3))
+plot(truck.lm.t, which=1)
+qqPlot(truck.lm.t$residuals, id = FALSE, main = "QQ Plot",
+       ylab = "Residuals")
+plot(truck.lm.t$residuals, main = "Residuals vs Order", xlab="",ylab="Residuals")
+```
+</center>
+
+
+From these plots there are still a few red flags. The residuals vs. fitted-values plot shows a great constant variance but we still have some issues with the linear relation. The Q-Q plot still shows some  problems with normality because some of the dots are out of bounds. The Residuals vs Order plot is okay for this study. This regression, has improved greatly with the transformation and thus we'll make some conclusions. 
+
+
+### Conclusion {.tabset}
+
+#### The Ford F150 XLT Part 1
+
+All things considered, the estimated cost per mile for the Ford F150 XLT is slightly more complicated due to the transformation used to create a better fitted linear regression. The slope of the cost per mile thus changes based on any value of x and can be represented by taking the derivative of this equation: 
+
+$$
+  \underbrace{\hat{Y_h}}_\text{Estimated Cost of Truck} = (191.9231 - 0.0004784\underbrace{X}_\text{Mileage})^2
+$$
+
+After taking the derivative, we have the following equation for slope and any point, X.
+
+$$
+\text{Estimated cost per mile} = -0.183632+(4.577E^\text{-7})\underbrace{X}_\text{Mileage}
+$$
+While this formula can be a seem a little complicated. The most important thing to note is that as X, or mileage, increases, the estimated cost per mile decreases. This would mean, that the more miles on the vehicle, the slower it depreciates. 
+
+#### The Ford F150 XLT Part 2
+
+Looking at Mitchell's vehicle, we are going to first look at the dollar per mile cost from the point Mitchell bought the car to when we wants to sell at 150,000 miles. The graph below depicts Mitchell's truck and the 150,000 mile point on the regression line. 
+
+```{r message=FALSE, warning=FALSE}
+
+p <- (predict(truck.lm.t, data.frame(mileage = 150000)))**2
+
+r <- data.frame(x = c(26000, 150000), y = c(29000, p))
+
+r_slope <- (p-29000)/(150000-26000)
+
+truck %>%
+  ggplot(aes(x = mileage, y = price)) +
+  geom_point(aes(color = "a", linetype = "a")) +
+  stat_function(fun = function(x) (t[1] +t[2]*x)**2, aes(color = "d", linetype = "d"), size = 1.5) +
+  theme_bw() +
+  labs(x = "Mileage",
+       y = "Price",
+       title = "Ford F150 XLT Price Per Mile") +
+  geom_line(data = r, aes(x=x, y=y, color = "c", linetype = "c"), size = 1.5) +
+  geom_point(data = r, size = 3, aes(x = x, y = y, color = "b", linetype = "b")) +
+  scale_y_continuous(breaks = seq(0,50000, by = 5000),
+                     labels = c("$0","$5,000","$10,000","$15,000","$20,000","$25,000","$30,000",
+                                "$35,000","$40,000","$45,000","$50,000")) +
+  scale_x_continuous(breaks = seq(0,200000, by = 50000),
+                     labels = c("0","50,000","100,000","150,000","200,000")) +
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = c(0.8,.80),
+        legend.text = element_text(size=12))  +
+  scale_color_manual("", values = c("dodgerblue3",
+                                    "red",
+                                    "orange",
+                                    "green"), labels = c("All Trucks",
+                                                         "Mitchell's Truck",
+                                                         "Rate at 150,000 Miles",
+                                                         "Regression line")) +
+  scale_linetype_manual("", values = c(NA, NA, 1,1), labels = c("All Trucks",
+                                                         "Mitchell's Truck",
+                                                         "Rate at 150,000 Miles",
+                                                         "Regression line")) +
+  geom_label(aes(x = 150000, y = 18000, label = "Rate = $-0.12 per mile"))
+  
+```
+
+As you can clearly see from the graph, the rate at which Mitchells truck is estimated to depreciate if sold at 150,000 miles is $0.12 per mile. You can also see that with this particular model of truck, the rate of depreciation is likely to increase the more miles you put on it. To find the optimal mileage to to sell, I've decided to look at the residuals particularly the ones above our regression. I want to find the point that on our regression that has the highest posiive residual. Further, I will filter out all data points before Mitchells trucks mileage. See data table output below. 
+
+<center>
+```{r}
+truck$residuals <- as.numeric(truck.lm.t$residuals)
+
+truck1 <- truck %>% 
+  filter(mileage>26000) %>% 
+  select(c(mileage, price, residuals)) %>% 
+  arrange(desc(residuals))
+
+datatable(truck1, options=list(lengthMenu = c(5,10,25)))
+```
+</center>
+
+As the data indicates, the mileage that has the highest residual is 110,070 with a residual of 23.119. We are going to use this point as the most optimal point to sell the truck. The following graph shows Mitchell's rate of depression at both this point and the point on the regression line at this mileage. 
+
+<center>
+```{r message=FALSE, warning=FALSE}
+
+p1 <- (predict(truck.lm.t, data.frame(mileage = 110070)))**2
+
+pred_interval <- (predict(truck.lm.t, data.frame(mileage = 110070), interval = "prediction")**2)
+
+r1 <- data.frame(x = c(26000, 110070), y = c(29000, 26368))
+s <- data.frame(x = c(26000, 110070), y = c(29000, p1))
+
+r1_slope <- (p-29000)/(150000-26000)
+s_slope <- (26368-29000)/(110070-26000)
+
+truck %>%
+  ggplot(aes(x = mileage, y = price)) +
+  geom_point(aes(color = "a", linetype = "a")) +
+  stat_function(fun = function(x) (t[1] +t[2]*x)**2, aes(color = "d", linetype = "d"), size = 1.5) +
+  geom_segment(aes(x=110070, xend=110070, y=pred_interval[2], yend=pred_interval[3]), lwd=4, color=rgb(.5,.7,.5,.01)) +
+  theme_bw() +
+  labs(x = "Mileage",
+       y = "Price",
+       title = "Ford F150 XLT Price Per Mile") +
+  geom_line(data = r1, aes(x=x, y=y, color = "c", linetype = "c"), size = 1.5) +
+  geom_line(data = s, aes(x=x, y=y, color = "c", linetype = "c"), size = 1.5) +
+  geom_point(data = r1, size = 3, aes(x = x, y = y, color = "b", linetype = "b")) +
+  geom_point(data = s, size =3, aes(x = x, y= y, color = "b", linetype = "b")) +
+  geom_point(size = 3, aes(x = 26000, y =29000, color = "aa", linetype = "aa")) +
+  scale_y_continuous(breaks = seq(0,50000, by = 5000),
+                     labels = c("$0","$5,000","$10,000","$15,000","$20,000","$25,000","$30,000",
+                                "$35,000","$40,000","$45,000","$50,000")) +
+  scale_x_continuous(breaks = seq(0,200000, by = 50000),
+                     labels = c("0","50,000","100,000","150,000","200,000")) +
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = c(0.8,.80),
+        legend.text = element_text(size=12))  +
+  scale_color_manual("", values = c("dodgerblue3",
+                                    "red",
+                                    "yellow4",
+                                    "orange",
+                                    "green"), labels = c("All Trucks",
+                                                         "Mitchell's Truck",
+                                                         "Potential Sell Points",
+                                                         "Rates at 110,070 miles",
+                                                         "Regression line")) +
+  scale_linetype_manual("", values = c(NA, NA, NA, 1,1), labels = c("All Trucks",
+                                                                "Mitchell's Truck",
+                                                                "Potential Sell Points",
+                                                                "Rates at 110,070 miles",
+                                                                "Regression line")) +
+  geom_label(aes(x = 60000, y = 21000, label = "Rate = $-0.11 per mile")) +
+  geom_label(aes(x = 110000, y = 28500, label = "Rate = $-0.03 per mile")) 
+  
+```
+</center>
+
+As shown, the rate of depreciation at 110,070 miles when using the regression line is $0.11 per mile which is less than at 150,000 miles. However it also has the potential of being sold for more with the rate of depreciation from Mitchells truck to the highest residual being a mere \$0.03 per mile. 
+
+Therefore, I would suggest selling Mitchell's truck at 110,070 miles for the same price of the truck with the highest residual, $26,504.68, recognizing that the truck could be sold as low as at the estimated value of \$13,391.92 with the average selling price of \$19,394.19.
+
+
+\
+
+\
+
+\

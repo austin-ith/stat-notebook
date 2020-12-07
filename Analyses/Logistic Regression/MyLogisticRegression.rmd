@@ -1,0 +1,130 @@
+---
+title: "My Simple Logistic Regression"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+<!-- Find some data of interest to you that can be analyzed with a logistic regression. Complete your Logistic Regression Analysis using this file. 
+
+Hint, run the command 
+
+> data() 
+
+in your Console to see available datasets in R that you could use for this Analysis. You are also welcome to collect data yourself, or find other available datasets online for this Analysis. Just be careful to not use anyone else's "analysis" for this Analysis. Also, no conducting surveys unless you have IRB approval to do so. -->
+
+```{r, include=FALSE}
+library(mosaic)
+library(car)
+library(ResourceSelection)
+library(tidyverse)
+library(pander)
+library(DT)
+
+GSS <- read.table("../../Data/GSS2012.csv", sep="\t", header=TRUE)
+```
+
+## Background
+“The General Social Survey (GSS) conducts basic scientific research on the structure and development of American society with a data-collection program designed to both monitor societal change within the United States and to compare the United States to other nations.”[$^1$](http://www3.norc.org/GSS+Website/)
+
+This survey is given to random adults varying in age every couple of years and provides answers to many different questions. 
+
+We are going to be looking at the question as to how likely an individual is to make an effort towards starting a new job within the next year? A sample of the data is shown in the table below. 
+
+```{r}
+gss1 <- select(GSS, c(id, year, age, trynewjb))
+datatable(gss1, options=list(lengthMenu = c(3,10,25)), extensions="Responsive")
+```
+
+The values in the trynewjb column represent the likeliness of the individual to make an effort towards a new job with 1 representing "Very likely" and 3 representing "Not at all likely."
+
+## Logistic Model
+
+A model to show the probability that an individuals willingness to make an effort to switch jobs within the year based on age could be shown by the logistic regression model:
+
+$$
+  P(Y_i = 1|x_i) = \frac{e^{\beta_0+\beta_1 x_i}}{1+e^{\beta_0 + \beta_1 x_i}} = \pi_i
+$$
+where for observation $i$: 
+
+* $Y_i = 1$ denotes at least one individual making an effort towards a new job, 
+* $Y_i=0$ denotes no individuals making an effort toward a new job, and 
+* $x_i$ denotes the age of the individual. 
+
+We will test the hypothesis:
+
+$$
+  H_0: \beta_1 = 0 \\
+  H_a: \beta_1 \neq 0
+$$
+
+Running the model through a logistic regession we get the following values:
+
+<center>
+
+```{r}
+gss.glm <- glm(trynewjb == 1 ~ age, data = GSS, family = binomial)
+pander(summary(gss.glm))
+
+```
+
+</center>
+
+Using the estimates provided in the regression above we have:
+
+$$
+  P(Y_i = 1|x_i) \approx \frac{e^{-0.1569 - 0.04515 x_i}}{1+e^{-0.1569 - 0.04515 x_i}} = \hat{\pi}_i
+$$
+where $b_0 = -0.1569$ is the value of the `(Intercept)` which estimates $\beta_0$ and $b_1 = -0.04515$ is the value of `Age` which estimates $\beta_1$.
+
+Importantly, the $p$-value for the test of `Age` shows a significant result $(p = 4.684e-19)$ giving sufficient evidence to conclude that $\beta_1 \neq 0$, which allows us to conclude that Age effects the probability of an individuals effort to look for a new job within the next year.
+
+## A Visual of the Model
+
+A visual of the data and its regression curve is shown below:
+
+<center>
+
+```{r}
+plot(trynewjb == 1 ~ age, data=GSS)
+curve(exp(-0.156891+(-0.045151*x))/(1+exp(-0.156891+(-0.045151*x))), add = TRUE)
+```
+
+</center>
+
+As you can see from the plot above, there appears to be an issue with the data providing an appropriate probabilty by age.
+
+## Appropriateness of the Model 
+
+To check and see if the Logistic Regression was appropriate for this particular data, we'll run the data through the Hosmer-Lemeshow goodness of fit test. The results are shown below:
+
+<center>
+
+```{r}
+hoslem.test(gss.glm$y, gss.glm$fitted) %>% 
+  pander()
+```
+
+</center>
+
+With a $p$-value of 0.009823 < 0.05 level of significance. We can reasonably conclude that the Logistic Regression model is not appropriate for this data. 
+
+## Interpretation
+
+While it had originally appeared that age played a role in determining the effort made towards finding a new job within the next year, the Hosmer-Lemeshow goodness of fit test showed us that a Logistic Regression could not reasonably be used for this data. Age, therefore, does not play a significant enough role in one's effort to find a job. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

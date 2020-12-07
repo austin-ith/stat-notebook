@@ -1,0 +1,185 @@
+---
+title: "Chocolate"
+output:
+  html_document:
+    code_folding: hide
+    theme: cerulean
+  pdf_document: default
+---
+
+```{r, include=FALSE}
+# Be sure to use your file menus at the top of R-Studio to:
+# "Session -> Set working directory -> To source file location"
+# Then play this chunk and the next one to get the data into R.
+library(mosaic)
+library(car)
+library(DT)
+library(pander)
+library(readr)
+choc <- read_csv("../../Data/Chocolate.csv")
+```
+
+```{r, eval=FALSE}
+View(choc)
+```
+
+----
+
+<!-- Instructions:
+
+ Use the Chocolate dataset and a Kruskal-Wallis Test(s) to answer an interesting question(s) that you come up with.
+ 
+ About the dataset:
+ 
+  * Company: Name of the company manufacturing the bar.
+
+  * Orig: The specific geo-region of origin for the bar.
+
+  * Review: Date of publication of the review.
+
+  * Cocoa: Cocoa percentage (darkness) of the chocolate bar being reviewed.
+
+  * Location: Manufacturer base country.
+
+  * Rating: Expert rating for the bar.
+      5= Elite (Transcending beyond the ordinary limits)
+      4= Premium (Superior flavor development, character and style)
+      3= Satisfactory(3.0) to praiseworthy(3.75) (well made with special qualities)
+      2= Disappointing (Passable but contains at least one significant flaw)
+      1= Unpleasant (mostly unpalatable)
+
+   * Type: The variety (breed) of cocoa bean used, if provided.
+   
+   * BroadOrig: The broad geo-region of origin for the bean.
+
+Note this dataset and description come from: © 2018 Kaggle Inc for further details visit:
+
+[Kaggle.com](https://www.kaggle.com/rtatman/chocolate-bar-ratings/data)
+
+
+If you want to give your critiquers some ideas about what you have questions on and would like help with, place those details here.-->
+**Comments to Critiquers:** 
+
+
+
+<!--End your comments to your critiquers before this line.-->
+
+----
+
+<!--Begin writing your Analysis after this point.-->
+
+## Background
+
+It has been said that "9 out of 10 people like chocolate, the tenth person always lies." (Anonymous)
+
+I am not that "tenth person." I truly do love chocolate and trying different types and brands. A company named Kaggle Inc, performed a study showing a pretty extensive list of Chocolate from different parts of the world. This study includes the Company, Orgin, Review, Percentage of Cocoa in the chocolate bar, Type, and an expert rating (from 1-5 with 5 being the most superior of all other bars). 
+  
+Having lived in the United States for my entire life, I feel like I have a good understanding of the quality of chocolate found here. I have also traveled to New Zealand and experienced New Zealand chocolate, which I personally found to be superior than the United States. The area of the world that I am considering to travel to next is Australia, Germany, Switzerland, or the U.K.. A potential factor in my decision is the quality of Chocolate in each location. To help determine with is superior, I am going to put some trust into the Expert Ratings provided by the before mentioned data set provided by Kaggle, Inc., and ask the question. 
+
+Is the rating of chocolate different between Germany, Switzerland, U.K., and Australia?
+
+## Hypothesis
+
+To help us understand if there is at least one country different than the others,Our Null and alternative hypthosis will be thus:
+
+$$
+  H_0: \text{All samples of the countries' Chocolate ratings are of the same distribution.}
+$$ 
+$$
+  H_a: \text{At least one distribution is stochastically different than the others.}
+$$
+
+Our level of Significance will be:
+
+\[
+alpha = 0.05
+\]
+
+## Analysis
+
+Lets now visualize the data of the 4 countries. The boxplot below shows the countries side-by-side. Note the median's of each country. 
+
+```{r}
+choc <- choc %>% 
+  mutate(cocoa2 = parse_number(Cocao))
+
+choc1 <- filter(choc, Location %in% c("Australia","Germany", "Switzerland", "U.K."))
+
+boxplot(Rating ~ Location, data=choc1, type=c("p","a"), col=c('skyblue','gray','gray','skyblue'), ylab="Rating", main="Chocolate Ratings by Country \n (Light blue showing Median High/Low)")
+```
+
+According to the boxplot above, it would appear that Australia's median chocolate rating is superior to the other countries with the U.K. falling in dead last. The table below provides a 5 number summary to solidify and further compare the values shown in the boxplot. 
+
+```{r}
+choc1 %>% 
+  group_by(Location) %>% 
+  summarize(Min = min(Rating),
+            Q1 = quantile(Rating, 0.25),
+            Median = median(Rating),
+            Q3 = quantile(Rating, 0.75),
+            Max = max(Rating),
+            Mean = mean(Rating),
+            sd = sd(Rating),
+            "# of Companies" = n()) %>% 
+  pander()
+```
+
+With the suspicion from the data above that the distributions of data in at least one country is skewed. See the histograms below showing the distributions for each country. 
+
+<center>
+```{r}
+choc2 <- filter(choc1, Location %in% "Australia")
+choc3 <- filter(choc1, Location %in% "Germany")
+choc4 <- filter(choc1, Location %in% "Switzerland")
+choc5 <- filter(choc1, Location %in% "U.K.")
+par(mfrow = c(2,2))
+hist(choc2$Rating, col = "skyblue", xlab = "Rating", main="Australia's Chocolate Rating", xlim=c(1.5,4))
+hist(choc3$Rating, col = "skyblue", xlab = "Rating", main="Germany's Chocolate Rating", xlim=c(1.5,4))
+hist(choc4$Rating, col = "firebrick1", xlab = "Rating", main="Switzerland's Chocolate Rating", xlim=c(1.5,4))
+hist(choc5$Rating, col = "skyblue", xlab = "Rating", main="U.K.'s Chocolate Rating", xlim=c(1.5,4))
+```
+</center>
+
+As you can see above, the countries ratings distributions are skewed with Switzerlands distribution rather consistent across the board, making a parametric test not appropriate for this particular data. As such, the more appropriate test is the Kruskal-Wallis Rank Sum Test.
+Performing the Kruskal-Wallis Rank Sum test we get the following results. 
+<center>
+```{r message=FALSE, comment=NA}
+kruskal.test(Rating ~ Location, data = choc1)
+```
+</center>
+From the results above, we find that our p-value is less than alpha $(p=0.005655<0.05)$. Thus we will reject the null hypothesis and accept the alternative hypothesis, that is that the distributions of at least one of the countries ratings on chocolate is different. 
+
+## Interpretation
+
+Knowing that there truly is a difference in the quality of chocolate between these four countries is extremely helpful, and it would appear that Australia is the best choice. The mean of the ratings in Australia is 3.35 as opposed to the means in Germany, Switzerland, and the U.K. being 3.179, 3.342, and 3.055 respectively. This only confirms the results of the test. It would be very interesting to include other factors of the chocolate, including the cocoa content, and where the beans. This would lead to a stronger conclusion as to which chocolate is the best between these countries. 
+
+<center>
+![A beautiful Picture of Austrailian Cadbury Chocolate](chocolate.jpeg)
+
+
+</center>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

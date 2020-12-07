@@ -1,0 +1,275 @@
+---
+title: "Midterm Decision Analysis"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(car)
+library(DT)
+library(pander)
+midterm <- read.csv("MidtermVsFinalGrades.csv")
+```
+
+## Decision
+
+I have chosen to *KEEP* my Midterm as part of my final grade. The analysis below will describe how I have come to this conclusion. Keep in mind that my analysis creates a model that will be used in the Conclusion Tab to determine my final test score. Knowing my predicted final test score allowed me to come to a logical conclusion. It is also important to note that I used the dataset provided by Bro. Saunders containing previous students scores in my analysis. 
+
+## Analysis {.tabset}
+
+### Data
+
+My first step is to look at the data to see what I'm working with and the variables included. The datatable below shows a snippet of the data. 
+
+```{r}
+datatable(midterm, options=list(lengthMenu = c(5,10,25)))
+
+```
+
+From this snippet there are a couple things that stand out. The data looks good for the most part. There are 9 variables as shown in italics below.
+
+```{r}
+colnames(midterm) %>% 
+  pander()
+```
+
+Something that could cause issues later on is the missing values in the dataset. Rather than filter these rows out, lets go ahead and fill these in with "0"s. It could be that their other information is useful in the analysis. If we see anything different, we'll filter these out later. 
+
+A updated dataset is shown below:
+
+```{r warning=FALSE}
+midterm <- midterm %>% 
+  replace(is.na(.), 0)
+datatable(midterm, options=list(lengthMenu = c(5,10,25)))
+```
+
+\
+
+\
+
+\
+
+### Determining the Model 
+
+With the data set ready to go. Lets take a quick look at the initial pairs plot to see how the variables, including the midterm variable, looks in relation to the final test score. The first pairs plot is shown below:
+
+```{r}
+pairs(midterm, panel = panel.smooth)
+```
+
+There are several variables that seem interesting; in particular, the Gender, Midterm, AnalysesTheory, AssessmentQuizActual and SkillQuizzes. The two that stand out the most are the Midterm and AnalysesTheory. I'm going to start with the Midterm variable and since the data seems to have a curve to it, we'll just include a squared term now and see if it is significant.
+
+Running the regression we get the following results:
+```{r warning=FALSE}
+lm1 <- lm(FinalExam+1~Midterm + I(Midterm^2), data = midterm)
+  
+summary(lm1)
+```
+
+The summary shows that Midterm is not significant in either term. The fit of the model is also poor with our R-Squared being 0.2841. 
+
+However, despite this, I'm curious. Lets look at the residuals on the pairs plot to see if anything stands out. 
+
+```{r}
+pairs(cbind(R=lm1$res, Fit = lm1$fit, midterm), panel = panel.smooth)
+
+```
+
+AnalysesTheory and AssessmentQuizActual still stand out to me. Starting with AnalysesTheory, this seems to be a simple line, so we'lll add that into our model, with an interaction with Midterm.
+
+We get the following results.
+
+```{r warning=FALSE}
+lm2 <- lm(FinalExam+1~Midterm + I(Midterm^2) + AnalysesTheory + Midterm:AnalysesTheory, data = midterm)
+summary(lm2)
+```
+
+Okay, so it looks like our Midterm squared term is now significant. Our intercept and Midterm terms being the only non-significant terms. Lets take a look at the pairs plot again and see if there is anything else. 
+
+```{r}
+pairs(cbind(R=lm2$res, Fit = lm2$fit, midterm), panel = panel.smooth)
+
+```
+
+From this pairs plot, I'm beginning to think that we may need include a quadratic AnalysesTheory term. I'm just going to throw it in there and see.  
+
+```{r warning=FALSE}
+lm3 <- lm(FinalExam+1~Midterm + I(Midterm^2) * AnalysesTheory, data = midterm)
+summary(lm3)
+```
+
+Okay, so as you can see, everything except for Midterm is significant. Looking at the new pairs plot..
+
+```{r}
+pairs(cbind(R=lm3$res, Fit = lm3$fit, midterm), panel = panel.smooth)
+
+```
+
+And AnalysesTheory still interests me. Lets add a cubed term to the model and see what happens.
+
+```{r warning=FALSE}
+lm4 <- lm(FinalExam+1~Midterm + I(Midterm^2) * AnalysesTheory + I(AnalysesTheory^3), data = midterm)
+summary(lm4)
+```
+
+So it is not significant. The new Pairs plots..
+
+```{r}
+pairs(cbind(R=lm4$res, Fit = lm4$fit, midterm), panel = panel.smooth)
+
+```
+
+Lets take out a term at a time here. I'm going to go ahead and throw out the Midterm term first. 
+
+```{r warning=FALSE}
+lm5 <- lm(FinalExam+1~I(Midterm^2) + AnalysesTheory + I(AnalysesTheory^3) + I(Midterm^2):AnalysesTheory, data = midterm)
+summary(lm5)
+```
+
+Lets take out the AnalysesTheory now..
+
+```{r warning=FALSE}
+lm6 <- lm(FinalExam+1~I(Midterm^2) + I(AnalysesTheory^3) + I(Midterm^2):AnalysesTheory, data = midterm)
+summary(lm6)
+```
+
+Okay, well all of our terms are significant but lets take a look at the pairs plot
+
+```{r}
+pairs(cbind(R=lm6$res, Fit = lm6$fit, midterm), panel = panel.smooth)
+
+```
+
+It appears to me that AssementQuizActual as a pattern, lets add that in now..
+
+```{r warning=FALSE}
+lm7 <- lm(FinalExam+1~I(Midterm^2) + I(AnalysesTheory^3) + I(Midterm^2):AnalysesTheory + AssessmentQuizActual + I(Midterm^2):AssessmentQuizActual + I(AssessmentQuizActual^3), data = midterm)
+summary(lm7)
+```
+
+Well, its clear to see that AssessmentQuizActual does not have any significance to the model. Going back to the previous model. 
+
+```{r warning=FALSE}
+lm8 <- lm(FinalExam+1~I(Midterm^2) + I(AnalysesTheory^3) + I(Midterm^2):AnalysesTheory, data = midterm)
+summary(lm8)
+```
+
+And after one last look, I don't see anything else that stands out to me.
+
+```{r}
+pairs(cbind(R=lm6$res, Fit = lm6$fit, midterm), panel = panel.smooth)
+
+```
+
+I think that we have the right components of our model. Lets take a look at the residuals vs Fitted plot to see what's going on there. 
+
+```{r}
+plot(lm6, which =1)
+```
+
+This looks okay, not great. Lets try removing the three outlier labeled 42 to see if that helps our improve our linearity/constant variance at all. A new lm summary and residuals vs fitted plot are shown below.
+
+
+```{r warning=FALSE}
+midterm1 <- midterm %>% 
+  filter(row_number() != 42)
+
+lm8 <- lm(FinalExam+1~I(Midterm^2) + I(AnalysesTheory^3) + I(Midterm^2):AnalysesTheory, data = midterm1)
+summary(lm8)
+b <- lm8$coefficients
+plot(lm8, which =1)
+```
+
+Removing the outliers did help our Constant variance. The linearity is still not great but should be alright.
+
+Everything looks pretty good, but just because I'm a curious soul, lets try a boxCox to check for a possible transformation..
+
+```{r}
+boxCox(lm8)
+```
+
+Well, it looks like we'll stick to our current model as the boxCox suggests no transformation. 
+
+Therefore our model for predicting a final test score is: 
+
+$$
+\underbrace{Y_i}_\text{Final Grade} = `r b[1]` + `r b[2]`\underbrace{X_{1i}^2}_\text{Midterm} + `r b[3]`\underbrace{X_{1i}^2X_{2i}}_\text{AnalysesTheory} + `r b[4]`\underbrace{X_{1i}^3X_{2i}}_\text{Interaction}
+$$
+
+\
+
+\
+
+\
+
+
+### Conclusion
+
+As determined in the "Determining the Model" tab, our model is: 
+
+$$
+\underbrace{Y_i}_\text{Final Grade} = `r b[1]` + `r b[2]`\underbrace{X_{1i}^2}_\text{Midterm} + `r b[3]`\underbrace{X_{1i}^2X_{2i}}_\text{AnalysesTheory} + `r b[4]`\underbrace{X_{1i}^3X_{2i}}_\text{Interaction}
+$$
+
+Using this model I will now input my other score information to determine my final score. I scored a 96 on my Midterm and currently have 100% on my Analyses. 
+
+```{r}
+p <- predict(lm3, data.frame(Midterm = 96, AnalysesTheory = 100))-1
+```
+
+My predicted Final Exam score is: **`r p`**
+
+Before going any further, lets look at the prediction intervals to see just how much this score can vary.
+
+<center>
+```{r}
+p_i <- predict(lm3, data.frame(Midterm = 96, AnalysesTheory = 100), interval = "prediction")-1
+
+p_i %>% 
+  pander()
+```
+</center>
+
+Okay, the prediction intervals show that my final exam score can still vary quite a bit. Therefore I should put too much trust in this model prediction. However, lets still run through the logic. 
+
+##### Fitted prediction Logic
+
+Assuming that I actually do score a `r p`/100 on my final. 
+
+Should I dropped my Midterm, I would have a **`r p`** final percentage. 
+
+Should I keep my Midterm, I would have (70%)\*`r p` + (30%)\*96 = **89.3229** final percentage. 
+
+##### Lower prediction Logic
+
+Assuming that I actually do score a `r p_i[2]`/100 on my final. 
+
+Should I dropped my Midterm, I would have a **`r p_i[2]`** final percentage. 
+
+Should I keep my Midterm, I would have (70%)\*`r p_i[2]` + (30%)\*96 = **60.13941** final percentage. 
+
+##### Decision
+
+Looking at both possibilities, I'd say that it is in my best interest to keep my Midterm. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

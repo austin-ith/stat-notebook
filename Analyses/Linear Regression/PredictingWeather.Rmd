@@ -1,0 +1,174 @@
+---
+title: "Predicting the Weather"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(mosaic)
+library(tidyverse)
+library(ggplot2)
+library(lubridate)
+library(scales)
+library(car)
+library(pander)
+library(DT)
+
+weather <- read_csv("../../Data/weather.csv")
+
+```
+
+## January 13th Weather Prediction 
+
+After analyzing weather data from January over the last three years, I've determined Jan. 13th's Max temperature to be **38.29** degree's fahrenheit, but could be as low as **25.22** degrees and as high as **51.36** per our prediction interval. The following plot shows the increase of the average Max. Temperature with each day shown in January.
+
+<center>
+
+```{r}
+weather1 <- weather %>% 
+  mutate(year = substring(Date, 0, 4),
+         Date = as.Date(Date),
+         date_x = (Date %>% 
+                     as.character %>%
+                     str_replace("^\\d{4}", "2020") %>% 
+                     as_date))
+
+weather.lm <- lm(MaxTemp ~ date_x, data = weather1)
+date1 = as.Date("2020-01-13")
+predy <- data.frame(date2 = date1, 
+                    predic = predict(weather.lm, data.frame(date_x = date1)))
+
+
+pred_interval <- data.frame(predict(weather.lm, data.frame(date_x = date1), interval = "prediction"))
+
+ggplot(data = weather1, aes(x = date_x, y = MaxTemp)) +
+  geom_point(data = weather1, aes(color = "Data")) +
+  geom_smooth(data = weather1, method = "lm", se = FALSE, fullrange =TRUE) +
+  geom_point(data = predy, aes(x= date2, y = predic, color = "Predicted"), size = 4) +
+  geom_text(data = predy, aes(x = date2, y = predic, label="Predicted Temp\n 38.29"),nudge_y=-1.8,nudge_x=-.2, size = 2) +
+  theme_bw() +
+  xlim(as.Date("2020-1-1"),as.Date("2020-01-13")) +
+  scale_y_continuous(breaks = c(0,10,20,30,40,50,60)) +
+  labs(x = "Date", 
+       y ="Max Temperature (Fahrenheit)",
+       title = "Rexburg Max Temperatures\n January (2018-2020)") +
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = c(0.9,.17)) +
+  scale_color_manual("",values=c("black","orange"), labels=c("Data", "Predicted")) +
+  geom_segment(aes(x = as.Date("2020-01-01"), xend = as.Date("2020-01-13"),y = pred_interval$fit, yend = pred_interval$fit), color = "skyblue", linetype = "dashed") +
+  geom_segment(aes(x = as.Date("2020-01-01"), xend = as.Date("2020-01-13"),y = pred_interval$lwr, yend = pred_interval$lwr), color = "skyblue", linetype = "dashed") +
+  geom_segment(aes(x = as.Date("2020-01-01"), xend = as.Date("2020-01-13"),y = pred_interval$upr, yend = pred_interval$upr), color = "skyblue", linetype = "dashed") +
+  geom_segment(aes(x = as.Date("2020-01-13"), xend = as.Date("2020-01-13"),y = 0, yend = 60), color = "skyblue", linetype = "dashed")
+
+```
+
+</center>
+
+## Analysis {.tabset}
+
+### Background
+
+To form my weather prediction for January 13, 2020, I used data from [Rexburg Weather Data](https://www.timeanddate.com/weather/@5605242/historic?month=1&year=2019). I gathered only the dates and Max Temperatures from Jan 1st through Jan. 10th for the years 2018, 2019, and 2020.
+
+To further prepare the data for analysis, I created a column showing just the year and another column showing complete dates but all having the same year for simplicity in plotting and running the regression. 
+
+<center>
+```{r}
+datatable(weather1, options=list(lengthMenu = c(5,10,25)))
+```
+</center>
+
+
+### Hypothesis
+
+For this analysis, we will use the mathematical model of the linear regression as follows:
+
+<center>
+
+$$
+\underbrace{Y_i}_\text{Max. Temperature} = \overbrace{\beta_0 + \beta_1 \underbrace{X_i}_\text{Date}}^\text{True line} + \epsilon_i \quad \text{where} \ \epsilon_i \sim N(0,\sigma^2)
+$$
+</center>
+
+Our hypothesis is that the slope of the regression model, or $\beta_1$, is not 0. This means that there is a meaningful relationship between the average Max Temperature and the date. See formal hypothesis below.
+
+<center>
+$$
+H_0:\beta_1 = 0
+$$
+
+$$
+H_a:\beta_1 \neq 0
+$$
+$$
+\alpha = 0.05
+$$
+
+</center>
+
+
+
+### Regression and Diagnostics
+
+
+Running the regression model, we get the following results.
+
+<center>
+
+```{r message=FALSE}
+summary(weather.lm) %>% 
+  pander()
+```
+
+</center>
+
+I would like to mention here that we are not going to be looking at significance of the intercept. The reason being that time is linear and there is no day 0, therefore it not significant. 
+
+As shown in the table above, our p-value for the slope is 0.002715 which is less than $\alpha$=0.05 and is therefore significant. This would mean that we can have confidence in this model predicting an accurate temperature based on the date. However, to make sure that the regression performed is appropriate, lets take a look at the following Residuals vs Fitted, Normal Q-Q, and residuals vs Order diagnotic plots below. 
+
+<center>
+```{r}
+par(mfrow=c(1,3))
+plot(weather.lm, which=1)
+qqPlot(weather.lm$residuals, id = FALSE, main = "QQ Plot",
+       ylab = "Residuals")
+plot(weather.lm$residuals, main = "Residuals vs Order", xlab="",ylab="Residuals")
+```
+</center>
+
+
+From these plots there are a lot of red flags. The residuals vs. fitted-values plot shows okay constant variance but potential problems with the linear relation. The Q-Q plot shows problems with normality because some of the dots are out of bounds. The Residuals vs Order plot isn't great as most points seem to be gathering towards the top. 
+
+
+### Conclusion
+
+All things considered, a linear regression with this dataset is probably not the most accurate or appropriate. 
+
+However, I will provide an estimate using the regression anyways. Using the summary information found in the regression, we can use the following model:
+
+<center>
+
+$$
+\underbrace{\hat{Y}_h}_\text{Predicted Max. Temperature} = -21706 + 1.19 \underbrace{X_h}_\text{Date}
+$$
+</center>
+
+In other words, the slope indicates that with each day, the average Max Temperature increases by 1.19 degrees. 
+
+Using the date of Jan. 13, 2020 for X, we receive the predicted temperature of 38.29 degrees fahrenheit
+
+
+```{r, eval = FALSE}
+predict(weather.lm, data.frame(date_x = date1))
+```
+
+
+
+
+
+
+

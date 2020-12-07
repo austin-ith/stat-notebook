@@ -1,0 +1,207 @@
+---
+title: "Car Prices"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+<br>
+
+## Background
+
+A dataset has been gathered containing used car information. This information will be used to provide insightful information about different vehicles prices and attributes.
+
+```{r, include=FALSE}
+# Be sure to download the CarPrices.csv file and save it
+# into your Data folder prior to knitting this file.
+library(mosaic)
+library(tidyverse)
+library(car)
+library(pander)
+library(DT)
+
+CarPrices <- read.csv("../../Data/CarPrices.csv", header=TRUE)
+```
+
+## The Comparison
+
+Two very similar cars of the same make are the Pontiac Grand AM and the Pontiac G6, the main difference in these cars being the number of Cylinders. The goal is to see how the number of cylinders in these models of cars plays an impact on value of the car of the age of the vehicles. A sample of the filtered data is shown in the table below. 
+
+```{r}
+carprices1 <- filter(CarPrices,
+                     Model %in% c("Grand Am","G6")) %>% 
+  select(c(Price, Mileage, Make, Model, Trim, Cylinder)) %>% 
+  droplevels()
+
+datatable(carprices1, options=list(lengthMenu = c(5,10,25)))
+```
+
+## The Model
+
+To be clear, the Pontiac G6 is a 6 cylinder vehicle and the Pontiac Grand Am is a 4 cylinder Vehicle. Using a multiple Linear Regression model, we obtain a regresion line for each vehicle. The model is given below as:
+
+$$
+  \underbrace{Y_i}_{\text{Price}} = \overbrace{\beta_0 + \beta_1 \underbrace{X_{i1}}_{\text{Mileage}}}^{\text{Pontiac G6 Line}} + \overbrace{\beta_2 \underbrace{X_{i2}}_{\text{1 if Pontiac Grand Am}} + \beta_3 \underbrace{X_{i1} X_{i2}}_{\text{Interaction}}}^{\text{Pontiac Grand Am Adjustments to Line}} + \epsilon_i
+$$
+
+where $\epsilon_i\sim N(0,\sigma^2)$ and $X_{i2} = 0$ when the vehicle is a Pontiac G6 and $X_{i2} = 1$ when the vehicle is a Pontiac Grand Am. This creates the following models.
+
+<center>
+
+| Vehicle          | Value of $X_{i2}$ | Resulting Model   |
+|------------------|-------------------|-------------------|
+| Pontiac G6       | $X_{i2} = 0$      | $Y_i = \beta_0 + \beta_1 X_{i1} + \epsilon_i$ |
+| Pontiac Grand Am | $X_{i2} = 1$      | $Y_i = (\beta_0 + \beta_2) + (\beta_1 + \beta_3) X_{i1} + \epsilon_i$ |
+
+</center>
+
+$\beta_2$ is thus the difference between the y-intercepts, and $\beta_3$ is thus the difference in the slopes between the two models.
+
+Since these are cars that are running and have value, we don't need to test the coefficients of $\beta_0$ or $\beta_1$ for differences from zero. What we are looking to test, is whether the regression lines for the G6 and Grand Am have different y-intercepts and different slopes. With this in mind, we'll test $\beta_2$ and $\beta_3$ for differences from zero.
+
+## Test for Equal y-Intercepts
+
+The question is whether $\beta_2$ is zero for the combined regression model. If $\beta_2$ is equal to zero then there is no diffence in the cost of the cars when brand new. If $\beta_2$ is greater than zero, then the Grand Am costs more than the G6 brand new, but if $\beta_2$ is less than zero, then the Grand Am costs less than the G6 brand new. Below is the hypothesis which will be tested with an $\alpha=0.05$ significance level.
+
+$$
+  H_0: \beta_2 = 0 \quad \text{(Equal average cost when car is new)} \\
+  H_a: \beta_2 \neq 0 \quad \text{(Non-equal average cost when car is new)}
+$$
+
+## Test for Equal Slopes
+
+When $\beta_3$ is zero for the combined regression model then the two lines have the same slopes. This would show that the depreciation rate of the cars are the same. If $\beta_3$ is greater than zero, then the Grand Am depreciates faster than the G6 brand new, but if $\beta_3$ is less than zero, then the Grand Am depreciates slower than the G6 brand new. Below is the hypothesis which will be tested with an $\alpha=0.05$ significance level.
+
+$$
+  H_0: \beta_3 = 0 \quad \text{(Equal rate of depreciation)} \\
+  H_a: \beta_3 \neq 0 \quad \text{(Difference in rate of depreciation)}
+$$
+
+## Analysis
+
+The scatterplot below shows us the Price vs Mileage of the Pontiac G6 vs the Pontiact Grand Am. The predicted purchase price is shown on the plot with the Grand Am costing \$6,191 less than the G6 when brand new (p-value = 1.296e-13). The Grand Am also holds it value better the G6, the G6 depreciating by an average of \$0.06 faster than the Grand Am per mile (p-value = .02825). 
+
+```{r}
+carprices.lm <- lm(Price ~ Mileage + Model + Mileage:Model, data = carprices1)
+palette(c("red","blue"))
+par(fg="darkgray",
+    col.lab="gray35",
+    mai=c(1,1,.8,.4),
+    mgp=c(3.5,1,0))
+plot(Price ~ Mileage, 
+     data=carprices1, 
+     col=Model,
+     pch=16,
+     main="Cost and Depreciation of \n Pontiac Grand Am(4 cyl) vs. Pontiac G6(6 cyl)", 
+     ylab="Price of car", 
+     xlab="Mileage of car", 
+     yaxt="n", 
+     xaxt="n", 
+     xlim=c(0,50000), 
+     ylim=c(10000,24000))
+abline(v=c(0,10000,20000, 30000, 40000),
+       h=c(10000,12000,14000,16000,18000,20000, 22000),
+       col=rgb(.8,.8,.8,.4),
+       lty=2)
+axis(1, 
+     at=c(10000,20000,30000,40000,50000), 
+     labels=c("10,000", "20,000", "30,000", "40,000", "50,000"), 
+     col.axis="gray55")
+axis(2, 
+     at=c(12000, 14000, 16000, 18000, 20000,22000), 
+     labels=c("$12k","$14k","$16k","$18k","$20k","$22k"), 
+     col.axis="gray55", las=2)
+legend("topright", col = palette(),
+       pch=21, legend=c("Pontiac G6(6cyl)","Pontiac Grand Am(4cyl)"), bty = "n",
+                      text.col = palette())
+b <- carprices.lm$coefficients
+abline(b[1],b[2], col = palette()[1])
+abline(b[1] + b[3], b[2] + b[4], col = palette()[2])
+
+
+text(900,23500, "$23,270", cex=0.6, col="red", pos=3, offset=.25)
+points(0,23270, pch=16, col="red", cex=0.5)
+  
+text(700,16000, "$17,075", cex=0.6, col="blue", pos=3, offset=.25)
+points(0,17075, pch=16, col="blue", cex=0.5)
+  
+  # Add text for depreciation rates:
+text(40000, 13900, "Drops $0.18 per mile", cex=0.6, col="red", pos=4)
+text(40000, 11000, "Drops $0.12 per mile", cex=0.6, col="blue", pos=4)
+
+
+pander(carprices.lm, caption = "Regression Summary for Price on Mileage by Model(Grand Am vs G6)")
+```
+
+## Interpretation
+
+Despite the fact that the Pontiac G6 has a 6 cylinder engine vs the Grand Am's 4 cylinder engine, the Pontiac G6 will end up costing you considerably more initially and over time, making the Grand Am a better cost option. Using the table above, for example, You will pay \$23,270 for the G6 up front and after 50,000 miles it will have a value of \$14,120, or it will have cost you \$9,150. You will pay \$17,075 for the Grand Am up front and after 50,000 miles it will have a value of \$11,075, or it will have cost you \$6,000. The G6 will have cost you \$3,150 more than the Grand Am over 50,000 miles. Personally, if I were given the choice between either model, I would choose the 4 cylinder Pontiac Grand Am.
+
+## Validation of the Model
+
+Looking at whether or not this test was appropriate for this study, examine the three plots below. The red-line or linearity in the Residuals vs Fitted Values plot is flat enough and the vertical variation seems consistent to not raise any red flags. The QQ-Plot is showing normality. The Residuals vs Order doesn't give us reason for concern as there seems to be no patterns or correlations in the dots. This test appears to appropriate enough to consider the conclusions valid.
+
+<center>
+```{r message=FALSE, warning=FALSE, fig.height=3}
+par(mfrow=c(1,3))
+plot(carprices.lm, which=1)
+qqPlot(carprices.lm$residuals, id = FALSE)
+mtext(side=3,text="Q-Q Plot of Residuals")
+plot(carprices.lm$residuals, type="b")
+mtext(side=3, text="Residuals vs. Order")
+```
+</center>
+
+
+```{r}
+# Remember, to get the CarPrices data into your Console you have
+# to use the "Import Dataset" option in the "Environment" window.
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,285 @@
+---
+title: "Predicting Grades"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+## The Goal
+
+Create and interpret a logistic regression model that predicts the probability that a student will get an A in Math 325. Needs to have the following criteria:
+
+ 1. A validation that correctly classifies at least 70% of the predicted grades.
+ 2. A visualization of the model
+ 3. An interpretation of the model
+
+```{r, include = FALSE}
+library(tidyverse)
+library(caTools)
+library(pander)
+library(ResourceSelection)
+
+# Importing the dataset
+grades <- read.csv('Math325Grades_Train.csv') %>% 
+    mutate(FinalGrade = ifelse(FinalGrade %in% c("A"), 1, 0))
+
+#pairs(grades, panel = panel.smooth)
+```
+
+## Logistic Regression {.tabset}
+
+### Exploring the Data
+
+After looking at the pairs plot, I've decided to take an elimination approach. Also, since the number of Analyses differ with semester, I'll only use Total columns. I will be starting with 6 different variables.
+
+```{r}
+glm1 <- glm(FinalGrade == 1 ~ AnalysisTotal + CritiqueTotal + ProjectTotal + SkillsQuizzesTotal + Math325NotebookOrganization + FinalExam, data = grades, family = binomial)
+summary(glm1)
+
+```
+
+The p-values don't look too good. I'm going to remove the worst one, CritiqueTotal.
+
+```{r}
+glm2 <- glm(FinalGrade == 1 ~ AnalysisTotal + ProjectTotal + SkillsQuizzesTotal + Math325NotebookOrganization + FinalExam, data = grades, family = binomial)
+summary(glm2)
+
+```
+
+Again, significance isn't looking good. I'm going to remove ProjectTotal and see what that does.
+
+```{r}
+glm3 <- glm(FinalGrade == 1 ~ AnalysisTotal + SkillsQuizzesTotal + Math325NotebookOrganization + FinalExam, data = grades, family = binomial)
+summary(glm3)
+
+```
+
+Much Better. I'm going to check interactions now to see if I can't get the AIC down from 30.552.
+
+```{r}
+glm4 <- glm(FinalGrade == 1 ~ (AnalysisTotal + SkillsQuizzesTotal + Math325NotebookOrganization + FinalExam)^2, data = grades, family = binomial)
+summary(glm4)
+
+glm5 <- glm(FinalGrade == 1 ~ AnalysisTotal + SkillsQuizzesTotal + Math325NotebookOrganization + FinalExam + AnalysisTotal:SkillsQuizzesTotal + AnalysisTotal:Math325NotebookOrganization + AnalysisTotal:FinalExam + SkillsQuizzesTotal:Math325NotebookOrganization + Math325NotebookOrganization:FinalExam, data = grades, family = binomial)
+summary(glm5)
+
+glm6 <- glm(FinalGrade == 1 ~ AnalysisTotal + SkillsQuizzesTotal + Math325NotebookOrganization:FinalExam, data = grades, family = binomial)
+summary(glm6)
+
+```
+
+After finding a model that was significant that included interactions, I found that the AIC was worst that the model that had no interactions, so I'm going to go back to the original model. I'm going to look at a pairs plot with just these variables to make sure that I'm not missing anything. 
+
+```{r}
+
+glm3 <- glm(FinalGrade == 1 ~ AnalysisTotal + SkillsQuizzesTotal + Math325NotebookOrganization + FinalExam, data = grades, family = binomial)
+summary(glm3)
+
+pairs(grades[,c(2,18,33,35,37)], panel = panel.smooth)
+```
+
+Something weird is going on with SkillsQuizzesTotal. It would appear that there are two possible total scores, 10 and 15. Taking out SkilssQuizzesTotal would increase the AIC to 49.656. I'm going to determine the semesters and create a new column that weights everything correctly. 
+
+```{r}
+grades1 <- grades %>% 
+  mutate(skillsQuizTotalPerc = case_when(
+    is.na(Critique12) ~ SkillsQuizzesTotal/15,
+    TRUE ~ SkillsQuizzesTotal/10
+  ))
+
+glm7 <- glm(FinalGrade == 1 ~ AnalysisTotal + skillsQuizTotalPerc + Math325NotebookOrganization + FinalExam, data = grades1, family = binomial)
+summary(glm7)
+
+```
+
+Well that is interesting. The glm doesn't like SkillsQuizzes anymore as you can see. I will remove that and try ProjectTotal again..
+
+```{r}
+glm8 <- glm(FinalGrade == 1 ~ AnalysisTotal + ProjectTotal + Math325NotebookOrganization + FinalExam, data = grades1, family = binomial)
+summary(glm8)
+
+```
+
+Notebook Organization is no longer important, removing that variable.
+
+```{r}
+glm8 <- glm(FinalGrade == 1 ~ AnalysisTotal + ProjectTotal + FinalExam, data = grades1, family = binomial)
+summary(glm8)
+
+pairs(grades[,c(2,5,18,37)], panel = panel.smooth)
+
+```
+
+This is the model that I'll work with. See next tab for Goodness of Fit.
+
+### Chosen Model/Fit
+
+As determined in the 'Exploring the Data' tab, my model is:
+
+```{r}
+summary(glm8)
+```
+
+#### Goodness of Fit Test
+
+Running the Hoslem Goodness of Fit Test we get the following results:
+
+```{r}
+hoslem.test(glm8$y, glm8$fitted.values, g = 10)
+```
+
+Since our p-value is not significant we can assume that we have a good fitting model. See 'Validation' tab for model Validation.
+
+### Validation
+
+I'm now going to create a train and test set to create predictions. 
+
+```{r}
+set.seed(353)
+keep <- sample(1:nrow(grades), 60)
+mytrain <- grades[keep,]
+mytest <- grades[-keep,]
+
+train.glm <-  glm(FinalGrade == 1 ~ AnalysisTotal + ProjectTotal + FinalExam, data=mytrain, family=binomial)
+
+predict(train.glm, newdata = mytest, type = "response")
+
+preds <- ifelse(predict(train.glm, newdata = mytest, type = "response") > .7, 1, 0)
+
+table(preds, mytest$FinalGrade)
+```
+
+Checking my accuracy, I get the following result:
+
+```{r}
+(30+26) / (2+2+26+30)
+```
+
+This isn't bad and is above the .7 required.
+
+
+\
+
+\
+
+\
+
+### Conclusion
+
+```{r}
+# summary(grades$AnalysisTotal)
+# summary(grades$ProjectTotal)
+# summary(grades$FinalExam)
+par(mfrow = c(1,1))
+```
+
+#### Analysis Total Score
+
+The graph below shows the probability of you getting an A according to your Analysis Total, if you scored a 50%, 75%, or 100% on your both your Project Total and Final Exam grade. 
+
+```{r}
+plot(FinalGrade == 1 ~ AnalysisTotal, data=grades, xaxt='n', xlab="Analysis Total Score")
+axis(1, at=seq(5,30,5), labels=c("17%","33.3%","50%","67%","83%","100%"))
+b <- coef(glm8)
+
+ProjectTotal=7.5;FinalExam=10;
+curve(exp(b[1] + b[2]*AnalysisTotal + b[3]*ProjectTotal + b[4]*FinalExam)/(1+ exp(b[1] + b[2]*AnalysisTotal + b[3]*ProjectTotal + b[4]*FinalExam)), xname="AnalysisTotal", add=TRUE, lwd=1)
+
+ProjectTotal=11.25;FinalExam=15;
+curve(exp(b[1] + b[2]*AnalysisTotal + b[3]*ProjectTotal + b[4]*FinalExam)/(1+ exp(b[1] + b[2]*AnalysisTotal + b[3]*ProjectTotal + b[4]*FinalExam)), xname="AnalysisTotal", add=TRUE, lwd=2)
+
+ProjectTotal=15;FinalExam=20;
+curve(exp(b[1] + b[2]*AnalysisTotal + b[3]*ProjectTotal + b[4]*FinalExam)/(1+ exp(b[1] + b[2]*AnalysisTotal + b[3]*ProjectTotal + b[4]*FinalExam)), xname="AnalysisTotal", add=TRUE, lwd=3)
+legend("topleft", legend=c("50%", "75%", "100%"), title="ProjectTotal/FinalExam Grade", lwd=c(1,2,3))
+
+```
+
+As you can see, if you received a 50% on your Final Exam and on your Project Total, the probability of you getting an A is 0 no matter what you score on your Analysis Total. As you're scores for your Project Total and Final Exam go up, so do your chances of getting an A without a perfect score on your Analysis. 
+
+To be more precise, you are `r exp(b[2])` times more likely to get an "A" for every point scored in your AnalysisTotal. 
+
+#### Project Total Score
+
+The graph below shows the probability of you getting an A according to your Project Total, if you scored a 50%, 90%, or 100% on your both your Project Total and Final Exam grade. 
+
+```{r}
+plot(FinalGrade == 1 ~ ProjectTotal, data=grades, xaxt='n', xlab="Project Total Score")
+axis(1, at=seq(2.5,15,2.5), labels=c("17%","33.3%","50%","67%","83%","100%"))
+b <- coef(glm8)
+
+AnalysisTotal=15;FinalExam=10;
+curve(exp(b[1] + b[2]*AnalysisTotal + b[3]*ProjectTotal + b[4]*FinalExam)/(1+ exp(b[1] + b[2]*AnalysisTotal + b[3]*ProjectTotal + b[4]*FinalExam)), xname="ProjectTotal", add=TRUE, lwd=1)
+
+AnalysisTotal=27;FinalExam=18;
+curve(exp(b[1] + b[2]*AnalysisTotal + b[3]*ProjectTotal + b[4]*FinalExam)/(1+ exp(b[1] + b[2]*AnalysisTotal + b[3]*ProjectTotal + b[4]*FinalExam)), xname="ProjectTotal", add=TRUE, lwd=2)
+
+AnalysisTotal=30;FinalExam=20;
+curve(exp(b[1] + b[2]*AnalysisTotal + b[3]*ProjectTotal + b[4]*FinalExam)/(1+ exp(b[1] + b[2]*AnalysisTotal + b[3]*ProjectTotal + b[4]*FinalExam)), xname="ProjectTotal", add=TRUE, lwd=3)
+legend("topleft", legend=c("50%", "90%", "100%"), title="Analysis Total/FinalExam Grade", lwd=c(1,2,3))
+```
+
+As you can see, if you received a 50% on your Final Exam and on your Analysis Total, the probability of you getting an A is 0 no matter what you score on your Project Total. As you're scores for your Analysis Total and Final Exam go up, so do your chances of getting an A without a perfect score on your Project Total.  
+
+To be more precise, you are `r exp(b[3])` times more likely to get an "A" for every point scored in your ProjectTotal. 
+
+#### Final Exam Grade
+
+The graph below shows the probability of you getting an A according to your Final Exam Grade, if you scored a 50%, 75%, or 100% on your both your Project Total and Analysis Total grades. 
+
+```{r}
+plot(FinalGrade == 1 ~ FinalExam, data=grades, xaxt='n', xlab="Final Exam Score")
+axis(1, at=seq(3.28,20,3.28), labels=c("17%","33.3%","50%","67%","83%","100%"))
+b <- coef(glm8)
+
+AnalysisTotal=22.5;ProjectTotal=11.25;
+curve(exp(b[1] + b[2]*AnalysisTotal + b[3]*ProjectTotal + b[4]*FinalExam)/(1+ exp(b[1] + b[2]*AnalysisTotal + b[3]*ProjectTotal + b[4]*FinalExam)), xname="FinalExam", add=TRUE, lwd=1)
+
+AnalysisTotal=27;ProjectTotal=13.5;
+curve(exp(b[1] + b[2]*AnalysisTotal + b[3]*ProjectTotal + b[4]*FinalExam)/(1+ exp(b[1] + b[2]*AnalysisTotal + b[3]*ProjectTotal + b[4]*FinalExam)), xname="FinalExam", add=TRUE, lwd=2)
+
+AnalysisTotal=30;ProjectTotal=15;
+curve(exp(b[1] + b[2]*AnalysisTotal + b[3]*ProjectTotal + b[4]*FinalExam)/(1+ exp(b[1] + b[2]*AnalysisTotal + b[3]*ProjectTotal + b[4]*FinalExam)), xname="FinalExam", add=TRUE, lwd=3)
+legend("topleft", legend=c("75%", "90%", "100%"), title="Analysis Total/Project Total Grade", lwd=c(1,2,3))
+```
+
+As you can see, if you received a 75% on your Project Total and on your Analysis Total, the probability of you getting an A is close to 0 no matter what you score on your Final Exam. As you're scores for your Project Total and Analysis Total go up, so do your chances of getting an A without a perfect score on your Final Exam.   
+
+To be more precise, you are `r exp(b[4])` times more likely to get an "A" for every point scored in your FinalExam. 
+
+
+### Recommendations
+
+Dear Math 325 Student,
+
+After analyzing grades of past students, I have determined different areas that largely affect your Final grade. They are:
+
+- Analysis Total Grade
+- Project Total Grade
+- Final Exam Grade
+
+From the resulting regression model created, I want to emphasize the odds of each area in getting A. 
+
+Your odds of getting an A increase `r round(b[2],2)` for every point scored on your Analysis Total. 
+
+Your odds of getting an A increase `r round(b[3],2)` for every point scored on your Project Total. 
+
+Your odds of getting an A increase `r round(b[4],2)` for every point scored on your Final Exam. 
+
+As you can see, all three of these areas are very important and will increase your odds of getting an A. However, doing well on your Projects and Analyses exhibit the best of the odds. Therefore, I would recommend putting great effort and doing well on those and the grade will take care of it self. 
+
+Good luck!
+
+
+
+```{r, eval = FALSE}
+test_grades <- read.csv('Math325Grades_Test.csv')
+
+test_grades$FinalGrade <- ifelse(predict(glm8, test_grades, type="response") > .7, "A", "Other")
+
+write.csv(test_grades, "Test.csv", row.names=FALSE)
+
+```
+
+
+
