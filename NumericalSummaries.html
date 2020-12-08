@@ -13,6 +13,7 @@
 
 <title>Numerical Summaries</title>
 
+<script src="site_libs/header-attrs-2.2/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
@@ -23,17 +24,6 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
-
-<style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
 
 
 
@@ -483,7 +473,7 @@ div.tocify {
 <p>There are many ways to numerically summarize data. The fundamental idea is to describe the center, or most <em>probable</em> values of the data, as well as the spread, or the <em>possible</em> values of the data.</p>
 <hr />
 <div id="mean" class="section level3 tabset tabset-fade tabset-pills">
-<h3>Mean</h3>
+<h3 class="tabset tabset-fade tabset-pills">Mean</h3>
 <div style="float:left;width:150px;">
 <p><span class="math display">\[
   \bar{x} = \frac{\sum_{i=1}^n x_i}{n}
@@ -597,7 +587,7 @@ airquality %&gt;%
 </div>
 <a href="javascript:showhide('mean_2')">
 <div class="hoverchunk">
-<p><span class="tooltipr"> import pandas <span class="tooltiprtext">pandas is a Python Package that is very useful for working with data.</span> </span><br><span class="tooltipr"> airquality <span class="tooltipRtext"><code>airquality</code> is a dataset loaded in previously.</span> </span><span class="tooltipr"> .groupby( <span class="tooltipRtext">“group_by” is a function from library(tidyverse) that allows us to split the airquality dataset into “little” datasets, one dataset for each value in the “Month” column.</span> </span><span class="tooltipr"> ‘Month’, <span class="tooltipRtext">“Month” is a column from the airquality dataset that can be treated as qualitative.</span> </span><span class="tooltipr"> as_index=False) <span class="tooltiprtext">The groupby output will have an index or multi-index on rows corresponding to your chose grouping variables. To avoid setting this index, pass “as_index=False” to the groupby operation.</span> </span><span class="tooltipr"> .agg({ <span class="tooltiprtext">A method of grouping, calculating, and renaming the results.</span> </span><span class="tooltipr"> “AveTemp”: <span class="tooltipRtext">This renames the column with the new calculated values.</span> </span><span class="tooltipr"> “mean”}) <span class="tooltipRtext">The statistical method used to calculate the intended values for each group.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
+<p><span class="tooltipr"> import pandas <span class="tooltiprtext">pandas is a Python Package that is very useful for working with data.</span> </span><br><span class="tooltipr"> airquality <span class="tooltipRtext"><code>airquality</code> is a dataset loaded in previously.</span> </span><span class="tooltipr"> .groupby( <span class="tooltipRtext">“group_by” is a function from library(tidyverse) that allows us to split the airquality dataset into “little” datasets, one dataset for each value in the “Month” column.</span> </span><span class="tooltipr"> ‘Month’, <span class="tooltipRtext">“Month” is a column from the airquality dataset that can be treated as qualitative.</span> </span><span class="tooltipr"> as_index=False) <span class="tooltiprtext">The groupby output will have an index or multi-index on rows corresponding to your chose grouping variables. To avoid setting this index, pass “as_index=False” to the groupby operation.</span> </span><span class="tooltipr"> .agg({ <span class="tooltiprtext">A method of grouping, calculating, and renaming the results.</span> </span><span class="tooltipr"> “Ave_Temp”: <span class="tooltipRtext">This renames the column with the new calculated values.</span> </span><span class="tooltipr"> “mean”}) <span class="tooltipRtext">The statistical method used to calculate the intended values for each group.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
 </div>
 </a>
 <div id="mean_2" style="display:none;">
@@ -617,18 +607,23 @@ airquality %&gt;%
 <h4>Explanation</h4>
 <div style="padding-left:150px;">
 <p>The mathematical formula used to compute the mean of data is given by the formula to the left. Although the formula looks complicated, all it states is “add all the data values up and divide by the total number of values.” Read on to learn what all the symbols in the formula represent.</p>
-<h5 id="symbols-in-the-formula">Symbols in the Formula</h5>
+<div id="symbols-in-the-formula" class="section level5">
+<h5>Symbols in the Formula</h5>
 <ul>
 <li><p><span class="math inline">\(\bar{x}\)</span> is read “x-bar” and is the symbol typically used for the <strong>sample mean</strong>, the mean computed on a <em>sample</em> of data from a population.</p></li>
 <li><p><span class="math inline">\(\Sigma\)</span>, the capital Greek letter “sigma,” is the symbol used to imply “add all of the data values up.”</p></li>
 <li><p>The <span class="math inline">\(x_i\)</span>’s are the data values. The <span class="math inline">\(i\)</span> in the <span class="math inline">\(x_i\)</span> is stated to go from <span class="math inline">\(i=1\)</span> all the way up to <span class="math inline">\(n\)</span>. In other words, data value 1 is represented by <span class="math inline">\(x_1\)</span>, data value 2: <span class="math inline">\(x_2\)</span>, <span class="math inline">\(\ldots\)</span>, up through the last data value <span class="math inline">\(x_n\)</span>. In general, we just write <span class="math inline">\(x_i\)</span>.</p></li>
 <li><p><span class="math inline">\(n\)</span> represents the sample size, or number of data values.</p></li>
 </ul>
-<h5 id="population-mean">Population Mean</h5>
+</div>
+<div id="population-mean" class="section level5">
+<h5>Population Mean</h5>
 <p>When <strong>all</strong> of the data from a population is available, the <strong>population mean</strong> is calculated instead of the sample mean. The mathematical formula for the <strong>population mean</strong> is the same as the formula for the sample mean, but is written with slightly different notation. <span class="math display">\[
   \mu = \frac{\sum_{i=1}^N x_i}{N}
 \]</span> Notice that the symbol for the population mean is <span class="math inline">\(\mu\)</span>, pronounced “mew,” another Greek letter. (Review your <a href="https://en.wikipedia.org/wiki/Greek_alphabet#Letters">Greek alphabet</a>.) The only other difference between the two formulas is that the sample mean uses a sample of data, denoted by <span class="math inline">\(n\)</span>, while the population mean uses all the population data, denoted by <span class="math inline">\(N\)</span>.</p>
-<h5 id="physicalinterpretation">Physical Interpretation</h5>
+</div>
+<div id="physicalinterpretation" class="section level5">
+<h5>Physical Interpretation</h5>
 <p>The mean is sometimes described as the “balance point” of the data. The following example will demonstrate.</p>
 <p>Say there are <span class="math inline">\(n=5\)</span> data points with the following values.</p>
 <ul>
@@ -642,9 +637,13 @@ airquality %&gt;%
   \bar{x} = \frac{\sum_{i=1}^n x_i}{n} = \frac{2 + 5 + 6 + 7 + 10}{5} = 6
 \]</span> If these values were plotted, and an “infinitely thin bar” connected the points, then the bar would “balance” at the mean (the triangle) as shown below.</p>
 <p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<h5 id="deviations">Middle of the Deviations</h5>
+</div>
+<div id="deviations" class="section level5">
+<h5>Middle of the Deviations</h5>
 <p>The above plot demonstrates that there are equal, but opposite, “sums of deviations” to either side of the mean. Note that a deviation is defined as the distance from the mean to a given point. Thus, <span class="math inline">\(x_1\)</span> has a deviation of -4 from the mean, <span class="math inline">\(x_2\)</span> a deviation of -1, <span class="math inline">\(x_3\)</span> a deviation of 0, <span class="math inline">\(x_4\)</span> a deviation of 1, and <span class="math inline">\(x_5\)</span> a deviation of 4. To the left there is a sum of deviations equal to -5 and on the right, a sum of deviations equal to 5. This can be verified to hold for any scenario.</p>
-<h5 id="outliers">Effect of Outliers</h5>
+</div>
+<div id="outliers" class="section level5">
+<h5>Effect of Outliers</h5>
 <p>The mean can be strongly influenced by <em>outliers</em>, points that deviate abnormally from the mean. This is shown below by changing <span class="math inline">\(x_5\)</span> to be 20. Note that the deviation of <span class="math inline">\(x_5\)</span> is 12, and the sum of deviations to the left of the mean (<span class="math inline">\(\bar{x}=8\)</span>) is <span class="math inline">\(-1 + -2 + -3 + -6 = -12\)</span>.</p>
 <p>The mean of the altered data</p>
 <ul>
@@ -657,11 +656,12 @@ airquality %&gt;%
 <p>is now <span class="math inline">\(\bar{x} = \frac{\sum_{i=1}^n x_i}{n} = \frac{2 + 5 + 6 + 7 + 20}{5} = 8\)</span>.</p>
 <p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
+</div>
 <hr />
 </div>
 </div>
 <div id="median" class="section level3 tabset tabset-fade tabset-pills">
-<h3>Median</h3>
+<h3 class="tabset tabset-fade tabset-pills">Median</h3>
 <div style="float:left;width:150px;">
 <span class="math display">\[
   \frac{x_{(n/2)}+x_{(n/2+1)}}{2}
@@ -805,7 +805,8 @@ airquality %&gt;%
 <p>If <span class="math inline">\(n\)</span> is odd, then the middle data point is the median. <span class="math display">\[
   \text{Median} = x_{((n+1)/2)}
 \]</span></p>
-<h5 id="symbols-in-the-formula-1">Symbols in the Formula</h5>
+<div id="symbols-in-the-formula-1" class="section level5">
+<h5>Symbols in the Formula</h5>
 <p>There is no generally accepted symbol for the median. Sometimes a capital <span class="math inline">\(M\)</span> or even lower-case <span class="math inline">\(m\)</span> is used, but generally the word median is just written out.</p>
 <ul>
 <li><p><span class="math inline">\(x_{(n/2)}\)</span> represents the data value that is in the <span class="math inline">\((n/2)^{th}\)</span> position in the ordered list of values. It only exists when <span class="math inline">\(n\)</span> is even.</p></li>
@@ -813,7 +814,9 @@ airquality %&gt;%
 <li><p><span class="math inline">\(x_{((n+1)/2)}\)</span> represents the data value that is in the <span class="math inline">\(((n+1)/2)^{th}\)</span> position in the ordered list of values. It only exists when <span class="math inline">\(n\)</span> is odd.</p></li>
 <li><p><span class="math inline">\(n\)</span> represents the sample size, or number of data values in the sample.</p></li>
 </ul>
-<h5 id="population-median">Population Median</h5>
+</div>
+<div id="population-median" class="section level5">
+<h5>Population Median</h5>
 <p>When <strong>all</strong> of the data from a population is available, the <strong>population median</strong> is calculated by the above formulas with the slight change that <span class="math inline">\(N\)</span>, the total number of data values in the population, instead of <span class="math inline">\(n\)</span>, the number of values in the sample, is used.</p>
 <p>If <span class="math inline">\(N\)</span> is even, then there is no “middle” data point, so the middle two values are averaged. <span class="math display">\[
   \text{Median} = \frac{x_{(N/2)}+x_{(N/2+1)}}{2}
@@ -821,7 +824,9 @@ airquality %&gt;%
 <p>If <span class="math inline">\(N\)</span> is odd, then the middle data point is the median. <span class="math display">\[
   \text{Median} = x_{((N+1)/2)}
 \]</span></p>
-<h5 id="physical-interpretation">Physical Interpretation</h5>
+</div>
+<div id="physical-interpretation" class="section level5">
+<h5>Physical Interpretation</h5>
 <p>The median is the <span class="math inline">\(50^{th}\)</span> percentile of the data.</p>
 <p>Say there are <span class="math inline">\(n=5\)</span> data points in the sample with the following values.</p>
 <ul>
@@ -835,7 +840,8 @@ airquality %&gt;%
   \text{Median} = x_{((n+1)/2)} = x_{((5+1)/2)} = x_{(3)} = 6
 \]</span> When these values are plotted it is clear that exactly 50% of the data (excluding the median) is to either side of the median.</p>
 <p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
-<h6 id="second-example">Second Example</h6>
+<div id="second-example" class="section level6">
+<h6>Second Example</h6>
 <p>Say there was a sixth value in the data set equal to 10, so that <span class="math inline">\(n=6\)</span> is even.</p>
 <ul>
 <li><span class="math inline">\(x_1 = 2\)</span></li>
@@ -849,15 +855,19 @@ airquality %&gt;%
   \text{Median} = \frac{x_{(n/2)}+x_{(n/2+1)}}{2} = \frac{x_{(6/2)}+x_{(6/2+1)}}{2} = \frac{x_{(3)}+x_{(4)}}{2} = \frac{6+7}{2} = 6.5
 \]</span></p>
 <p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
-<h5 id="effect-of-outliers">Effect of Outliers</h5>
+</div>
+</div>
+<div id="effect-of-outliers" class="section level5">
+<h5>Effect of Outliers</h5>
 <p>The median is not greatly influenced by <em>outliers</em>. It is said to be <em>robust</em>. This is shown below by changing <span class="math inline">\(x_6\)</span> to be 20, which does not change the value of the median.</p>
 <p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
 </div>
 <hr />
 </div>
 </div>
 <div id="mode" class="section level3 tabset tabset-fade tabset-pills">
-<h3>Mode</h3>
+<h3 class="tabset tabset-fade tabset-pills">Mode</h3>
 <div style="float:left;width:150px;">
 <center>
 <p><strong>Most</strong></p>
@@ -965,9 +975,36 @@ airquality %&gt;%
 </div>
 <hr />
 </div>
+<div id="python-instructions-2" class="section level4">
+<h4>Python Instructions</h4>
+<div style="padding-left:150px;">
+<p>Python gets the mode(s) of each element along the selected axis, use the code:</p>
+<p><code>import pandas</code><br> <code>object.mode()</code></p>
+<ul>
+<li><code>object</code> can be quantitative or qualitative, but should contain at least one repeated value or <code>.mode()</code> is not useful.</li>
+</ul>
+<p><br></p>
+<p><strong>Example Code</strong></p>
+<p>Hover your mouse over the example codes to learn more.</p>
+<a href="javascript:showhide('mode_1')">
+<div class="hoverchunk">
+<p><span class="tooltipr"> import pandas <span class="tooltiprtext">“pandas” is a python package used for data analysis.</span> </span><br><span class="tooltipr"> airquality <span class="tooltiprtext">“airquality” is a dataset that has been read in previously.</span> </span><span class="tooltipr"> .iloc[ <span class="tooltiprtext">.iloc[] is a method that allows us to access different variables from the airquality dataset.</span> </span><span class="tooltipr"> :, airquality.columns != “Day”] <span class="tooltiprtext">‘airquality.columns != “Day”’ eliminates the “Day” variable from the dataset. We are not interested in know the mode of the Day, as each each month reported lists out every day.</span> </span><span class="tooltipr"> .mode() <span class="tooltiprtext">“.mode()” calls the mode method from the pandas package.</span> </span><span class="tooltipr">     <br />
+<span class="tooltiprtext">Press Enter to run the code if you have typed it in yourself. You can also click here to view the output.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
+</div>
+</a>
+<div id="mode_1" style="display:none;">
+<pre><code>##           Ozone       Solar.R  Wind  Temp  Month
+## 0 -2.147484e+09 -2.147484e+09  11.5  81.0      5
+## 1           NaN           NaN   NaN   NaN      7
+## 2           NaN           NaN   NaN   NaN      8</code></pre>
+<p>Note that the modes for Month are 5, 7, and 8 because these months all have the most (31) days in them.</p>
+</div>
+</div>
+<hr />
+</div>
 </div>
 <div id="minimum" class="section level3 tabset tabset-fade tabset-pills">
-<h3>Minimum</h3>
+<h3 class="tabset tabset-fade tabset-pills">Minimum</h3>
 <div style="float:left;width:150px;">
 <p><span class="math display">\[
   x_{(1)}
@@ -1057,9 +1094,48 @@ airquality %&gt;%
 </div>
 <hr />
 </div>
+<div id="python-instructions-3" class="section level4">
+<h4>Python Instructions</h4>
+<div style="padding-left:150px;">
+<p>To calculate a minimum in Python use the code:</p>
+<p><code>import pandas</code><br> <code>object.min()</code></p>
+<ul>
+<li><code>object</code> must have at least one quantitative variable, what Python calls a “numeric array.” Usually this is a column from a data set.</li>
+</ul>
+<p><br></p>
+<p><strong>Example Code</strong></p>
+<a href="javascript:showhide('min_1')">
+<div class="hoverchunk">
+<p><span class="tooltipr"> import pandas <span class="tooltiprtext">“pandas” is a python package used for data analysis.</span> </span><br><span class="tooltipr"> airquality <span class="tooltiprtext">“airquality” is a dataset that has been read in previously.</span> </span><span class="tooltipr"> [ <span class="tooltiprtext">The [ allows us to access any variable from the airquality dataset.</span> </span><span class="tooltipr"> “Temp” <span class="tooltiprtext">“Temp” is a quantitative variable (numeric vector) from the “airquality” dataset.</span> </span><span class="tooltipr">]<br />
+<span class="tooltiprtext">Closing brackets and parenthsis for the min function.</span> </span><span class="tooltipr"> .min() <span class="tooltiprtext">“.min()” calls the min method from the pandas package.</span> </span><span class="tooltipr">     <br />
+<span class="tooltiprtext">Press Enter to run the code if you have typed it in yourself. You can also click here to view the output.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
+</div>
+</a>
+<div id="min_1" style="display:none;">
+<pre><code>## 56</code></pre>
+<p>Note that the single number showing above is the min <code>Temp</code> from the <code>airquality</code> dataset.</p>
+</div>
+<a href="javascript:showhide('min_2')">
+<div class="hoverchunk">
+<p><span class="tooltipr"> import pandas <span class="tooltiprtext">pandas is a Python Package that is very useful for working with data.</span> </span><br><span class="tooltipr"> airquality <span class="tooltipRtext"><code>airquality</code> is a dataset loaded in previously.</span> </span><span class="tooltipr"> .groupby( <span class="tooltipRtext">“group_by” is a function from library(tidyverse) that allows us to split the airquality dataset into “little” datasets, one dataset for each value in the “Month” column.</span> </span><span class="tooltipr"> ‘Month’, <span class="tooltipRtext">“Month” is a column from the airquality dataset that can be treated as qualitative.</span> </span><span class="tooltipr"> as_index=False) <span class="tooltiprtext">The groupby output will have an index or multi-index on rows corresponding to your chose grouping variables. To avoid setting this index, pass “as_index=False” to the groupby operation.</span> </span><span class="tooltipr"> .agg({ <span class="tooltiprtext">A method of grouping, calculating, and renaming the results.</span> </span><span class="tooltipr"> “min_Temp”: <span class="tooltipRtext">This renames the column with the new calculated values.</span> </span><span class="tooltipr"> “min”}) <span class="tooltipRtext">The statistical method used to calculate the intended values for each group.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
+</div>
+</a>
+<div id="min_2" style="display:none;">
+<pre><code>##    Month  min_Temp
+## 0      5        56
+## 1      6        65
+## 2      7        73
+## 3      8        72
+## 4      9        63</code></pre>
+<p>Note that Python calculated the min <code>Temp</code> for each month in <code>Month</code> from the <code>airquality</code> dataset.</p>
+<p>May (5), June (6), July (7), August (8), and September (9), respectively.</p>
+</div>
+</div>
+<hr />
+</div>
 </div>
 <div id="maximum" class="section level3 tabset tabset-fade tabset-pills">
-<h3>Maximum</h3>
+<h3 class="tabset tabset-fade tabset-pills">Maximum</h3>
 <div style="float:left;width:150px;">
 <p><span class="math display">\[
   x_{(n)}
@@ -1149,9 +1225,48 @@ airquality %&gt;%
 </div>
 <hr />
 </div>
+<div id="python-instructions-4" class="section level4">
+<h4>Python Instructions</h4>
+<div style="padding-left:150px;">
+<p>To calculate a maximum in Python use the code:</p>
+<p><code>import pandas</code><br> <code>object.max()</code></p>
+<ul>
+<li><code>object</code> must have at least one quantitative variable, what Python calls a “numeric array.” Usually this is a column from a data set.</li>
+</ul>
+<p><br></p>
+<p><strong>Example Code</strong></p>
+<a href="javascript:showhide('max_1')">
+<div class="hoverchunk">
+<p><span class="tooltipr"> import pandas <span class="tooltiprtext">“pandas” is a python package used for data analysis.</span> </span><br><span class="tooltipr"> airquality <span class="tooltiprtext">“airquality” is a dataset that has been read in previously.</span> </span><span class="tooltipr"> [ <span class="tooltiprtext">The [ allows us to access any variable from the airquality dataset.</span> </span><span class="tooltipr"> “Temp” <span class="tooltiprtext">“Temp” is a quantitative variable (numeric vector) from the “airquality” dataset.</span> </span><span class="tooltipr">]<br />
+<span class="tooltiprtext">Closing brackets and parenthsis for the max function.</span> </span><span class="tooltipr"> .max() <span class="tooltiprtext">“.max()” calls the max method from the pandas package.</span> </span><span class="tooltipr">     <br />
+<span class="tooltiprtext">Press Enter to run the code if you have typed it in yourself. You can also click here to view the output.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
+</div>
+</a>
+<div id="max_1" style="display:none;">
+<pre><code>## 97</code></pre>
+<p>Note that the single number showing above is the max <code>Temp</code> from the <code>airquality</code> dataset.</p>
+</div>
+<a href="javascript:showhide('max_2')">
+<div class="hoverchunk">
+<p><span class="tooltipr"> import pandas <span class="tooltiprtext">pandas is a Python Package that is very useful for working with data.</span> </span><br><span class="tooltipr"> airquality <span class="tooltipRtext"><code>airquality</code> is a dataset loaded in previously.</span> </span><span class="tooltipr"> .groupby( <span class="tooltipRtext">“group_by” is a function from library(tidyverse) that allows us to split the airquality dataset into “little” datasets, one dataset for each value in the “Month” column.</span> </span><span class="tooltipr"> ‘Month’, <span class="tooltipRtext">“Month” is a column from the airquality dataset that can be treated as qualitative.</span> </span><span class="tooltipr"> as_index=False) <span class="tooltiprtext">The groupby output will have an index or multi-index on rows corresponding to your chose grouping variables. To avoid setting this index, pass “as_index=False” to the groupby operation.</span> </span><span class="tooltipr"> .agg({ <span class="tooltiprtext">A method of grouping, calculating, and renaming the results.</span> </span><span class="tooltipr"> “max_Temp”: <span class="tooltipRtext">This renames the column with the new calculated values.</span> </span><span class="tooltipr"> “max”}) <span class="tooltipRtext">The statistical method used to calculate the intended values for each group.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
+</div>
+</a>
+<div id="max_2" style="display:none;">
+<pre><code>##    Month  max_Temp
+## 0      5        81
+## 1      6        93
+## 2      7        92
+## 3      8        97
+## 4      9        93</code></pre>
+<p>Note that Python calculated the max <code>Temp</code> for each month in <code>Month</code> from the <code>airquality</code> dataset.</p>
+<p>May (5), June (6), July (7), August (8), and September (9), respectively.</p>
+</div>
+</div>
+<hr />
+</div>
 </div>
 <div id="quartiles-five-number-summary" class="section level3 tabset tabset-fade tabset-pills">
-<h3>Quartiles (five-number summary)</h3>
+<h3 class="tabset tabset-fade tabset-pills">Quartiles (five-number summary)</h3>
 <div style="float:left;width:150px;">
 <center>
 <p><strong>25</strong><span class="math inline">\(^{th}\)</span>, <strong>50</strong><span class="math inline">\(^{th}\)</span>, <strong>75</strong><span class="math inline">\(^{th}\)</span></p>
@@ -1308,7 +1423,7 @@ airquality %&gt;%
 </div>
 </div>
 <div id="standard-deviation" class="section level3 tabset tabset-fade tabset-pills">
-<h3>Standard Deviation</h3>
+<h3 class="tabset tabset-fade tabset-pills">Standard Deviation</h3>
 <div style="float:left;width:150px;">
 <p><span class="math inline">\(s = \sqrt{\frac{\sum_{i=1}^n(x_i-\bar{x})^2}{n-1}}\)</span></p>
 </div>
@@ -1407,13 +1522,16 @@ airquality %&gt;%
   s = \sqrt{\frac{\sum_{i=1}^n(x_i-\bar{x})^2}{n-1}}
 \]</span></p>
 <p>The <em>standard deviation</em> is thus the representative deviation of all deviations in a given data set. It is never negative and only zero if all values are the same in a data set. Larger values of <span class="math inline">\(s\)</span> imply the data is highly variable, very spread out or very inconsistent. Smaller values mean the data is consistent and not as variable.</p>
-<h5 id="population-standard-deviation">Population Standard Deviation</h5>
+<div id="population-standard-deviation" class="section level5">
+<h5>Population Standard Deviation</h5>
 <p>When <strong>all</strong> of the data from a population is available, the <strong>population standard deviation</strong> <span class="math inline">\(\sigma\)</span> (the lower-case Greek letter “sigma”) is calculated by the following formula.</p>
 <p><span class="math display">\[
   \sigma = \sqrt{\frac{\sum_{i=1}^N(x_i-\mu)^2}{N}}
 \]</span></p>
 <p>Note that <span class="math inline">\(N\)</span> is the number of data points in the full population. In this formula the denominator is actually <span class="math inline">\(N\)</span> and the deviations are calculated as the distance each data point is from the population mean <span class="math inline">\(\mu\)</span>.</p>
-<h5 id="an-example">An Example</h5>
+</div>
+<div id="an-example" class="section level5">
+<h5>An Example</h5>
 <p>Say there are five data points given by</p>
 <ul>
 <li><span class="math inline">\(x_1 = 2\)</span></li>
@@ -1452,8 +1570,10 @@ airquality %&gt;%
   s = \sqrt{\frac{\sum_{i=1}^n(x_i-\bar{x})^2}{n-1}} = \sqrt{8.5} \approx 2.915
 \]</span></p>
 <p>The red lines below show how the standard deviation represents all deviations in this data set. Recall that the magnitudes of the individual deviations were <span class="math inline">\(4, 1, 0, 1\)</span>, and <span class="math inline">\(4\)</span>. The representative deviation is <span class="math inline">\(2.915\)</span>.</p>
-<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
-<h5 id="effect-of-outliers-1">Effect of Outliers</h5>
+<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+</div>
+<div id="effect-of-outliers-1" class="section level5">
+<h5>Effect of Outliers</h5>
 <p>Like the mean, the standard deviation is influenced by outliers. This is shown below by changing <span class="math inline">\(x_5\)</span> to be 20. Note that the deviation of <span class="math inline">\(x_5\)</span> is now 12 (instead of 4 like it was previously) and that the mean is now <span class="math inline">\(8\)</span> (as shown <a href="Mean.html#outliers">here</a>). The standard deviation of the altered data</p>
 <ul>
 <li><span class="math inline">\(x_1 = 2\)</span></li>
@@ -1463,13 +1583,14 @@ airquality %&gt;%
 <li><span class="math inline">\(x_5 = 20\)</span></li>
 </ul>
 <p>is now <span class="math inline">\(s \approx 6.964\)</span>. Not very “representative” of all the deviations. It is biased towards the largest deviation. It is important to be aware of outliers when reporting the standard deviation <span class="math inline">\(s\)</span>.</p>
-<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+</div>
 </div>
 <hr />
 </div>
 </div>
 <div id="variance" class="section level3 tabset tabset-fade tabset-pills">
-<h3>Variance</h3>
+<h3 class="tabset tabset-fade tabset-pills">Variance</h3>
 <div style="float:left;width:175px;">
 <p><span class="math display">\[s^2 = \frac{\sum_{i=1}^n(x_i-\bar{x})^2}{n-1}\]</span></p>
 </div>
@@ -1553,7 +1674,7 @@ airquality %&gt;%
 </div>
 </div>
 <div id="range" class="section level3 tabset tabset-fade tabset-pills">
-<h3>Range</h3>
+<h3 class="tabset tabset-fade tabset-pills">Range</h3>
 <div style="float:left;width:150px;">
 <p><span class="math display">\[x_{(n)}-x_{(1)}\]</span> <br> <br></p>
 </div>
@@ -1639,7 +1760,7 @@ airquality %&gt;%
 </div>
 </div>
 <div id="percentile-quantile" class="section level3 tabset tabset-fade tabset-pills">
-<h3>Percentile (Quantile)</h3>
+<h3 class="tabset tabset-fade tabset-pills">Percentile (Quantile)</h3>
 <div style="float:left;width:150px;">
 <center>
 <span class="math inline">\(\leftarrow\)</span><strong>To the Left</strong>
@@ -1679,7 +1800,7 @@ airquality %&gt;%
 </div>
 </div>
 <div id="proportion" class="section level3 tabset tabset-fade tabset-pills">
-<h3>Proportion</h3>
+<h3 class="tabset tabset-fade tabset-pills">Proportion</h3>
 <div style="float:left;width:150px;">
 <p><span class="math display">\[\hat{p}=\frac{x}{n}\]</span> <br> <br></p>
 </div>
@@ -1693,7 +1814,7 @@ airquality %&gt;%
 </div>
 </div>
 <div id="correlation" class="section level3 tabset tabset-fade tabset-pills">
-<h3>Correlation</h3>
+<h3 class="tabset tabset-fade tabset-pills">Correlation</h3>
 <div style="float:left;width:175px;">
 <p><span class="math inline">\(r = \frac{\textstyle\sum\left(\frac{x-\bar{x}}{s_x}\right)\left(\frac{y-\bar{y}}{s_y}\right)}{n-1}\)</span></p>
 </div>
@@ -1789,7 +1910,7 @@ airquality %&gt;%
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
