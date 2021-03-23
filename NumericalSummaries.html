@@ -13,7 +13,7 @@
 
 <title>Numerical Summaries</title>
 
-<script src="site_libs/header-attrs-2.2/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
@@ -24,6 +24,15 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 
@@ -54,6 +63,7 @@ h6 {
   text-align: left;
 }
 </style>
+
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
@@ -583,6 +593,7 @@ airquality %&gt;%
 </a>
 <div id="mean_1" style="display:none;">
 <pre><code>## 77.88235294117646</code></pre>
+<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>Note that the single number showing above is the average <code>Temp</code> from the <code>airquality</code> dataset.</p>
 </div>
 <a href="javascript:showhide('mean_2')">
@@ -1421,6 +1432,145 @@ airquality %&gt;%
 </div>
 <hr />
 </div>
+<div id="python-instructions-5" class="section level4">
+<h4>Python Instructions</h4>
+<div style="padding-left:150px;">
+<p>To calculate a five-number summary (and mean) in Python use the code:</p>
+<p><code>quantile(object, percentile)</code></p>
+<ul>
+<li><code>object</code> must be a quantitative variable, what R calls a “numeric vector.”</li>
+<li><code>percentile</code> must be a value between 0 and 1. For the first quartile, it would be 0.25. For the third, it would be 0.75.</li>
+</ul>
+<p><br></p>
+<p><strong>Example Code</strong></p>
+<p>Hover your mouse over the example codes to learn more.</p>
+<a href="javascript:showhide('summary1')">
+<div class="hoverchunk">
+<p><span class="tooltipr"> summary <span class="tooltiprtext">“summary” is an R function used to calculate the five-number summary (and mean) of data.</span> </span><span class="tooltipr"> ( <span class="tooltiprtext">Parenthesis to begin the function. Must touch the last letter of the function.</span> </span><span class="tooltipr"> airquality <span class="tooltiprtext">“airquality” is a dataset. Type “View(airquality)” in R to see it.</span> </span><span class="tooltipr"> $ <span class="tooltiprtext">The $ allows us to access any variable from the airquality dataset.</span> </span><span class="tooltipr"> Temp <span class="tooltiprtext">“Temp” is a quantitative variable (numeric vector) from the “airquality” dataset.</span> </span><span class="tooltipr"> )<br />
+<span class="tooltiprtext">Closing parenthsis for the function.</span> </span><span class="tooltipr">     <br />
+<span class="tooltiprtext">Press Enter to run the code if you have typed it in yourself. You can also click here to view the output.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
+</div>
+</a>
+<div id="summary1" style="display:none;">
+<table style="width:71%;">
+<colgroup>
+<col width="9%" />
+<col width="13%" />
+<col width="12%" />
+<col width="11%" />
+<col width="13%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Min.</th>
+<th align="center">1st Qu.</th>
+<th align="center">Median</th>
+<th align="center">Mean</th>
+<th align="center">3rd Qu.</th>
+<th align="center">Max.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">56</td>
+<td align="center">72</td>
+<td align="center">79</td>
+<td align="center">77.88</td>
+<td align="center">85</td>
+<td align="center">97</td>
+</tr>
+</tbody>
+</table>
+<p>Showing above are the five-number summary and mean of <code>Temp</code> from the <code>airquality</code> dataset.</p>
+<p>Note, you must use <code>pander(summary(airquality$Temp))</code> to get the nicely formatted output.</p>
+</div>
+<a href="javascript:showhide('summary2')">
+<div class="hoverchunk">
+<p><span class="tooltipr"> library(tidyverse) <span class="tooltiprtext">tidyverse is an R Package that is very useful for working with data.</span> </span><br><span class="tooltipr"> airquality <span class="tooltipRtext"><code>airquality</code> is a dataset in R.</span> </span><span class="tooltipr">  %&gt;%  <span class="tooltipRtext">The pipe operator that will send the <code>airquality</code> dataset down inside of the code on the following line.</span> </span><br/><span class="tooltipr">    group_by( <span class="tooltipRtext">“group_by” is a function from library(tidyverse) that allows us to split the airquality dataset into “little” datasets, one dataset for each value in the “Month” column.</span> </span><span class="tooltipr"> Month <span class="tooltiprtext">“Month” is a column from the airquality dataset that can be treated as qualitative.</span> </span><span class="tooltipr"> ) <span class="tooltiprtext">Functions must always end with a closing parenthesis.</span> </span><span class="tooltipr">  %&gt;%  <span class="tooltipRtext">The pipe operator that will send the grouped version of the <code>airquality</code> dataset down inside of the code on the following line.</span> </span><br/><span class="tooltipr">    summarise( <span class="tooltipRtext">“summarise” is a function from library(tidyverse) that allows us to compute numerical summaries on data.</span> </span><span class="tooltipr"> min = min(Temp),  <span class="tooltiprtext">Computes the min of the Temp column.</span> </span><span class="tooltipr"> Q1 = quantile(Temp, 0.25),  <span class="tooltiprtext">Computes the first quartile of the Temp column.</span> </span><span class="tooltipr"> med = median(Temp),  <span class="tooltiprtext">Computes the second quartile of the Temp column, known as the median.</span> </span><span class="tooltipr"> Q3 = quantile(Temp, 0.75),  <span class="tooltiprtext">Computes the third quartile of the Temp column.</span> </span><span class="tooltipr"> max = max(Temp) <span class="tooltiprtext">Computes the max of the Temp column.</span> </span><span class="tooltipr"> ) <span class="tooltiprtext">Functions must always end with a closing parenthesis.</span> </span><span class="tooltipr">     <br />
+<span class="tooltiprtext">Press Enter to run the code.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
+</div>
+</a>
+<div id="summary2" style="display:none;">
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<table style="width:60%;">
+<colgroup>
+<col width="11%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Month</th>
+<th align="center">min</th>
+<th align="center">Q1</th>
+<th align="center">med</th>
+<th align="center">Q3</th>
+<th align="center">max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">5</td>
+<td align="center">56</td>
+<td align="center">60</td>
+<td align="center">66</td>
+<td align="center">69</td>
+<td align="center">81</td>
+</tr>
+<tr class="even">
+<td align="center">6</td>
+<td align="center">65</td>
+<td align="center">76</td>
+<td align="center">78</td>
+<td align="center">82.75</td>
+<td align="center">93</td>
+</tr>
+<tr class="odd">
+<td align="center">7</td>
+<td align="center">73</td>
+<td align="center">81.5</td>
+<td align="center">84</td>
+<td align="center">86</td>
+<td align="center">92</td>
+</tr>
+<tr class="even">
+<td align="center">8</td>
+<td align="center">72</td>
+<td align="center">79</td>
+<td align="center">82</td>
+<td align="center">88.5</td>
+<td align="center">97</td>
+</tr>
+<tr class="odd">
+<td align="center">9</td>
+<td align="center">63</td>
+<td align="center">71</td>
+<td align="center">76</td>
+<td align="center">81</td>
+<td align="center">93</td>
+</tr>
+</tbody>
+</table>
+<p>Note that R calculated the five-number summary for <code>Temp</code> for each month in <code>Month</code> from the <code>airquality</code> dataset.</p>
+<p>May (5), June (6), July (7), August (8), and September (9), respectively.</p>
+<p>Further, to get the nicely formatted table you must use:</p>
+<pre><code>library(pander)
+airquality %&gt;% 
+  group_by(Month) %&gt;%
+  summarise(min = min(Temp),
+            Q1 = quantile(Temp, c(.25)),
+            med = median(Temp),
+            Q3 = quantile(Temp, c(.75)),
+            max = max(Temp)) %&gt;%
+  pander()</code></pre>
+</div>
+</div>
+<hr />
+</div>
 </div>
 <div id="standard-deviation" class="section level3 tabset tabset-fade tabset-pills">
 <h3 class="tabset tabset-fade tabset-pills">Standard Deviation</h3>
@@ -1570,7 +1720,7 @@ airquality %&gt;%
   s = \sqrt{\frac{\sum_{i=1}^n(x_i-\bar{x})^2}{n-1}} = \sqrt{8.5} \approx 2.915
 \]</span></p>
 <p>The red lines below show how the standard deviation represents all deviations in this data set. Recall that the magnitudes of the individual deviations were <span class="math inline">\(4, 1, 0, 1\)</span>, and <span class="math inline">\(4\)</span>. The representative deviation is <span class="math inline">\(2.915\)</span>.</p>
-<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 </div>
 <div id="effect-of-outliers-1" class="section level5">
 <h5>Effect of Outliers</h5>
@@ -1583,7 +1733,7 @@ airquality %&gt;%
 <li><span class="math inline">\(x_5 = 20\)</span></li>
 </ul>
 <p>is now <span class="math inline">\(s \approx 6.964\)</span>. Not very “representative” of all the deviations. It is biased towards the largest deviation. It is important to be aware of outliers when reporting the standard deviation <span class="math inline">\(s\)</span>.</p>
-<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 </div>
 </div>
 <hr />
@@ -1910,7 +2060,7 @@ airquality %&gt;%
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

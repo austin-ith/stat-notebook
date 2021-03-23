@@ -20,10 +20,7 @@ output:
 library(mosaic)
 library(pander)
 library(tidyverse)
-library(reticulate)
-#use_python("C:\\Program Files\\Anaconda3")
-#use_condaenv("base")
-use_condaenv("Westmark")
+
 ```
 
 ----
@@ -242,6 +239,11 @@ airquality
 import pandas as pd
 
 r.airquality['Temp'].mean()
+
+import matplotlib.pyplot as plt
+plt.plot([4, 3, 2, 1])
+plt.ylabel('some numbers')
+plt.show()
 ```
 
 Note that the single number showing above is the average `Temp` from the `airquality` dataset.
@@ -1528,6 +1530,152 @@ Good for describing the spread of data, typically for skewed distributions. Ther
 
 <div style="padding-left:150px;">
 To calculate a five-number summary (and mean) in R use the code:
+
+`quantile(object, percentile)`
+
+* `object` must be a quantitative variable, what R calls a "numeric vector."
+* `percentile` must be a value between 0 and 1. For the first quartile, it would be 0.25. For the third, it would be 0.75.
+
+<br>
+
+**Example Code** 
+
+Hover your mouse over the example codes to learn more.
+
+<a href="javascript:showhide('summary1')">
+<div class="hoverchunk">
+<span class="tooltipr">
+summary
+  <span class="tooltiprtext">"summary" is an R function used to calculate the five-number summary (and mean) of data.</span>
+</span><span class="tooltipr">
+(
+  <span class="tooltiprtext">Parenthesis to begin the function. Must touch the last letter of the function.</span>
+</span><span class="tooltipr">
+airquality
+  <span class="tooltiprtext">"airquality" is a dataset. Type "View(airquality)" in R to see it.</span>
+</span><span class="tooltipr">
+$
+  <span class="tooltiprtext">The $ allows us to access any variable from the airquality dataset.</span>
+</span><span class="tooltipr">
+Temp
+  <span class="tooltiprtext">"Temp" is a quantitative variable (numeric vector) from the "airquality" dataset.</span>
+</span><span class="tooltipr">
+)  
+  <span class="tooltiprtext">Closing parenthsis for the function.</span>
+</span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltiprtext">Press Enter to run the code if you have typed it in yourself. You can also click here to view the output.</span>
+</span><span class="tooltipr" style="float:right;">
+&nbsp;...&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="summary1" style="display:none;">
+```{r, echo=FALSE}
+pander(summary(airquality$Temp))
+```
+
+Showing above are the five-number summary and mean of `Temp` from the `airquality` dataset.
+
+Note, you must use `pander(summary(airquality$Temp))` to get the nicely formatted output.
+</div>
+
+<a href="javascript:showhide('summary2')">
+<div class="hoverchunk">
+<span class="tooltipr">
+library(tidyverse)
+<span class="tooltiprtext">tidyverse is an R Package that is very useful for working with data.</span>
+</span><br><span class="tooltipr">
+airquality
+  <span class="tooltipRtext">`airquality` is a dataset in R.</span>
+</span><span class="tooltipr">
+&nbsp;%>%&nbsp;
+  <span class="tooltipRtext">The pipe operator that will send the `airquality` dataset down inside of the code on the following line.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp; group_by(
+  <span class="tooltipRtext">"group_by" is a function from library(tidyverse) that allows us to split the airquality dataset into "little" datasets, one dataset for each value in the "Month" column.</span>
+</span><span class="tooltipr">
+Month
+  <span class="tooltiprtext">"Month" is a column from the airquality dataset that can be treated as qualitative.</span>
+</span><span class="tooltipr">
+)
+ <span class="tooltiprtext">Functions must always end with a closing parenthesis.</span>
+</span><span class="tooltipr">
+&nbsp;%>%&nbsp;
+  <span class="tooltipRtext">The pipe operator that will send the grouped version of the `airquality` dataset down inside of the code on the following line.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp; summarise(
+  <span class="tooltipRtext">"summarise" is a function from library(tidyverse) that allows us to compute numerical summaries on data.</span>
+</span><span class="tooltipr">
+min = min(Temp),&nbsp;
+  <span class="tooltiprtext">Computes the min of the Temp column.</span>
+</span><span class="tooltipr">
+Q1 = quantile(Temp, 0.25),&nbsp;
+  <span class="tooltiprtext">Computes the first quartile of the Temp column.</span>
+</span><span class="tooltipr">
+med = median(Temp),&nbsp;
+  <span class="tooltiprtext">Computes the second quartile of the Temp column, known as the median.</span>
+</span><span class="tooltipr">
+Q3 = quantile(Temp, 0.75),&nbsp;
+  <span class="tooltiprtext">Computes the third quartile of the Temp column.</span>
+</span><span class="tooltipr">
+max = max(Temp)
+  <span class="tooltiprtext">Computes the max of the Temp column.</span>
+</span><span class="tooltipr">
+)
+ <span class="tooltiprtext">Functions must always end with a closing parenthesis.</span>
+</span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltiprtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;">
+&nbsp;...&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="summary2" style="display:none;">
+```{r, echo=FALSE}
+airquality %>% 
+  group_by(Month) %>%
+  summarise(min = min(Temp),
+            Q1 = quantile(Temp, c(.25)),
+            med = median(Temp),
+            Q3 = quantile(Temp, c(.75)),
+            max = max(Temp)) %>%
+  pander()
+```
+
+Note that R calculated the five-number summary for `Temp` for each month in `Month` from the `airquality` dataset. 
+
+May (5), June (6), July (7), August (8), and September (9), respectively.
+
+Further, to get the nicely formatted table you must use:
+
+```{}
+library(pander)
+airquality %>% 
+  group_by(Month) %>%
+  summarise(min = min(Temp),
+            Q1 = quantile(Temp, c(.25)),
+            med = median(Temp),
+            Q3 = quantile(Temp, c(.75)),
+            max = max(Temp)) %>%
+  pander()
+```
+
+</div>
+
+
+</div>
+
+
+----
+
+#### Python Instructions
+
+<div style="padding-left:150px;">
+To calculate a five-number summary (and mean) in Python use the code:
 
 `quantile(object, percentile)`
 
