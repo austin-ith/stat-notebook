@@ -1,10 +1,5 @@
 ---
 title: "R Cheat Sheets & Notes"
-output: 
-  html_document: 
-    theme: cerulean
-    highlight: tango
-    css: styles.css
 ---
 
 ## Cheat Sheets
@@ -36,143 +31,33 @@ Add your own notes here...
 ```{r, eval=FALSE}
 # Using ```{r, eval=FALSE} turns off the chunk, but still shows it.
 # Useful when you want to remember code, but not run it in this file.
-
-#Step 1
-mtcars1 <- filter(mtcars, cyl %in% c(4,8))
-myTest <-  t.test(wt ~ cyl, data = mtcars1, mu = 0)
-observedTestStat <- myTest$statistic
-#Step 2
-N <- 2000
-permutedTestStats <- rep(NA, N)
-for (i in 1:N){
-  permutedData <- sample(mtcars1$wt)
-  permutedTest <- t.test(permutedData ~ cyl, data = mtcars1, mu = 0)
-  permutedTestStats[i] <- permutedTest$statistic
-}
-#Step 3
-hist(permutedTestStats, col = "skyblue", xlim = c(-12,12))
-abline(v=observedTestStat, col = 'red', lwd = 3)
-
-sum(permutedTestStats > observedTestStat)/2000 * 2
-
 ```
 
-
-```{r, eval=FALSE}
-# Using ```{r, eval=FALSE} turns off the chunk, but still shows it.
-# Useful when you want to remember code, but not run it in this file.
-
-#Step 1
-myTest <-  aov(correct ~ condition, data = Friendly)
-observedTestStat <- summary(myTest)[[1]]$`F value`[1]
-#Step 2
-N <- 2000
-permutedTestStats <- rep(NA, N)
-for (i in 1:N){
-  permutedData <- sample(Friendly$correct)
-  permutedTest <- aov(permutedData ~ condition, data = Friendly)
-  permutedTestStats[i] <- summary(permutedTest)[[1]]$`F value`[1]
-}
-#Step 3
-hist(permutedTestStats, col = "skyblue", xlim = c(-1,20))
-abline(v=observedTestStat, col = 'red', lwd = 3)
-
-sum(permutedTestStats >= observedTestStat)/2000 
-sum(permutedTestStats <= observedTestStat)/2000 
-
-```
-
-
-```{r, eval=FALSE}
-# Using ```{r, eval=FALSE} turns off the chunk, but still shows it.
-# Useful when you want to remember code, but not run it in this file.
-
-#Step 1
-myTest <-  glm(sat > 1000 ~ expend, data = SAT, family = binomial)
-observedTestStat <- summary(myTest)[[12]][2,3]
-#Step 2
-N <- 2000
-permutedTestStats <- rep(NA, N)
-for (i in 1:N){
-  permutedData <- sample(mtcars1$sat)
-  permutedTest <- glm(sat > 1000 ~ expend, data = SAT, family = binomial)
-  permutedTestStats[i] <- summary(myTest)[[12]][2,3]
-}
-#Step 3
-hist(permutedTestStats, col = "skyblue", xlim = c(-5,0))
-abline(v=observedTestStat, col = 'red', lwd = 3)
-
-sum(permutedTestStats > observedTestStat)/2000 * 2
-
-```
 
 
 
 ```{r, eval=FALSE}
-# Using ```{r, eval=FALSE} turns off the chunk, but still shows it.
-# Useful when you want to remember code, but not run it in this file.
-
-set.seed(1140411)
-
-sample1 <- rnorm(30, 69, 2.5)
-
-sample2 <- rnorm(30, 69, 2.5)
-
-theData <- data.frame(values = c(sample1,sample2), group = rep(c(1,2), each=30))
-
-View(theData)
-
-boxplot(values ~ group, data = theData)
+set.seed(15)
 
 #Step 1
-myTest <-  t.test(values ~ group, data = theData, mu = 0)
+myTest <- t.test(length ~ sex, data=KidsFeet)
 observedTestStat <- myTest$statistic
+observedTestStat
+
 #Step 2
 N <- 2000
-permutedTestStats <- rep(NA, N)
+permutedTestStats <- rep(NA, 2000)
 for (i in 1:N){
-  permutedData <- sample(theData$group)
-  permutedTest <- t.test(values ~ permutedData, data = theData, mu = 0)
+  permutedData <- sample(KidsFeet$length)
+  permutedTest <- t.test(permutedData ~ sex, data=KidsFeet)
   permutedTestStats[i] <- permutedTest$statistic
 }
+hist(permutedTestStats)
+abline(v=observedTestStat, col="red")
+
 #Step 3
-hist(permutedTestStats, col = "skyblue", xlim = c(-12,12))
-abline(v=observedTestStat, col = 'red', lwd = 3)
-
-sum(permutedTestStats >= observedTestStat)/2000
-sum(permutedTestStats <= observedTestStat)/2000
-
+2*sum(permutedTestStats >= observedTestStat)/N
 ```
-
-
-```{r, EVAL = FALSE}
-set.seed(121)
-sample1 <- rnorm(30, 185, 8)
-sample2 <- sample1 - rnorm(30, 0, 3.5)
-theData <- data.frame(values = c(sample1,sample2), group = rep(c(1,2), each=30), id = rep(c(1:30),times=2))
-View(theData)
-with(theData, hist(values[group==1] - values[group==2]))
-
-#Step 1
-myTest <-  t.test(values ~ group, data = theData, paired = TRUE, mu = 0)
-observedTestStat <- myTest$statistic
-#Step 2
-N <- 2000
-permutedTestStats <- rep(NA, N)
-for (i in 1:N){
-  permutedData <- sample(x=c(1,-1),size =30, replace = TRUE)
-  permutedTest <- with(theData, t.test(permutedData*(values[group==1] - values[group == 2]),  mu = 0))
-  permutedTestStats[i] <- permutedTest$statistic
-}
-#Step 3
-hist(permutedTestStats, col = "skyblue", xlim = c(-12,12))
-abline(v=observedTestStat, col = 'red', lwd = 3)
-
-sum(permutedTestStats >= observedTestStat)/2000
-sum(permutedTestStats <= observedTestStat)/2000
-
-```
-
 
 
 

@@ -11,7 +11,7 @@ output:
 
 Come up with a chi squared test analysis of your own creation. 
 
-* Write the Background and clearly state your question. Then collect data and perform the linear regression analysis in order to answer your question. Use the proper order of first, ask the question, then second, figure out the answer.
+* Write the Background and clearly state your question. Then collect data and perform the chi-squared test analysis in order to answer your question. Use the proper order of first, ask the question, then second, figure out the answer.
 
 * You can use data from 
     - An R data set
@@ -24,92 +24,8 @@ Come up with a chi squared test analysis of your own creation.
 * You need a sample size large enough to meet the requirements of the chi squared test. Unfortunately, the sample size is completely dependent on the situation you select. A good rule of thumb is 10 observations per "combination-group" in your data.
 
 -->
-```{r, include=FALSE}
-library(mosaic)
-library(car)
-library(ResourceSelection)
-library(tidyverse)
-library(pander)
-library(DT)
 
-GSS <- read.table("../../Data/GSS2012.csv", sep="\t", header=TRUE)
-```
 
 ## Background
-
-“The General Social Survey (GSS) conducts basic scientific research on the structure and development of American society with a data-collection program designed to both monitor societal change within the United States and to compare the United States to other nations.”[$^1$](http://www3.norc.org/GSS+Website/)
-
-This survey is given to random adults varying in age every couple of years and provides answers to many different questions. 
-
-## Hypothesis
-
-We are going to be looking at the question as to whether gender is associated with the likelihood of getting a speeding ticket or traffic violation?  
-
-$$
-H_{0}:\ \text{Gender and having received a speeding ticket or traffic violation are not associated.}
-$$
-
-$$
-H_{a}:\ \text{Gender and having received a speeding ticket or traffic violation are associated.}
-$$
-
-For this analysis we will us the level of significance of $\alpha$ = 0.05
-
-## Analysis
-
-Looking at the table below we can see the actual counts of Male and Females who have reported receiving a speeding ticket or traffic. 
-
-<center>
-```{r}
-gss1 <- filter(GSS, ticket %in% c(1,2))
-gss2 <- gss1 %>% 
-  mutate(sex = case_when(
-    sex == 1 ~ "Male",
-    sex == 2 ~ "Female")) %>% 
-  mutate(ticket = case_when(
-    ticket == 1 ~ "Yes",
-    ticket == 2 ~ "No"
-  ))
-ticket <- table(gss2$sex, gss2$ticket)
-
-pander(ticket)
-```
-</center>
-
-I'd like to point out the counts appear to be very similiar. To further visualize this, see the boxplot below.
-
-<center>
-```{r}
-barplot(ticket, beside=TRUE, col=c("orangered","orangered4"),legend.text=TRUE,args.legend = list(x="topleft",bty="n",title="Gender"),xlab="Speeding ticket received",main="Number of Speeding Tickets received by Gender")
-
-```
-</center>
-
-From this barplot, we can clearly that those that reported 'yes' to having received a speeding ticket between the two genders is relatively the same. Those that reported 'no' to having received a speeding ticket has a noticeable diffence which we learn from the table to be 408 females to 229 males. Now to determine if their truly is an association between gender and getting a speeding ticket, we'll run the chi-squared test:
-
-```{r}
-
-ticketchi <- chisq.test(ticket)
-pander(ticketchi)
-
-```
-
-According to the test above, the p-value at 4.936e-09 is less than 0.05. Before rejecting the null hypothesis, however, lets check if the requirements of the Chi-Squared test are satisfied. The following table shows expected counts.
-
-```{r}
-
-pander(ticketchi$expected)
-
-```
-
-Since all expected counts are greater than 5, our requirements are met and we can reject the null hypothesis reasonably conclude that gender and receiving a speeding ticket are associated. 
-
-## Interpretation
-
-This is an interesting test, we concluded that gender is associated with receiving a speeding ticket. We can clearly see that Women are less likely to receive a speeding ticket than men. This is very interesting, and raises the question, why? It would be fun to study more into other factors including, What is the average drive time of Men versus Women per month? What is the marital status of these individuals receiving the tickets? Are kids present in the car when tickets are given? etc.. 
-
-
-
-
 
 

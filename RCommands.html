@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -23,6 +23,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 
 
 
@@ -70,7 +71,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -219,6 +219,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -231,48 +232,9 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -286,6 +248,12 @@ $(document).ready(function ()  {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -321,8 +289,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -455,10 +421,34 @@ div.tocify {
       <a href="./Analyses/StudentHousingPOOR.html">Poor Example Analysis</a>
     </li>
     <li>
-      <a href="./Analyses/Rent.html">Rent Analysis</a>
+      <a href="./Analyses/Rent.html">Rent</a>
     </li>
     <li>
-      <a href="./Analyses/Stephanie.html">Stephanie Analysis</a>
+      <a href="./Analyses/Stephanie.html">Stephanie</a>
+    </li>
+    <li>
+      <a href="./Analyses/t Tests/HighSchoolSeniors.html">High School Seniors</a>
+    </li>
+    <li>
+      <a href="./Analyses/Wilcoxon Tests/RecallingWords.html">Recalling Words</a>
+    </li>
+    <li>
+      <a href="./Analyses/ANOVA/DayCare.html">Day Care</a>
+    </li>
+    <li>
+      <a href="./Analyses/Kruskal-Wallis/Food.html">Food</a>
+    </li>
+    <li>
+      <a href="./Analyses/Linear Regression/MySimpleLinearRegression.html">My Simple Linear Regression</a>
+    </li>
+    <li>
+      <a href="./Analyses/Linear Regression/CarPrices.html">Car Prices</a>
+    </li>
+    <li>
+      <a href="./Analyses/Logistic Regression/MyLogisticRegression.html">My Logistic Regression</a>
+    </li>
+    <li>
+      <a href="./Analyses/Chi Squared Tests/MyChiSquaredTest.html">My Chi-sqaured Test</a>
     </li>
   </ul>
 </li>
@@ -493,7 +483,7 @@ div.tocify {
 <div id="getting-started" class="section level2">
 <h2>Getting Started</h2>
 <div style="padding-left:15px;">
-<span class="tooltipr"> <a href="javascript:showhide('hovertobegin')">Hover your mouse here to begin.</a> <span class="tooltipRtext">Good work! <br/> Now “click” to get started. </span> </span>
+<span class="tooltipr"> <a href="javascript:showhide('hovertobegin')">Hover your mouse here to begin.</a> <span class="tooltipRtext">Good work! <br/> This book requires that you interact with it to learn. Hovering is the first step. <br/> Now “click” to get started. </span> </span>
 <div id="hovertobegin" style="display:none;padding-left:20px;">
 <p><br/></p>
 <p>Student: “How do I learn R?”</p>
@@ -502,61 +492,75 @@ div.tocify {
 <p>Teacher: “Just try it anyway. Suddenly you’ll understand.”</p>
 <p>Most people that are new to using the “R Software” ask the question, “How do I learn R?” The answer is simple: “start using it.” Really. Seriously. Just start using it, even when you have no idea what you are doing, and suddenly you will start to learn R. So, here we go. The more you use it, the more you will know.</p>
 <p>This page follows a simple learning model: Hover. Click. Try.</p>
-<div class="figure">
-<img src="Images/HoverClickTry.png" />
-
-</div>
+<p><img src="Images/HoverClickTry.png" /></p>
 <p><br/></p>
-<p>Hover over <span class="tooltipr"><code>code</code><span class="tooltipRtext">Yes, just like that. By hovering over “Codes” you will get instructions on what that code does.</span></span> to read about it. Click on a line of code to see what it does. Try typing the code into RStudio yourself to actually start learning R.</p>
+<p>Hover over <span class="tooltipr"><code>code</code><span class="tooltipRtext">Yes, just like that. By hovering over “Codes” you will get instructions on what that code does.</span></span> to read about it. Click on a <span class="tooltipr"><a href="javascript:showhide('smileyface')"><code>line of code</code></a><span class="tooltipRtext">Hovering is a good start, try clicking on this one.</span></span> to see what it does. Try typing the code into RStudio yourself to actually start learning R.</p>
+<div id="smileyface" style="display:none;padding-left:20px;">
+<p><img src="Images/smileyfacecongratulations.jpg"></p>
+</div>
 <p><strong>Examples</strong></p>
-<p>For each of the following examples, hover, click, and try.</p>
+<p>For each of the following examples: (1) hover, (2) click, and (3) try.</p>
+<p>Before you begin, ensure you have RStudio open. It should look like this:</p>
 <a href="javascript:showhide('CarsOutput')">
 <div class="hoverchunk">
-<p><span class="tooltipr"> View( <span class="tooltipRtext">The “View” R function (with a CAPTIAL ‘V’ in View) allows us to view a datset. When run, this function will open up a new tab in RStudio showing the dataset. </span> </span><span class="tooltipr"> cars <span class="tooltipRtext"><code>cars</code> is a data set that is in R. R has datasets that are available for anyone to use. You can see them using the <code>data()</code> command. It would be good to explore <code>View()</code> for a few different datasets. </span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always be sure to end your function with closing parantheses. </span> </span><span class="tooltipr">     <br />
-<span class="tooltipRtext">Press Enter to run the code.</span> </span><span class="tooltipr" style="float:right;font-size:.8em;">  Click to Show Output  <span class="tooltiprtext">Click to View Output.</span> </span></p>
+<p><span class="tooltipr"> View( <span class="tooltipRtext">The “View” R function (with a CAPTIAL ‘V’ in View) allows us to view a data set. When run, this function will open up a new tab in RStudio showing the data set. </span> </span><span class="tooltipr"> cars <span class="tooltipRtext"><code>cars</code> is a data set that is in R. R has datasets that are available for anyone to use. You can see them using the <code>data()</code> command. It would be good to explore <code>View()</code> for a few different datasets. </span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always be sure to end your function with closing parantheses. </span> </span><span class="tooltipr">     <br />
+<span class="tooltipRtext">Press Enter to run the code.</span> </span><span class="tooltipr" style="float:right;font-size:.8em;">  Click to Show Tutorial  <span class="tooltiprtext">Click to see a full tutorial on the “View()” command.</span> </span></p>
 </div>
 </a>
 <div id="CarsOutput" style="display:none;padding-left:20px;">
-<p>R allows you to work with data. So, the first step to understanding R is to open a dataset and begin exploring some data. The <code>View</code> command will help you get started with this.</p>
+<p>R allows you to work with data. So, the first step to understanding R is to open a dataset and begin exploring some data.</p>
+<p>If you type the <code>data()</code> command into your Console of RStudio you will see a list of “built in” data sets that come with R.</p>
+<p><img src="Images/DataOutput.png" /></p>
+<p><br/></p>
+<p>The <code>cars</code> data set is one of the options that is available. This is a fun “historic” data set from the 1920’s. It shows the <code>speed</code> and stopping <code>dist</code>ance of cars from the 1920’s.</p>
+<p>To see the <code>cars</code> data set in RStudio, use the <code>View</code> command as follows.</p>
 <p><strong>Step 1.</strong> Open RStudio.</p>
 <p><strong>Step 2.</strong> Type the command <code>View(cars)</code> into your <strong>Console</strong>.</p>
 <p><strong>Step 3.</strong> Press <code>Enter</code> or <code>Return</code> and the following output should appear within RStudio.</p>
-<div class="figure">
-<img src="Images/ViewCars.png" />
-
+<p><img src="Images/ViewCars.png" /></p>
+<p><br/></p>
+<p>Be sure to <strong>TRY IT</strong> yourself, if you haven’t already. Good work if you did. It’s the only way to learn R.</p>
+<p>Ask someone for help if you aren’t sure how to get started.</p>
+<p><br/> <br/></p>
 </div>
-</div>
-<a href="javascript:showhide('airqualityOutput1')">
+<a href="javascript:showhide('meancarsdist')">
 <div class="hoverchunk">
-<p><span class="tooltipr"> View( <span class="tooltipRtext">The “View” R function (with a CAPTIAL ‘V’ in View) allows us to view a datset. When run, this function will open up a new tab in RStudio showing the dataset.</span> </span><span class="tooltipr"> airquality) <span class="tooltipRtext"> Gives us data concerning air quality measurements around New York City, NY. For more details on this dataset type: <code>?airquality</code></span> </span><span class="tooltipr">     <br />
-<span class="tooltipRtext">Press Enter to run the code.</span> </span><span class="tooltipr" style="float:right;font-size:.8em;">  Click to Show Output  <span class="tooltiprtext">Click to View Output.</span> </span></p>
-</div>
-</a>
-<div id="airqualityOutput1" style="display:none;padding-left:20px;">
-<p>Here is what the output of the command <code>View(airquality)</code> looks like.</p>
-<div class="figure">
-<img src="Images/airqualityOutput.png" />
-
-</div>
-<p>Let’s see how you are doing. Can you answer these questions about the airquality dataset?</p>
-<p>What is the sample size of this dataset? (Answer: 153)</p>
-<p>How many columns of data are there? (Answer: 6)</p>
-</div>
-<a href="javascript:showhide('DataOutput')">
-<div class="hoverchunk">
-<p><span class="tooltipr"> data <span class="tooltipRtext">An R function “data” used to bring up a list of available datasets in R.</span> </span><span class="tooltipr"> () <span class="tooltipRtext">Functions always have parentheses following the function name. For this function we do not put anything inside the parentheses.</span> </span><span class="tooltipr">     <br />
+<p><span class="tooltipr"> mean( <span class="tooltipRtext">An R function “mean()” that will compute the mean of a quantitative column of data from a data set.</span> </span><span class="tooltipr"> cars <span class="tooltipRtext"><code>cars</code> is the name of a data set in R. Any data set can be used instead by simply typing the name of that data set instead of <code>cars</code>.</span> </span><span class="tooltipr"> $ <span class="tooltipRtext">The <code>$</code> sign is a powerful operator in R. The <code>$</code> sign allows you to access, or “purchase,” any column from a data set. Try typing <code>cars$</code> into R and notice how a selection menu appears with options <code>dist</code> and <code>speed</code>.</span> </span><span class="tooltipr"> dist <span class="tooltipRtext"><code>dist</code> is one of the two columns from the <code>cars</code> data set. By typing <code>cars$dist</code> we are essentially pulling that column of data out of the data set, and then computing the mean of that column with <code>mean(cars$dist)</code>.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Closing parenthesis for the <code>mean()</code> function.</span> </span><span class="tooltipr">     <br />
 <span class="tooltipRtext">Press Enter to run the code.</span> </span><span class="tooltipr" style="float:right;font-size:.8em;">  Click to Show Output  <span class="tooltiprtext">Click to see output.</span> </span></p>
 </div>
 </a>
-<div id="DataOutput" style="display:none;padding-left:20px;">
-<p>Notice that the list of available data sets in R includes the “airquality” and “cars” data sets that we “Viewed” previously.</p>
-<p>There are many, many other data sets you can View and use as well. You can also bring your own data sets into R, as you will learn later this week.</p>
-<div class="figure">
-<img src="Images/DataOutput.png" />
-
+<div id="meancarsdist" style="display:none;padding-left:20px;">
+<p><img src="Images/meancarsdist.png" /></p>
+<p>You may also be interested in trying any of the following:</p>
+<ul>
+<li><code>sd(cars$dist)</code></li>
+<li><code>var(cars$dist)</code></li>
+<li><code>median(cars$dist)</code></li>
+<li><code>min(cars$dist)</code></li>
+<li><code>max(cars$dist)</code></li>
+<li><code>length(cars$dist)</code></li>
+<li><code>sum(cars$dist)</code></li>
+</ul>
+<p><br/> <br/></p>
+</div>
+<a href="javascript:showhide('plotcarsdist')">
+<div class="hoverchunk">
+<p><span class="tooltipr"> plot( <span class="tooltipRtext">The <code>plot(...)</code> function allows us to create a plot (usually a scatterplot) in R.</span> </span><span class="tooltipr"> dist <span class="tooltipRtext"> <code>dist</code> is the name of a column. This is going to be the Y-variable of the plot. The Y-variable always comes first in the plot(Y ~ X) command.</span> </span><span class="tooltipr">  ~  <span class="tooltipRtext"> <code>~</code> is found on the upper-left key of your keyboard. It is called the “tilde” or “tilda” symbol. It is used to state a relationship between Y and X: <code>Y ~ X</code>.</span> </span><span class="tooltipr"> speed,  <span class="tooltipRtext"> <code>speed</code> is the name of a column. This is going to be the X-variable of the plot. The X-variable always comes after the <code>~</code> in the <code>plot(Y ~ X)</code> command.</span> </span><span class="tooltipr"> data=cars <span class="tooltipRtext"> The <code>data=</code> statement is used to tell R which data set the columns of “dist” and “speed” come from. In this case, the <code>cars</code> data set.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Closing parenthesis for the plot(…) function.</span> </span><span class="tooltipr">     <br />
+<span class="tooltipRtext">Press Enter to run the code.</span> </span><span class="tooltipr" style="float:right;font-size:.8em;">  Click to Show Output  <span class="tooltiprtext">Click to View Output.</span> </span></p>
+</div>
+</a>
+<div id="plotcarsdist" style="display:none;padding-left:20px;">
+<p><img src="Images/plotcarsblue.png" /></p>
+<p>Try changing the <code>col="skyblue"</code> statement to <code>col="firebrick"</code> instead. What do you notice?</p>
+<p>Try changing the <code>pch=16</code> statement to <code>pch=4</code> or any other number from 1 to 25. What do you notice?</p>
+<p>Hint: pressing the “up” arrow on your keyboard brings up the last command you typed into the Console.</p>
+<p><br/></p>
+<div style="background-color:skyblue;padding:10px;">
+<p><strong>Completion Code:</strong> abc123R</p>
 </div>
 </div>
-<p>Once you finish working through the three above example codes, move on to studying the codes below.</p>
+<p><br/></p>
+<p><span style="color:orange;">This is “the end” of the <em>Getting Started</em> tutorial.</span> <span style="color:gray;">To find the “completion code” you will need to study, and “click open” each of the example codes above.</span></p>
 </div>
 </div>
 <br />
@@ -580,10 +584,7 @@ div.tocify {
 </div>
 </a>
 <div id="HelpOutput" style="display:none;padding-left:20px;">
-<div class="figure">
-<img src="Images/HelpOutputcars.png" />
-
-</div>
+<p><img src="Images/HelpOutputcars.png" /></p>
 </div>
 <a href="javascript:showhide('HelpOutput2')">
 <div class="hoverchunk">
@@ -592,10 +593,7 @@ div.tocify {
 </div>
 </a>
 <div id="HelpOutput2" style="display:none;padding-left:20px;">
-<div class="figure">
-<img src="Images/HelpOutputData.png" />
-
-</div>
+<p><img src="Images/HelpOutputData.png" /></p>
 </div>
 <a href="javascript:showhide('HelpOutput3')">
 <div class="hoverchunk">
@@ -604,7 +602,7 @@ div.tocify {
 </div>
 <p></a></p>
 <div id="HelpOutput3" style="display:none;padding-left:20px;">
-<p>Insert Image Here</p>
+<p><img src="Images/helpmean.png" /></p>
 </div>
 </div>
 <br />
@@ -628,15 +626,12 @@ div.tocify {
 </div>
 <p></a></p>
 <div id="airqualityDollar" style="display:none;padding-left:20px;">
-<div class="figure">
-<img src="Images/airqualityDollar.png" />
-
-</div>
+<p><img src="Images/airqualityDollar.png" /></p>
 </div>
 <p>This allows you to compute things about that column, like the mean or standard deviation.</p>
 <a href="javascript:showhide('airqualityDollarCompute')">
 <div class="hoverchunk">
-<p><span class="tooltipr"> mean( <span class="tooltipRtext">The <code>mean</code> function computes the mean of a column of quantitative data.</span> </span><span class="tooltipr"> airquality <span class="tooltipRtext">The <code>airqaulity</code> dataset. This could be the name of any dataset instead of <code>airquality</code>.</span> </span><span class="tooltipr"> $ <span class="tooltipRtext"> Grabs the column, or variable, from the dataset to be used. This is typically used when computing say the mean (or other statistic) of a single column of the data. </span> </span><span class="tooltipr"> Wind <span class="tooltipRtext"> The name of any column of the dataset can be entered after the dollar sign. In the airquality dataset, this includes: <code>Ozone</code>, <code>Solar.R</code>, <code>Wind</code>, <code>Temp</code>, <code>Month</code>, or <code>Day</code> as shown by <code>View(airquality)</code>. </span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Closing parenthesis to the mean() function.</span> </span><span class="tooltipr">     <br />
+<p><span class="tooltipr"> mean( <span class="tooltipRtext">The <code>mean</code> function computes the mean of a column of quantitative data.</span> </span><span class="tooltipr"> airquality <span class="tooltipRtext">The <code>airquality</code> dataset. This could be the name of any dataset instead of <code>airquality</code>.</span> </span><span class="tooltipr"> $ <span class="tooltipRtext"> Grabs the column, or variable, from the dataset to be used. This is typically used when computing say the mean (or other statistic) of a single column of the data. </span> </span><span class="tooltipr"> Wind <span class="tooltipRtext"> The name of any column of the dataset can be entered after the dollar sign. In the airquality dataset, this includes: <code>Ozone</code>, <code>Solar.R</code>, <code>Wind</code>, <code>Temp</code>, <code>Month</code>, or <code>Day</code> as shown by <code>View(airquality)</code>. </span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Closing parenthesis to the mean() function.</span> </span><span class="tooltipr">     <br />
 <span class="tooltipRtext">Press Enter to run the code.</span> </span><span class="tooltipr" style="float:right;font-size:.8em;">  Click to Show Output  <span class="tooltiprtext">Click to View Output.</span> </span></p>
 </div>
 <p></a></p>
@@ -677,10 +672,7 @@ div.tocify {
 </div>
 <p></a></p>
 <div id="NamingCars1" style="display:none;padding-left:20px;">
-<div class="figure">
-<img src="Images/carsNewColumn.png" />
-
-</div>
+<p><img src="Images/carsNewColumn.png" /></p>
 </div>
 </div>
 <br />
@@ -708,10 +700,7 @@ div.tocify {
 </div>
 <p></a></p>
 <div id="cVector" style="display:none;padding-left:20px;">
-<div class="figure">
-<img src="Images/cVector.png" />
-
-</div>
+<p><img src="Images/cVector.png" /></p>
 </div>
 </div>
 <br />
@@ -746,7 +735,7 @@ div.tocify {
 </div>
 <a href="javascript:showhide('table2')">
 <div class="hoverchunk">
-<p><span class="tooltipr"> library(mosaic) <span class="tooltipRtext" style="font-size:.8em;"><code>library(mosaic)</code> is needed to access the KidsFeet data set that is used in this example. If you don’t have the mosaic library, you will need to run <code>install.packages(&quot;mosaic&quot;)</code> to install it first. From then on, you can open mosaic to use it with the command library(mosaic). You need only install packages once. You must library them each time you wish to use them.</span> </span><br/><span class="tooltipr"> birthdays &lt;-<br />
+<p><span class="tooltipr"> library(mosaic) <span class="tooltipRtext" style="font-size:.8em;"><code>library(mosaic)</code> is needed to access the KidsFeet data set that is used in this example. If you don’t have the mosaic library, you will need to run <code>install.packages("mosaic")</code> to install it first. From then on, you can open mosaic to use it with the command library(mosaic). You need only install packages once. You must library them each time you wish to use them.</span> </span><br/><span class="tooltipr"> birthdays &lt;-<br />
 <span class="tooltipRtext"><code>birthdays</code> is a new object being created using the assignment operator <code>&lt;-</code> that will contain the counts of how many birthdays occur in each month for each gender in the KidsFeet dataset.</span> </span><span class="tooltipr">  table( <span class="tooltipRtext">The table function <code>table( )</code> is being used in this case to count how many birthdays occur in each month for children of each gender.</span> </span><span class="tooltipr"> KidsFeet <span class="tooltipRtext"> This is the name of the data set.</span> </span><span class="tooltipr"> $ <span class="tooltipRtext">The $ is used to access a given column from the data set.</span> </span><span class="tooltipr"> sex <span class="tooltipRtext">This is the name of the column we are interested in becoming the rows of our final table.</span> </span><span class="tooltipr"> ,  <span class="tooltipRtext">Comma separating the two columns of the data set you want to table.</span> </span><span class="tooltipr"> KidsFeet <span class="tooltipRtext"> This is the name of the data set.</span> </span><span class="tooltipr"> $ <span class="tooltipRtext">The $ is used to access a given column from the data set.</span> </span><span class="tooltipr"> birthmonth <span class="tooltipRtext">This is the name of the column we are interested in becoming the columns of our final table.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span> </span><br/><span class="tooltipr"> birthdays <span class="tooltipRtext">Typing the name of an object will print the results to the screen.</span> </span><span class="tooltipr">     <br />
 <span class="tooltipRtext">Press Enter to run the code.</span> </span><span class="tooltipr" style="float:right;font-size:.8em;">  Click to Show Output  <span class="tooltiprtext">Click to View Output.</span> </span></p>
 </div>
@@ -779,6 +768,10 @@ div.tocify {
 </ul>
 <div style="padding-left:30px;">
 <table>
+<colgroup>
+<col width="78%" />
+<col width="21%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th><strong>Filtering Rule</strong></th>
@@ -787,20 +780,20 @@ div.tocify {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Equals (one value)</td>
-<td><code>columnName</code> <code>==</code> <code>value</code></td>
+<td>Equals one “thing”</td>
+<td><code>columnName</code> <code>==</code> <code>something</code></td>
 </tr>
 <tr class="even">
-<td>Equals Any Of (several values)</td>
-<td><code>columnName</code> <code>%in%</code> <code>c(value1,value2,...)</code></td>
+<td>Equals Any Of Several “things”</td>
+<td><code>columnName</code> <code>%in%</code> <code>c(something1,something2,...)</code></td>
 </tr>
 <tr class="odd">
-<td>Not Equal (one value)</td>
-<td><code>columnName</code> <code>!=</code> <code>value</code></td>
+<td>Not Equal (one thing)</td>
+<td><code>columnName</code> <code>!=</code> <code>something</code></td>
 </tr>
 <tr class="even">
-<td>Not Equals Any of (several values)</td>
-<td><code>!columnName</code> <code>%in%</code> <code>c(value1,value2,...)</code></td>
+<td>Not Equals Any of (several things)</td>
+<td><code>!columnName</code> <code>%in%</code> <code>c(something1,something2,...)</code></td>
 </tr>
 <tr class="odd">
 <td>Less Than</td>
@@ -838,18 +831,33 @@ div.tocify {
 </table>
 </div>
 <p><strong>Example Code</strong></p>
+<a href="">
+<div class="hoverchunk">
+<p><span class="tooltipr"> library(tidyverse) <span class="tooltipRtext">The tidyverse library is needed to access the filter function used in the following example codes.</span> </span><br/><span class="tooltipr"> library(mosaic) <span class="tooltipRtext">The mosaic library is needed to access the KidsFeet data set used in the following example codes.</span> </span></p>
+</div>
+<p></a></p>
+<p><br/></p>
+<p><em>Equals one “thing”</em>…</p>
 <a href="javascript:showhide('filterEqual')">
 <div class="hoverchunk">
-<p><span class="tooltipr"> library(tidyverse) <span class="tooltipRtext">The tidyverse library is needed to access the filter function used in the following example codes.</span> </span><br/><span class="tooltipr"> library(mosaic) <span class="tooltipRtext">The mosaic library is needed to access the KidsFeet data set used in the following example codes.</span> </span><br/><span class="tooltipr"> Kids87 &lt;-  <span class="tooltipRtext">Kids87 is a name we made up. The assignment operator <code>&lt;-</code> will save the reduced version of the <code>KidsFeet</code> dataset created by the <code>filter(...)</code> function into this name.</span> </span><span class="tooltipr"> filter(KidsFeet,   <span class="tooltipRtext">“filter” is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span> </span><span class="tooltipr"> birthyear <span class="tooltipRtext">The column of the KidsFeet dataset that we want to use to reduce the dataset.</span> </span><span class="tooltipr">  == 87 <span class="tooltipRtext">This is the “filtering rule”. It will filter the data down to just those children who had a birthyear equal to 87.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span> </span><span class="tooltipr">     <br />
+<p><span class="tooltipr"> Kids87 &lt;-  <span class="tooltipRtext">Kids87 is a name we made up. The assignment operator <code>&lt;-</code> will save the reduced version of the <code>KidsFeet</code> dataset created by the <code>filter(...)</code> function into this name.</span> </span><span class="tooltipr"> filter(KidsFeet,   <span class="tooltipRtext">“filter” is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span> </span><span class="tooltipr"> birthyear <span class="tooltipRtext">A quantitative column of the KidsFeet dataset that we want to use to reduce the dataset.</span> </span><span class="tooltipr">  == 87 <span class="tooltipRtext">This “filtering rule” filters the data down to just those children who had a birthyear equal to 87.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span> </span><span class="tooltipr">     <br />
 <span class="tooltipRtext">Press Enter to run the code.</span> </span><span class="tooltipr" style="float:right;font-size:.8em;">  Click to Show Output  <span class="tooltiprtext">Click to View Output.</span> </span></p>
 </div>
 </a>
 <div id="filterEqual" style="display:none;padding-left:20px;">
-<div class="figure">
-<img src="Images/Kids87.png" />
-
+<p><img src="Images/Kids87.png" /></p>
 </div>
+<a href="javascript:showhide('filterEqualCategorical')">
+<div class="hoverchunk">
+<p><span class="tooltipr"> KidsBoys &lt;-  <span class="tooltipRtext">KidsBoys is a name we made up. The assignment operator <code>&lt;-</code> will save the reduced version of the <code>KidsFeet</code> dataset created by the <code>filter(...)</code> function into this name.</span> </span><span class="tooltipr"> filter(KidsFeet,   <span class="tooltipRtext">“filter” is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span> </span><span class="tooltipr"> sex <span class="tooltipRtext">A categorical column of the KidsFeet dataset that we want to use to reduce the dataset.</span> </span><span class="tooltipr">  == “B” <span class="tooltipRtext">This “filtering rule” filters the data down to just those children who are boys. Words must be quoted “B” but values are just typed directly.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span> </span><span class="tooltipr">     <br />
+<span class="tooltipRtext">Press Enter to run the code.</span> </span><span class="tooltipr" style="float:right;font-size:.8em;">  Click to Show Output  <span class="tooltiprtext">Click to View Output.</span> </span></p>
 </div>
+</a>
+<div id="filterEqualCategorical" style="display:none;padding-left:20px;">
+<p><img src="Images/KidsBoys.png" /></p>
+</div>
+<p><br/></p>
+<p><em>Equals Any of Several “things”</em>…</p>
 <a href="javascript:showhide('filterIN')">
 <div class="hoverchunk">
 <p><span class="tooltipr"> KidsSummer &lt;-  <span class="tooltipRtext">KidsSummer is a name we made up. The assignment operator <code>&lt;-</code> will save the reduced version of the <code>KidsFeet</code> dataset created by the <code>filter(...)</code> function into this name.</span> </span><span class="tooltipr"> filter(KidsFeet,   <span class="tooltipRtext">“filter” is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span> </span><span class="tooltipr"> birthmonth <span class="tooltipRtext">The column of the KidsFeet dataset that we want to use to reduce the dataset.</span> </span><span class="tooltipr">  %in% c(6,7,8) <span class="tooltipRtext">This is the “filtering rule”. It will filter the data down to just those children who were born during the summer, i.e., birthmonth equal to either 6, 7, or 8. Notice how the c( ) function is being used to combine the values of 6, 7, and 8 together into a single list of numbers.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span> </span><span class="tooltipr">     <br />
@@ -857,11 +865,10 @@ div.tocify {
 </div>
 </a>
 <div id="filterIN" style="display:none;padding-left:20px;">
-<div class="figure">
-<img src="Images/KidsSummer.png" />
-
+<p><img src="Images/KidsSummer.png" /></p>
 </div>
-</div>
+<p><br/></p>
+<p><em>Does not equal one thing</em>…</p>
 <a href="javascript:showhide('filterNotEqual')">
 <div class="hoverchunk">
 <p><span class="tooltipr"> KidsNotJosh &lt;-  <span class="tooltipRtext">KidsNotJosh is a name we made up. The assignment operator <code>&lt;-</code> will save the reduced version of the <code>KidsFeet</code> dataset created by the <code>filter(...)</code> function into this name.</span> </span><span class="tooltipr"> filter(KidsFeet,   <span class="tooltipRtext">“filter” is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span> </span><span class="tooltipr"> name <span class="tooltipRtext">The column of the KidsFeet dataset that we want to use to reduce the dataset.</span> </span><span class="tooltipr">  != “Josh” <span class="tooltipRtext">This is the “filtering rule”. It will filter the data down to just those children who are NOT named “Josh”. In this case, it removed just two students who were named “Josh”.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span> </span><span class="tooltipr">     <br />
@@ -869,11 +876,10 @@ div.tocify {
 </div>
 </a>
 <div id="filterNotEqual" style="display:none;padding-left:20px;">
-<div class="figure">
-<img src="Images/KidsNotJosh.png" />
-
+<p><img src="Images/KidsNotJosh.png" /></p>
 </div>
-</div>
+<p><br/></p>
+<p><em>Less than</em>…</p>
 <a href="javascript:showhide('LessThan')">
 <div class="hoverchunk">
 <p><span class="tooltipr"> KidsLength24 &lt;-  <span class="tooltipRtext">KidsLength24 is a name we made up. The assignment operator <code>&lt;-</code> will save the reduced version of the <code>KidsFeet</code> dataset created by the <code>filter(...)</code> function into this name.</span> </span><span class="tooltipr"> filter(KidsFeet,   <span class="tooltipRtext">“filter” is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span> </span><span class="tooltipr"> length <span class="tooltipRtext">The column of the KidsFeet dataset that we want to use to reduce the dataset.</span> </span><span class="tooltipr">  &lt; 24 <span class="tooltipRtext">This is the “filtering rule”. It will filter the data down to just those children who have a foot length less than 24 cm.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span> </span><span class="tooltipr">     <br />
@@ -881,11 +887,10 @@ div.tocify {
 </div>
 <p></a></p>
 <div id="LessThan" style="display:none;padding-left:20px;">
-<div class="figure">
-<img src="Images/KidsLength24.png" />
-
+<p><img src="Images/KidsLength24.png" /></p>
 </div>
-</div>
+<p><br/></p>
+<p><em>Less than or equal to</em>…</p>
 <a href="javascript:showhide('LessThanorEqualTo')">
 <div class="hoverchunk">
 <p><span class="tooltipr"> KidsLessEq24 &lt;-  <span class="tooltipRtext">KidsLessEq24 is a name we made up. The assignment operator <code>&lt;-</code> will save the reduced version of the <code>KidsFeet</code> dataset created by the <code>filter(...)</code> function into this name.</span> </span><span class="tooltipr"> filter(KidsFeet,   <span class="tooltipRtext">“filter” is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span> </span><span class="tooltipr"> length <span class="tooltipRtext">The column of the KidsFeet dataset that we want to use to reduce the dataset.</span> </span><span class="tooltipr">  &lt;= 24 <span class="tooltipRtext">This is the “filtering rule”. It will filter the data down to just those children who have a foot length less than or equal to 24 cm.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span> </span><span class="tooltipr">     <br />
@@ -893,11 +898,10 @@ div.tocify {
 </div>
 <p></a></p>
 <div id="LessThanorEqualTo" style="display:none;padding-left:20px;">
-<div class="figure">
-<img src="Images/KidsLessEq24.png" />
-
+<p><img src="Images/KidsLessEq24.png" /></p>
 </div>
-</div>
+<p><br/></p>
+<p><em>Greater than</em>…</p>
 <a href="javascript:showhide('GreaterThan')">
 <div class="hoverchunk">
 <p><span class="tooltipr"> KidsWider9 &lt;-  <span class="tooltipRtext">KidsNotJosh is a name we made up. The assignment operator <code>&lt;-</code> will save the reduced version of the <code>KidsFeet</code> dataset created by the <code>filter(...)</code> function into this name.</span> </span><span class="tooltipr"> filter(KidsFeet,   <span class="tooltipRtext">“filter” is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span> </span><span class="tooltipr"> width <span class="tooltipRtext">The column of the KidsFeet dataset that we want to use to reduce the dataset.</span> </span><span class="tooltipr">  &gt; 9 <span class="tooltipRtext">This is the “filtering rule”. It will filter the data down to just those children who have a foot width greater than 9 cm.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span> </span><span class="tooltipr">     <br />
@@ -905,11 +909,10 @@ div.tocify {
 </div>
 <p></a></p>
 <div id="GreaterThan" style="display:none;padding-left:20px;">
-<div class="figure">
-<img src="Images/KidsWider9.png" />
-
+<p><img src="Images/KidsWider9.png" /></p>
 </div>
-</div>
+<p><br/></p>
+<p><em>Greater than or equal to</em>…</p>
 <a href="javascript:showhide('GreaterThanorEqualTo')">
 <div class="hoverchunk">
 <p><span class="tooltipr"> KidsWiderEq9 &lt;-  <span class="tooltipRtext">KidsWiderEq9 is a name we made up. The assignment operator <code>&lt;-</code> will save the reduced version of the <code>KidsFeet</code> dataset created by the <code>filter(...)</code> function into this name.</span> </span><span class="tooltipr"> filter(KidsFeet,   <span class="tooltipRtext">“filter” is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span> </span><span class="tooltipr"> width <span class="tooltipRtext">The column of the KidsFeet dataset that we want to use to reduce the dataset.</span> </span><span class="tooltipr">  &gt;= 9 <span class="tooltipRtext">This is the “filtering rule”. It will filter the data down to just those children who have a foot width greater than or equal to 9 cm.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span> </span><span class="tooltipr">     <br />
@@ -917,11 +920,10 @@ div.tocify {
 </div>
 <p></a></p>
 <div id="GreaterThanorEqualTo" style="display:none;padding-left:20px;">
-<div class="figure">
-<img src="Images/KidsWiderEq9.png" />
-
+<p><img src="Images/KidsWiderEq9.png" /></p>
 </div>
-</div>
+<p><br/></p>
+<p><em>The “and” statement</em>…</p>
 <a href="javascript:showhide('And')">
 <div class="hoverchunk">
 <p><span class="tooltipr"> GirlsWide9 &lt;-  <span class="tooltipRtext">GirlsWide9 is a name we made up. The assignment operator <code>&lt;-</code> will save the reduced version of the <code>KidsFeet</code> dataset created by the <code>filter(...)</code> function into this name.</span> </span><span class="tooltipr"> filter(KidsFeet,   <span class="tooltipRtext">“filter” is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span> </span><span class="tooltipr"> sex <span class="tooltipRtext">The first column of the KidsFeet dataset that we want to use to reduce the dataset.</span> </span><span class="tooltipr">  == “G” <span class="tooltipRtext">This is the first “filtering rule”. It will filter the data down to just those children who are girls.</span> </span><span class="tooltipr">  &amp;  <span class="tooltipRtext">The &amp; is the AND statement. It joins to filtering criteria together into a single criteria where both conditions must be met. In this case, it ensures we get only girls with foot widths greater than 9 cm.</span> </span><span class="tooltipr"> width <span class="tooltipRtext">The second column of the KidsFeet dataset that we want to use to reduce the dataset.</span> </span><span class="tooltipr">  &gt; 9 <span class="tooltipRtext">This is the second “filtering rule”. It will filter the data down to just those children who have a foot width greater than 9 cm.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span> </span><span class="tooltipr">     <br />
@@ -929,11 +931,10 @@ div.tocify {
 </div>
 <p></a></p>
 <div id="And" style="display:none;padding-left:20px;">
-<div class="figure">
-<img src="Images/GirlsWide9.png" />
-
+<p><img src="Images/GirlsWide9.png" /></p>
 </div>
-</div>
+<p><br/></p>
+<p><em>The “or” statement</em>…</p>
 <a href="javascript:showhide('Or')">
 <div class="hoverchunk">
 <p><span class="tooltipr"> KidsWinter &lt;-  <span class="tooltipRtext">KidsWinter is a name we made up. The assignment operator <code>&lt;-</code> will save the reduced version of the <code>KidsFeet</code> dataset created by the <code>filter(...)</code> function into this name.</span> </span><span class="tooltipr"> filter(KidsFeet,   <span class="tooltipRtext">“filter” is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span> </span><span class="tooltipr"> birthmonth <span class="tooltipRtext">The first column of the KidsFeet dataset that we want to use to reduce the dataset.</span> </span><span class="tooltipr">  &lt;= 2 <span class="tooltipRtext">This is the first “filtering rule”. It will filter the data down to just those children who are born in January or February.</span> </span><span class="tooltipr">  |  <span class="tooltipRtext">The | is the OR statement. It joins to filtering criteria together into a single criteria where either condition gives us what we want. In this case, it keeps any child born in January, February, November, or December.</span> </span><span class="tooltipr"> birthmonth <span class="tooltipRtext">The second column of the KidsFeet dataset that we want to use to reduce the dataset. In this case, it is the same as the first column.</span> </span><span class="tooltipr">  &gt;= 11 <span class="tooltipRtext">This is the second “filtering rule”. It will filter the data down to just those children who are born in November or December.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span> </span><span class="tooltipr">     <br />
@@ -941,10 +942,7 @@ div.tocify {
 </div>
 <p></a></p>
 <div id="Or" style="display:none;padding-left:20px;">
-<div class="figure">
-<img src="Images/KidsWinter.png" />
-
-</div>
+<p><img src="Images/KidsWinter.png" /></p>
 </div>
 </div>
 <br />
@@ -969,22 +967,16 @@ div.tocify {
 </div>
 <p></a></p>
 <div id="select1" style="display:none;padding-left:20px;">
-<div class="figure">
-<img src="Images/KidsNameBirth.png" />
-
-</div>
+<p><img src="Images/KidsNameBirth.png" /></p>
 </div>
 <a href="javascript:showhide('select2')">
 <div class="hoverchunk">
-<p><span class="tooltipr"> KidsBigLength &lt;-  <span class="tooltipRtext">KidsBigLength is a name we made up. The assignment operator <code>&lt;-</code> will save the reduced version of the <code>KidsFeet</code> dataset created by the <code>select(...)</code> function into this name.</span> </span><span class="tooltipr"> select(KidsFeet,   <span class="tooltipRtext">“select” is a function from library(tidyverse) that selects out specified columns from the original dataset in the order specified.</span> </span><span class="tooltipr"> c(name, length) <span class="tooltipRtext">The columns of the KidsFeet dataset that we want to select out of the original dataset. Notice how the concatenation function <code>c(...)</code> is used to list out the columns we want.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span> </span><span class="tooltipr">     <br />
+<p><span class="tooltipr"> KidsBigLength &lt;-  <span class="tooltipRtext">KidsBigLength is a name we made up. The assignment operator <code>&lt;-</code> will save the reduced version of the <code>KidsFeet</code> dataset created by the <code>select(...)</code> function into this name.</span> </span><span class="tooltipr"> select(KidsFeet,   <span class="tooltipRtext">“select” is a function from library(tidyverse) that selects out specified columns from the original dataset in the order specified.</span> </span><span class="tooltipr"> c(biggerfoot, length) <span class="tooltipRtext">The columns of the KidsFeet dataset that we want to select out of the original dataset. The order in which columns are selected is the order in which they are placed in the new data set.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span> </span><span class="tooltipr">     <br />
 <span class="tooltipRtext">Press Enter to run the code.</span> </span><span class="tooltipr" style="float:right;font-size:.8em;">  Click to Show Output  <span class="tooltiprtext">Click to View Output.</span> </span></p>
 </div>
 <p></a></p>
 <div id="select2" style="display:none;padding-left:20px;">
-<div class="figure">
-<img src="Images/KidsBigLength.png" />
-
-</div>
+<p><img src="Images/KidsBigLength.png" /></p>
 </div>
 </div>
 <br />
@@ -1010,10 +1002,7 @@ div.tocify {
 </div>
 </a>
 <div id="filterselect" style="display:none;padding-left:20px;">
-<div class="figure">
-<img src="Images/Kids2.png" />
-
-</div>
+<p><img src="Images/Kids2.png" /></p>
 </div>
 </div>
 <br />
@@ -1048,9 +1037,9 @@ div.tocify {
 </div>
 <p></a></p>
 <div id="summarisegroupby1" style="display:none;padding-left:20px;">
-<table style="width:15%;">
+<table style="width:17%;">
 <colgroup>
-<col width="15%" />
+<col width="16%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1071,11 +1060,11 @@ div.tocify {
 </div>
 <p></a></p>
 <div id="summarisegroupby2" style="display:none;padding-left:20px;">
-<table style="width:49%;">
+<table style="width:50%;">
 <colgroup>
 <col width="16%" />
 <col width="15%" />
-<col width="16%" />
+<col width="18%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1100,12 +1089,12 @@ div.tocify {
 </div>
 <p></a></p>
 <div id="summarisegroupby3" style="display:none;padding-left:20px;">
-<table style="width:57%;">
+<table style="width:58%;">
 <colgroup>
 <col width="8%" />
 <col width="16%" />
 <col width="15%" />
-<col width="16%" />
+<col width="18%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1139,7 +1128,7 @@ div.tocify {
 <div id="mutate" class="section level2">
 <h2>mutate( )</h2>
 <div style="padding-left:15px;">
-<p>Transform a column of data.</p>
+<p>Transform a column or add a new column of data to a data set.</p>
 <p><strong>Usage</strong></p>
 <p><code>NameofDataset %&gt;%</code></p>
 <p>   <code>mutate(nameYouLike = some_transformation)</code></p>
@@ -1172,7 +1161,7 @@ div.tocify {
 <col width="7%" />
 <col width="7%" />
 <col width="13%" />
-<col width="8%" />
+<col width="9%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1677,7 +1666,7 @@ div.tocify {
 </div>
 <a href="javascript:showhide('mutate2')">
 <div class="hoverchunk">
-<p><span class="tooltipr"> Kids3 &lt;-  <span class="tooltipRtext"><code>Kids3</code> is a new dataset we are creating that will contain all of <code>KidsFeet</code> data set along with a couple new columns we are creating.</span> </span><span class="tooltipr"> KidsFeet <span class="tooltipRtext"><code>KidsFeet</code> is a dataset found in <code>library(mosaic)</code>.</span> </span><span class="tooltipr">  %&gt;%  <span class="tooltipRtext">The pipe operator that will send the <code>KidsFeet</code> dataset down inside of the code on the following line.</span> </span><br/><span class="tooltipr">    mutate( <span class="tooltipRtext">“mutate” is a function from library(tidyverse) that allows us to transform columns of data.</span> </span><br/><span class="tooltipr">          season = case_when( <span class="tooltipRtext">“season” is a name we came up with that will store the results of the transformation of the “birthmonth” column. The case_when(…) function from library(tidyverse) allows us to perform more complicated transformations with columns.</span> </span><br><span class="tooltipr">            birthmonth %in% c(12,1,2) ~ “Winter”, <span class="tooltipRtext">The body of case_when(…) is of the form <code>logical expression ~ &quot;newValueName&quot;</code>. This statement says that we want the values in the column “birthmonth” that are equal to 12, 1, and 2 to be assigned to the value “Winter” in the new “season” column.</span> </span><br><span class="tooltipr">            birthmonth %in% c(3,4,5) ~ “Spring”, <span class="tooltipRtext">The body of case_when(…) is of the form <code>logical expression ~ &quot;newValueName&quot;</code>. This statement says that we want the values in the column “birthmonth” that are equal to 3, 4, and 5 to be assigned to the value “Spring” in the new “season” column.</span> </span><br><span class="tooltipr">            birthmonth %in% c(6,7,8) ~ “Summer”, <span class="tooltipRtext">The body of case_when(…) is of the form <code>logical expression ~ &quot;newValueName&quot;</code>. This statement says that we want the values in the column “birthmonth” that are equal to 6, 7, and 8 to be assigned to the value “Summer” in the new “season” column.</span> </span><br><span class="tooltipr">            birthmonth %in% c(9,10,11) ~ “Fall” <span class="tooltipRtext">The body of case_when(…) is of the form <code>logical expression ~ &quot;newValueName&quot;</code>. This statement says that we want the values in the column “birthmonth” that are equal to 9, 10, and 11 to be assigned to the value “Fall” in the new “season” column.</span> </span><br><span class="tooltipr">           ) <span class="tooltipRtext">Closing parenthesis of the case_when(…) function.</span> </span><br/><span class="tooltipr">         ) <span class="tooltipRtext">Closing parenthesis for the mutate(…) function.</span> </span><span class="tooltipr">     <br />
+<p><span class="tooltipr"> Kids3 &lt;-  <span class="tooltipRtext"><code>Kids3</code> is a new dataset we are creating that will contain all of <code>KidsFeet</code> data set along with a couple new columns we are creating.</span> </span><span class="tooltipr"> KidsFeet <span class="tooltipRtext"><code>KidsFeet</code> is a dataset found in <code>library(mosaic)</code>.</span> </span><span class="tooltipr">  %&gt;%  <span class="tooltipRtext">The pipe operator that will send the <code>KidsFeet</code> dataset down inside of the code on the following line.</span> </span><br/><span class="tooltipr">    mutate( <span class="tooltipRtext">“mutate” is a function from library(tidyverse) that allows us to transform columns of data.</span> </span><br/><span class="tooltipr">          season = case_when( <span class="tooltipRtext">“season” is a name we came up with that will store the results of the transformation of the “birthmonth” column. The case_when(…) function from library(tidyverse) allows us to perform more complicated transformations with columns.</span> </span><br><span class="tooltipr">            birthmonth %in% c(12,1,2) ~ “Winter”, <span class="tooltipRtext">The body of case_when(…) is of the form <code>logical expression ~ "newValueName"</code>. This statement says that we want the values in the column “birthmonth” that are equal to 12, 1, and 2 to be assigned to the value “Winter” in the new “season” column.</span> </span><br><span class="tooltipr">            birthmonth %in% c(3,4,5) ~ “Spring”, <span class="tooltipRtext">The body of case_when(…) is of the form <code>logical expression ~ "newValueName"</code>. This statement says that we want the values in the column “birthmonth” that are equal to 3, 4, and 5 to be assigned to the value “Spring” in the new “season” column.</span> </span><br><span class="tooltipr">            birthmonth %in% c(6,7,8) ~ “Summer”, <span class="tooltipRtext">The body of case_when(…) is of the form <code>logical expression ~ "newValueName"</code>. This statement says that we want the values in the column “birthmonth” that are equal to 6, 7, and 8 to be assigned to the value “Summer” in the new “season” column.</span> </span><br><span class="tooltipr">            birthmonth %in% c(9,10,11) ~ “Fall” <span class="tooltipRtext">The body of case_when(…) is of the form <code>logical expression ~ "newValueName"</code>. This statement says that we want the values in the column “birthmonth” that are equal to 9, 10, and 11 to be assigned to the value “Fall” in the new “season” column.</span> </span><br><span class="tooltipr">           ) <span class="tooltipRtext">Closing parenthesis of the case_when(…) function.</span> </span><br/><span class="tooltipr">         ) <span class="tooltipRtext">Closing parenthesis for the mutate(…) function.</span> </span><span class="tooltipr">     <br />
 <span class="tooltipRtext">Press Enter to run the code.</span> </span><span class="tooltipr" style="float:right;font-size:.8em;">  Click to Show Output  <span class="tooltiprtext">Click to View Output.</span> </span></p>
 </div>
 <p></a></p>
@@ -2143,7 +2132,7 @@ div.tocify {
 </div>
 <a href="javascript:showhide('mutate3')">
 <div class="hoverchunk">
-<p><span class="tooltipr"> Kids4 &lt;-  <span class="tooltipRtext"><code>Kids4</code> is a new dataset we are creating that will contain all of <code>KidsFeet</code> data set along with a couple new columns we are creating.</span> </span><span class="tooltipr"> KidsFeet <span class="tooltipRtext"><code>KidsFeet</code> is a dataset found in <code>library(mosaic)</code>.</span> </span><span class="tooltipr">  %&gt;%  <span class="tooltipRtext">The pipe operator that will send the <code>KidsFeet</code> dataset down inside of the code on the following line.</span> </span><br/><span class="tooltipr">    mutate( <span class="tooltipRtext">“mutate” is a function from library(tidyverse) that allows us to transform columns of data.</span> </span><br><span class="tooltipr">          lengthIN = length / 2.54, <span class="tooltipRtext">“lengthIN” is a name we came up with that will store the results of the transformation of the “length” column. This is just converting the length data from cm to inches.</span> </span><br/><span class="tooltipr">          widthIN = width / 2.54, <span class="tooltipRtext">“widthIN” is a name we came up with that will store the results of the transformation of the “width” column. This is just converting the width data from cm to inches.</span> </span><br><span class="tooltipr">          lengthSplit = ifelse(length &lt; median(length),<br>          “Under 50th Percentile”,<br>          “50th Percentile or Greater”), <span class="tooltipRtext">“lengthSplit” is a name we came up with that will store the results of the ifelse(…) function. The ifelse(…) function in this case is being used to split the length column by the median of that column. The ifelse(…) function is of the form ifelse( Logical Condition , valueIfConditionTrue, valueIfConditionFalse).</span> </span><br><span class="tooltipr">          gender = case_when( <span class="tooltipRtext">“gender” is a name we came up with that will store the results of the transformation of the “sex” column. The case_when(…) function from library(tidyverse) allows us to perform more complicated transformations with columns.</span> </span><br><span class="tooltipr">            sex == “B” ~ “Boy”, <span class="tooltipRtext">The body of case_when(…) is of the form <code>logical expression ~ &quot;newValueName&quot;</code>. This part of the case_when(…) function is being used to change the value of “B” to “Boy”.</span> </span><br><span class="tooltipr">            sex == “G” ~ “Girl” <span class="tooltipRtext">The body of case_when(…) is of the form <code>logical expression ~ &quot;newValueName&quot;</code>. This part of the case_when(…) function is being used to change the value of “G” to “Girl”.</span> </span><br/><span class="tooltipr">           ) <span class="tooltipRtext">Closing parenthesis for the case_when(…) function.</span> </span><br><span class="tooltipr">         ) <span class="tooltipRtext">Closing parenthesis for the mutate(…) function.</span> </span><span class="tooltipr">     <br />
+<p><span class="tooltipr"> Kids4 &lt;-  <span class="tooltipRtext"><code>Kids4</code> is a new dataset we are creating that will contain all of <code>KidsFeet</code> data set along with a couple new columns we are creating.</span> </span><span class="tooltipr"> KidsFeet <span class="tooltipRtext"><code>KidsFeet</code> is a dataset found in <code>library(mosaic)</code>.</span> </span><span class="tooltipr">  %&gt;%  <span class="tooltipRtext">The pipe operator that will send the <code>KidsFeet</code> dataset down inside of the code on the following line.</span> </span><br/><span class="tooltipr">    mutate( <span class="tooltipRtext">“mutate” is a function from library(tidyverse) that allows us to transform columns of data.</span> </span><br><span class="tooltipr">          lengthIN = length / 2.54, <span class="tooltipRtext">“lengthIN” is a name we came up with that will store the results of the transformation of the “length” column. This is just converting the length data from cm to inches.</span> </span><br/><span class="tooltipr">          widthIN = width / 2.54, <span class="tooltipRtext">“widthIN” is a name we came up with that will store the results of the transformation of the “width” column. This is just converting the width data from cm to inches.</span> </span><br><span class="tooltipr">          lengthSplit = ifelse(length &lt; median(length),<br>          “Under 50th Percentile”,<br>          “50th Percentile or Greater”), <span class="tooltipRtext">“lengthSplit” is a name we came up with that will store the results of the ifelse(…) function. The ifelse(…) function in this case is being used to split the length column by the median of that column. The ifelse(…) function is of the form ifelse( Logical Condition , valueIfConditionTrue, valueIfConditionFalse).</span> </span><br><span class="tooltipr">          gender = case_when( <span class="tooltipRtext">“gender” is a name we came up with that will store the results of the transformation of the “sex” column. The case_when(…) function from library(tidyverse) allows us to perform more complicated transformations with columns.</span> </span><br><span class="tooltipr">            sex == “B” ~ “Boy”, <span class="tooltipRtext">The body of case_when(…) is of the form <code>logical expression ~ "newValueName"</code>. This part of the case_when(…) function is being used to change the value of “B” to “Boy”.</span> </span><br><span class="tooltipr">            sex == “G” ~ “Girl” <span class="tooltipRtext">The body of case_when(…) is of the form <code>logical expression ~ "newValueName"</code>. This part of the case_when(…) function is being used to change the value of “G” to “Girl”.</span> </span><br/><span class="tooltipr">           ) <span class="tooltipRtext">Closing parenthesis for the case_when(…) function.</span> </span><br><span class="tooltipr">         ) <span class="tooltipRtext">Closing parenthesis for the mutate(…) function.</span> </span><span class="tooltipr">     <br />
 <span class="tooltipRtext">Press Enter to run the code.</span> </span><span class="tooltipr" style="float:right;font-size:.8em;">  Click to Show Output  <span class="tooltiprtext">Click to View Output.</span> </span></p>
 </div>
 <p></a></p>
@@ -2162,7 +2151,7 @@ div.tocify {
 <col width="7%" />
 <col width="7%" />
 <col width="20%" />
-<col width="5%" />
+<col width="6%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2745,13 +2734,23 @@ div.tocify {
           length &gt; 25 &amp; width &lt; 9 ~ &quot;Long and Thin&quot;,
           length &lt; 25 &amp; width &lt; 9 ~ &quot;Short and Thin&quot;)</code></pre>
 <p><strong>replace_na( ) Function</strong></p>
-<pre><code>replace_na(columnName, value)</code></pre>
+<pre><code>newDataName &lt;- dataName %&gt;%
+  mutate(newColumnName = replace_na(columnName, value))</code></pre>
 <p><strong>as.numeric( ) Function</strong></p>
-<pre><code>as.numeric(columnName)</code></pre>
+<pre><code>newDataName &lt;- dataName %&gt;%
+  mutate(newColumnName = as.numeric(columnName))</code></pre>
 <p><strong>as.character( ) Function</strong></p>
-<pre><code>as.character(columnName)</code></pre>
+<pre><code>newDataName &lt;- dataName %&gt;%
+  mutate(newColumnName = as.character(columnName))</code></pre>
 <p><strong>as.factor( ) Function</strong></p>
-<pre><code>as.factor(columnName)</code></pre>
+<pre><code>newDataName &lt;- dataName %&gt;%
+  mutate(newColumnName = as.factor(columnName))</code></pre>
+<p><strong>Pull Out Numbers Only with parse_number(…)</strong></p>
+<pre><code>newDataName &lt;- dataName %&gt;%
+  mutate(newColumnName = parse_number(columnName))
+  
+# So stuff like c(&quot;500+&quot;, &quot;20&quot;, &quot;80 &quot;, &quot;15a&quot;) would become
+# just c(500, 20, 80, 15). That&#39;s nice!</code></pre>
 </div>
 <br />
 <hr />
@@ -2759,7 +2758,7 @@ div.tocify {
 <div id="arrange" class="section level2">
 <h2>arrange( )</h2>
 <div style="padding-left:15px;">
-<p>Arrange data by a certain column, or columns, i.e. “sort” the data.</p>
+<p>Arrange data by a certain column, or columns, i.e. “sort” the data.</p>
 <p><strong>Usage</strong></p>
 <p><code>NameofDataset %&gt;%</code></p>
 <p>   <code>arrange(columnName1)</code></p>
@@ -2783,13 +2782,13 @@ div.tocify {
 <table>
 <colgroup>
 <col width="13%" />
-<col width="16%" />
+<col width="15%" />
 <col width="14%" />
-<col width="11%" />
+<col width="10%" />
 <col width="9%" />
 <col width="7%" />
-<col width="16%" />
-<col width="11%" />
+<col width="15%" />
+<col width="12%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3207,13 +3206,13 @@ div.tocify {
 <table>
 <colgroup>
 <col width="13%" />
-<col width="16%" />
+<col width="15%" />
 <col width="14%" />
-<col width="11%" />
+<col width="10%" />
 <col width="9%" />
 <col width="7%" />
-<col width="16%" />
-<col width="11%" />
+<col width="15%" />
+<col width="12%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3635,7 +3634,7 @@ div.tocify {
 <p>OR</p>
 <p><code>someCode %&gt;%</code></p>
 <p>   <code>pander( )</code></p>
-<p>Note: <code>pander(stuff, caption=&quot;Some useful caption&quot;, ...)</code> is also possible.</p>
+<p>Note: <code>pander(stuff, caption="Some useful caption", ...)</code> is also possible.</p>
 <ul>
 <li><code>someCode</code> is exactly that, some coding you have done that creates output that you want displayed nicely.</li>
 <li><code>%&gt;%</code> is the pipe operator that “pipes data” down into R commands on the next line.</li>
@@ -3645,7 +3644,7 @@ div.tocify {
 <p><strong>Example Code</strong></p>
 <a href="javascript:showhide('pander1')">
 <div class="hoverchunk">
-<p><span class="tooltipr"> pander( <span class="tooltipRtext"><code>pander</code> is an R function that makes output look nice.</span> </span><span class="tooltipr"> table(KidsFeet$sex, KidsFeet$birthmonth), <span class="tooltipRtext">Code that makes a table of how many boys and girls were born in each month of the year.</span> </span><span class="tooltipr">   caption=“Counts of Birthdays by Month” <span class="tooltipRtext">The caption=&quot; &quot; command is very useful for giving your output a small title.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span> </span><span class="tooltipr">     <br />
+<p><span class="tooltipr"> pander( <span class="tooltipRtext"><code>pander</code> is an R function that makes output look nice.</span> </span><span class="tooltipr"> table(KidsFeet$sex, KidsFeet$birthmonth), <span class="tooltipRtext">Code that makes a table of how many boys and girls were born in each month of the year.</span> </span><span class="tooltipr">   caption=“Counts of Birthdays by Month” <span class="tooltipRtext">The caption=" " command is very useful for giving your output a small title.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span> </span><span class="tooltipr">     <br />
 <span class="tooltipRtext">Press Enter to run the code.</span> </span><span class="tooltipr" style="float:right;font-size:.8em;">  Click to Show Output  <span class="tooltiprtext">Click to View Output.</span> </span></p>
 </div>
 <p></a></p>
@@ -3725,13 +3724,13 @@ div.tocify {
 </div>
 <p></a></p>
 <div id="pander2" style="display:none;padding-left:20px;">
-<table style="width:57%;">
+<table style="width:58%;">
 <caption>Doesn’t that look nice?</caption>
 <colgroup>
 <col width="8%" />
 <col width="16%" />
 <col width="15%" />
-<col width="16%" />
+<col width="18%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3789,6 +3788,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

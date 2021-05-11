@@ -13,13 +13,22 @@
 
 <title>Numerical Summaries</title>
 
-<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -35,34 +44,102 @@
     </style>
 
 
-
-
 <style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
 </style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
 
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
@@ -74,10 +151,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -94,40 +167,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -155,7 +201,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -167,7 +213,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -178,10 +224,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -193,7 +252,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -319,13 +377,13 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
 <div id="TOC" class="tocify">
 </div>
 </div>
 
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
 
 
 
@@ -360,24 +418,6 @@ div.tocify {
     </li>
     <li>
       <a href="DataSources.html">Data Sources</a>
-    </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Python Help
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="PythonCommands.html">Python Commands</a>
-    </li>
-    <li>
-      <a href="PythonJupyterNotebookHints.html">Python Jupyter Notebook Hints</a>
-    </li>
-    <li>
-      <a href="PythonCheatSheetsAndNotes.html">Python Cheatsheets &amp; Notes</a>
     </li>
   </ul>
 </li>
@@ -449,10 +489,34 @@ div.tocify {
       <a href="./Analyses/StudentHousingPOOR.html">Poor Example Analysis</a>
     </li>
     <li>
-      <a href="./Analyses/Rent.html">Rent Analysis</a>
+      <a href="./Analyses/Rent.html">Rent</a>
     </li>
     <li>
-      <a href="./Analyses/Stephanie.html">Stephanie Analysis</a>
+      <a href="./Analyses/Stephanie.html">Stephanie</a>
+    </li>
+    <li>
+      <a href="./Analyses/t Tests/HighSchoolSeniors.html">High School Seniors</a>
+    </li>
+    <li>
+      <a href="./Analyses/Wilcoxon Tests/RecallingWords.html">Recalling Words</a>
+    </li>
+    <li>
+      <a href="./Analyses/ANOVA/DayCare.html">Day Care</a>
+    </li>
+    <li>
+      <a href="./Analyses/Kruskal-Wallis/Food.html">Food</a>
+    </li>
+    <li>
+      <a href="./Analyses/Linear Regression/MySimpleLinearRegression.html">My Simple Linear Regression</a>
+    </li>
+    <li>
+      <a href="./Analyses/Linear Regression/CarPrices.html">Car Prices</a>
+    </li>
+    <li>
+      <a href="./Analyses/Logistic Regression/MyLogisticRegression.html">My Logistic Regression</a>
+    </li>
+    <li>
+      <a href="./Analyses/Chi Squared Tests/MyChiSquaredTest.html">My Chi-sqaured Test</a>
     </li>
   </ul>
 </li>
@@ -464,7 +528,7 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -504,6 +568,7 @@ div.tocify {
 <p><code>mean(object)</code></p>
 <ul>
 <li><code>object</code> must be a quantitative variable, what R calls a “numeric vector.” Usually this is a column from a data set.</li>
+<li>Use <code>na.rm=TRUE</code> if there are missing values in <code>object</code> so that the code reads <code>mean(object, na.rm=TRUE)</code>.</li>
 </ul>
 <p><br></p>
 <p><strong>Example Code</strong></p>
@@ -526,7 +591,6 @@ div.tocify {
 </div>
 </a>
 <div id="mean3" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:25%;">
 <colgroup>
 <col width="11%" />
@@ -570,46 +634,20 @@ airquality %&gt;%
   summarise(aveTemp = mean(Temp)) %&gt;%
   pander()</code></pre>
 </div>
-</div>
-<hr />
-</div>
-<div id="python-instructions" class="section level4">
-<h4>Python Instructions</h4>
-<div style="padding-left:150px;">
-<p>To calculate a mean in Python use the code:</p>
-<p><code>import pandas</code><br> <code>object.mean()</code></p>
-<ul>
-<li><code>object</code> must be a quantitative variable, what Python calls a “numeric array.” Usually this is a column from a data set.</li>
-</ul>
-<p><br></p>
-<p><strong>Example Code</strong></p>
-<p>Hover your mouse over the example codes to learn more.</p>
-<a href="javascript:showhide('mean_1')">
+<p><br/></p>
+<p>A note about missing values in data…</p>
+<a href="javascript:showhide('mean1b')">
 <div class="hoverchunk">
-<p><span class="tooltipr"> import pandas <span class="tooltiprtext">“pandas” is a python package used for data analysis.</span> </span><br><span class="tooltipr"> airquality <span class="tooltiprtext">“airquality” is a dataset that has been read in previously.</span> </span><span class="tooltipr"> [ <span class="tooltiprtext">The [ allows us to access any variable from the airquality dataset.</span> </span><span class="tooltipr"> “Temp” <span class="tooltiprtext">“Temp” is a quantitative variable (numeric vector) from the “airquality” dataset.</span> </span><span class="tooltipr">]<br />
-<span class="tooltiprtext">Closing brackets and parenthsis for the mean function.</span> </span><span class="tooltipr"> .mean() <span class="tooltiprtext">“.mean()” calls the mean method from the pandas package.</span> </span><span class="tooltipr">     <br />
+<p><span class="tooltipr"> mean <span class="tooltiprtext">“mean” is an R function used to calculate the mean of data.</span> </span><span class="tooltipr"> ( <span class="tooltiprtext">Parenthesis to begin the function. Must touch the last letter of the function.</span> </span><span class="tooltipr"> airquality <span class="tooltiprtext">“airquality” is a dataset. Type “View(airquality)” in R to see it.</span> </span><span class="tooltipr"> $ <span class="tooltiprtext">The $ allows us to access any variable from the airquality dataset.</span> </span><span class="tooltipr"> Ozone <span class="tooltiprtext">“Ozone” is a quantitative variable (numeric vector) from the “airquality” dataset.</span> </span><span class="tooltipr"> ,  <span class="tooltiprtext">The comma allows us to specify optional commands.</span> </span><span class="tooltipr"> na.rm=TRUE <span class="tooltiprtext">Missing values are called “NA” in R. If data contains missing values, <code>mean(...)</code> will give “NA” as the result unless we “remove” (rm) the “NA” (na) values.</span> </span><span class="tooltipr"> )<br />
+<span class="tooltiprtext">Closing parenthsis for the mean function.</span> </span><span class="tooltipr">     <br />
 <span class="tooltiprtext">Press Enter to run the code if you have typed it in yourself. You can also click here to view the output.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
 </div>
 </a>
-<div id="mean_1" style="display:none;">
-<pre><code>## 77.88235294117646</code></pre>
-<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<p>Note that the single number showing above is the average <code>Temp</code> from the <code>airquality</code> dataset.</p>
-</div>
-<a href="javascript:showhide('mean_2')">
-<div class="hoverchunk">
-<p><span class="tooltipr"> import pandas <span class="tooltiprtext">pandas is a Python Package that is very useful for working with data.</span> </span><br><span class="tooltipr"> airquality <span class="tooltipRtext"><code>airquality</code> is a dataset loaded in previously.</span> </span><span class="tooltipr"> .groupby( <span class="tooltipRtext">“group_by” is a function from library(tidyverse) that allows us to split the airquality dataset into “little” datasets, one dataset for each value in the “Month” column.</span> </span><span class="tooltipr"> ‘Month’, <span class="tooltipRtext">“Month” is a column from the airquality dataset that can be treated as qualitative.</span> </span><span class="tooltipr"> as_index=False) <span class="tooltiprtext">The groupby output will have an index or multi-index on rows corresponding to your chose grouping variables. To avoid setting this index, pass “as_index=False” to the groupby operation.</span> </span><span class="tooltipr"> .agg({ <span class="tooltiprtext">A method of grouping, calculating, and renaming the results.</span> </span><span class="tooltipr"> “Ave_Temp”: <span class="tooltipRtext">This renames the column with the new calculated values.</span> </span><span class="tooltipr"> “mean”}) <span class="tooltipRtext">The statistical method used to calculate the intended values for each group.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
-</div>
-</a>
-<div id="mean_2" style="display:none;">
-<pre><code>##    Month   Ave_Temp
-## 0      5  65.548387
-## 1      6  79.100000
-## 2      7  83.903226
-## 3      8  83.967742
-## 4      9  76.900000</code></pre>
-<p>Note that Python calculated the mean <code>Temp</code> for each month in <code>Month</code> from the <code>airquality</code> dataset.</p>
-<p>May (5), June (6), July (7), August (8), and September (9), respectively.</p>
+<div id="mean1b" style="display:none;">
+<pre><code>## [1] 42.12931</code></pre>
+<p>Note that the single number showing above is the average <code>Ozone</code> from the <code>airquality</code> dataset. Because the <code>Ozone</code> column had missing values, we had to use the option <code>na.rm=TRUE</code> to get the mean to calculate. If we had left it off, we would have gotten an “NA” result:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(airquality<span class="sc">$</span>Ozone)</span></code></pre></div>
+<pre><code>## [1] NA</code></pre>
 </div>
 </div>
 <hr />
@@ -720,7 +758,6 @@ airquality %&gt;%
 </div>
 </a>
 <div id="median2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:25%;">
 <colgroup>
 <col width="11%" />
@@ -763,45 +800,6 @@ airquality %&gt;%
   group_by(Month) %&gt;%
   summarise(medTemp = median(Temp)) %&gt;%
   pander()</code></pre>
-</div>
-</div>
-<hr />
-</div>
-<div id="python-instructions-1" class="section level4">
-<h4>Python Instructions</h4>
-<div style="padding-left:150px;">
-<p>To calculate a median in Python use the code:</p>
-<p><code>import pandas</code><br> <code>object.median()</code></p>
-<ul>
-<li><code>object</code> must be a quantitative variable, what Python calls a “numeric array.” Usually this is a column from a data set.</li>
-</ul>
-<p><br></p>
-<p><strong>Example Code</strong></p>
-<a href="javascript:showhide('median_1')">
-<div class="hoverchunk">
-<p><span class="tooltipr"> import pandas <span class="tooltiprtext">“pandas” is a python package used for data analysis.</span> </span><br><span class="tooltipr"> airquality <span class="tooltiprtext">“airquality” is a dataset that has been read in previously.</span> </span><span class="tooltipr"> [ <span class="tooltiprtext">The [ allows us to access any variable from the airquality dataset.</span> </span><span class="tooltipr"> “Temp” <span class="tooltiprtext">“Temp” is a quantitative variable (numeric vector) from the “airquality” dataset.</span> </span><span class="tooltipr">]<br />
-<span class="tooltiprtext">Closing brackets and parenthsis for the median function.</span> </span><span class="tooltipr"> .median() <span class="tooltiprtext">“.median()” calls the median method from the pandas package.</span> </span><span class="tooltipr">     <br />
-<span class="tooltiprtext">Press Enter to run the code if you have typed it in yourself. You can also click here to view the output.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
-</div>
-</a>
-<div id="median_1" style="display:none;">
-<pre><code>## 79.0</code></pre>
-<p>Note that the single number showing above is the median <code>Temp</code> from the <code>airquality</code> dataset.</p>
-</div>
-<a href="javascript:showhide('median_2')">
-<div class="hoverchunk">
-<p><span class="tooltipr"> import pandas <span class="tooltiprtext">pandas is a Python Package that is very useful for working with data.</span> </span><br><span class="tooltipr"> airquality <span class="tooltipRtext"><code>airquality</code> is a dataset loaded in previously.</span> </span><span class="tooltipr"> .groupby( <span class="tooltipRtext">“group_by” is a function from library(tidyverse) that allows us to split the airquality dataset into “little” datasets, one dataset for each value in the “Month” column.</span> </span><span class="tooltipr"> ‘Month’, <span class="tooltipRtext">“Month” is a column from the airquality dataset that can be treated as qualitative.</span> </span><span class="tooltipr"> as_index=False) <span class="tooltiprtext">The groupby output will have an index or multi-index on rows corresponding to your chose grouping variables. To avoid setting this index, pass “as_index=False” to the groupby operation.</span> </span><span class="tooltipr"> .agg({ <span class="tooltiprtext">A method of grouping, calculating, and renaming the results.</span> </span><span class="tooltipr"> “AveTemp”: <span class="tooltipRtext">This renames the column with the new calculated values.</span> </span><span class="tooltipr"> “median”}) <span class="tooltipRtext">The statistical method used to calculate the intended values for each group.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
-</div>
-</a>
-<div id="median_2" style="display:none;">
-<pre><code>##    Month  med_Temp
-## 0      5        66
-## 1      6        78
-## 2      7        84
-## 3      8        82
-## 4      9        76</code></pre>
-<p>Note that Python calculated the median <code>Temp</code> for each month in <code>Month</code> from the <code>airquality</code> dataset.</p>
-<p>May (5), June (6), July (7), August (8), and September (9), respectively.</p>
 </div>
 </div>
 <hr />
@@ -850,7 +848,7 @@ airquality %&gt;%
 <p>The sample median is calculated as follows. Note that <span class="math inline">\(n=5\)</span> is odd. <span class="math display">\[
   \text{Median} = x_{((n+1)/2)} = x_{((5+1)/2)} = x_{(3)} = 6
 \]</span> When these values are plotted it is clear that exactly 50% of the data (excluding the median) is to either side of the median.</p>
-<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <div id="second-example" class="section level6">
 <h6>Second Example</h6>
 <p>Say there was a sixth value in the data set equal to 10, so that <span class="math inline">\(n=6\)</span> is even.</p>
@@ -865,13 +863,13 @@ airquality %&gt;%
 <p><span class="math display">\[
   \text{Median} = \frac{x_{(n/2)}+x_{(n/2+1)}}{2} = \frac{x_{(6/2)}+x_{(6/2+1)}}{2} = \frac{x_{(3)}+x_{(4)}}{2} = \frac{6+7}{2} = 6.5
 \]</span></p>
-<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
 </div>
 <div id="effect-of-outliers" class="section level5">
 <h5>Effect of Outliers</h5>
 <p>The median is not greatly influenced by <em>outliers</em>. It is said to be <em>robust</em>. This is shown below by changing <span class="math inline">\(x_6\)</span> to be 20, which does not change the value of the median.</p>
-<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
 </div>
 <hr />
@@ -925,7 +923,6 @@ airquality %&gt;%
 </div>
 </a>
 <div id="mode2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:56%;">
 <colgroup>
 <col width="11%" />
@@ -986,33 +983,6 @@ airquality %&gt;%
 </div>
 <hr />
 </div>
-<div id="python-instructions-2" class="section level4">
-<h4>Python Instructions</h4>
-<div style="padding-left:150px;">
-<p>Python gets the mode(s) of each element along the selected axis, use the code:</p>
-<p><code>import pandas</code><br> <code>object.mode()</code></p>
-<ul>
-<li><code>object</code> can be quantitative or qualitative, but should contain at least one repeated value or <code>.mode()</code> is not useful.</li>
-</ul>
-<p><br></p>
-<p><strong>Example Code</strong></p>
-<p>Hover your mouse over the example codes to learn more.</p>
-<a href="javascript:showhide('mode_1')">
-<div class="hoverchunk">
-<p><span class="tooltipr"> import pandas <span class="tooltiprtext">“pandas” is a python package used for data analysis.</span> </span><br><span class="tooltipr"> airquality <span class="tooltiprtext">“airquality” is a dataset that has been read in previously.</span> </span><span class="tooltipr"> .iloc[ <span class="tooltiprtext">.iloc[] is a method that allows us to access different variables from the airquality dataset.</span> </span><span class="tooltipr"> :, airquality.columns != “Day”] <span class="tooltiprtext">‘airquality.columns != “Day”’ eliminates the “Day” variable from the dataset. We are not interested in know the mode of the Day, as each each month reported lists out every day.</span> </span><span class="tooltipr"> .mode() <span class="tooltiprtext">“.mode()” calls the mode method from the pandas package.</span> </span><span class="tooltipr">     <br />
-<span class="tooltiprtext">Press Enter to run the code if you have typed it in yourself. You can also click here to view the output.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
-</div>
-</a>
-<div id="mode_1" style="display:none;">
-<pre><code>##           Ozone       Solar.R  Wind  Temp  Month
-## 0 -2.147484e+09 -2.147484e+09  11.5  81.0      5
-## 1           NaN           NaN   NaN   NaN      7
-## 2           NaN           NaN   NaN   NaN      8</code></pre>
-<p>Note that the modes for Month are 5, 7, and 8 because these months all have the most (31) days in them.</p>
-</div>
-</div>
-<hr />
-</div>
 </div>
 <div id="minimum" class="section level3 tabset tabset-fade tabset-pills">
 <h3 class="tabset tabset-fade tabset-pills">Minimum</h3>
@@ -1058,7 +1028,6 @@ airquality %&gt;%
 </div>
 </a>
 <div id="min2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:25%;">
 <colgroup>
 <col width="11%" />
@@ -1101,45 +1070,6 @@ airquality %&gt;%
   group_by(Month) %&gt;%
   summarise(minTemp = min(Temp)) %&gt;%
   pander()</code></pre>
-</div>
-</div>
-<hr />
-</div>
-<div id="python-instructions-3" class="section level4">
-<h4>Python Instructions</h4>
-<div style="padding-left:150px;">
-<p>To calculate a minimum in Python use the code:</p>
-<p><code>import pandas</code><br> <code>object.min()</code></p>
-<ul>
-<li><code>object</code> must have at least one quantitative variable, what Python calls a “numeric array.” Usually this is a column from a data set.</li>
-</ul>
-<p><br></p>
-<p><strong>Example Code</strong></p>
-<a href="javascript:showhide('min_1')">
-<div class="hoverchunk">
-<p><span class="tooltipr"> import pandas <span class="tooltiprtext">“pandas” is a python package used for data analysis.</span> </span><br><span class="tooltipr"> airquality <span class="tooltiprtext">“airquality” is a dataset that has been read in previously.</span> </span><span class="tooltipr"> [ <span class="tooltiprtext">The [ allows us to access any variable from the airquality dataset.</span> </span><span class="tooltipr"> “Temp” <span class="tooltiprtext">“Temp” is a quantitative variable (numeric vector) from the “airquality” dataset.</span> </span><span class="tooltipr">]<br />
-<span class="tooltiprtext">Closing brackets and parenthsis for the min function.</span> </span><span class="tooltipr"> .min() <span class="tooltiprtext">“.min()” calls the min method from the pandas package.</span> </span><span class="tooltipr">     <br />
-<span class="tooltiprtext">Press Enter to run the code if you have typed it in yourself. You can also click here to view the output.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
-</div>
-</a>
-<div id="min_1" style="display:none;">
-<pre><code>## 56</code></pre>
-<p>Note that the single number showing above is the min <code>Temp</code> from the <code>airquality</code> dataset.</p>
-</div>
-<a href="javascript:showhide('min_2')">
-<div class="hoverchunk">
-<p><span class="tooltipr"> import pandas <span class="tooltiprtext">pandas is a Python Package that is very useful for working with data.</span> </span><br><span class="tooltipr"> airquality <span class="tooltipRtext"><code>airquality</code> is a dataset loaded in previously.</span> </span><span class="tooltipr"> .groupby( <span class="tooltipRtext">“group_by” is a function from library(tidyverse) that allows us to split the airquality dataset into “little” datasets, one dataset for each value in the “Month” column.</span> </span><span class="tooltipr"> ‘Month’, <span class="tooltipRtext">“Month” is a column from the airquality dataset that can be treated as qualitative.</span> </span><span class="tooltipr"> as_index=False) <span class="tooltiprtext">The groupby output will have an index or multi-index on rows corresponding to your chose grouping variables. To avoid setting this index, pass “as_index=False” to the groupby operation.</span> </span><span class="tooltipr"> .agg({ <span class="tooltiprtext">A method of grouping, calculating, and renaming the results.</span> </span><span class="tooltipr"> “min_Temp”: <span class="tooltipRtext">This renames the column with the new calculated values.</span> </span><span class="tooltipr"> “min”}) <span class="tooltipRtext">The statistical method used to calculate the intended values for each group.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
-</div>
-</a>
-<div id="min_2" style="display:none;">
-<pre><code>##    Month  min_Temp
-## 0      5        56
-## 1      6        65
-## 2      7        73
-## 3      8        72
-## 4      9        63</code></pre>
-<p>Note that Python calculated the min <code>Temp</code> for each month in <code>Month</code> from the <code>airquality</code> dataset.</p>
-<p>May (5), June (6), July (7), August (8), and September (9), respectively.</p>
 </div>
 </div>
 <hr />
@@ -1189,7 +1119,6 @@ airquality %&gt;%
 </div>
 </a>
 <div id="max2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:25%;">
 <colgroup>
 <col width="11%" />
@@ -1232,45 +1161,6 @@ airquality %&gt;%
   group_by(Month) %&gt;%
   summarise(maxTemp = max(Temp)) %&gt;%
   pander()</code></pre>
-</div>
-</div>
-<hr />
-</div>
-<div id="python-instructions-4" class="section level4">
-<h4>Python Instructions</h4>
-<div style="padding-left:150px;">
-<p>To calculate a maximum in Python use the code:</p>
-<p><code>import pandas</code><br> <code>object.max()</code></p>
-<ul>
-<li><code>object</code> must have at least one quantitative variable, what Python calls a “numeric array.” Usually this is a column from a data set.</li>
-</ul>
-<p><br></p>
-<p><strong>Example Code</strong></p>
-<a href="javascript:showhide('max_1')">
-<div class="hoverchunk">
-<p><span class="tooltipr"> import pandas <span class="tooltiprtext">“pandas” is a python package used for data analysis.</span> </span><br><span class="tooltipr"> airquality <span class="tooltiprtext">“airquality” is a dataset that has been read in previously.</span> </span><span class="tooltipr"> [ <span class="tooltiprtext">The [ allows us to access any variable from the airquality dataset.</span> </span><span class="tooltipr"> “Temp” <span class="tooltiprtext">“Temp” is a quantitative variable (numeric vector) from the “airquality” dataset.</span> </span><span class="tooltipr">]<br />
-<span class="tooltiprtext">Closing brackets and parenthsis for the max function.</span> </span><span class="tooltipr"> .max() <span class="tooltiprtext">“.max()” calls the max method from the pandas package.</span> </span><span class="tooltipr">     <br />
-<span class="tooltiprtext">Press Enter to run the code if you have typed it in yourself. You can also click here to view the output.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
-</div>
-</a>
-<div id="max_1" style="display:none;">
-<pre><code>## 97</code></pre>
-<p>Note that the single number showing above is the max <code>Temp</code> from the <code>airquality</code> dataset.</p>
-</div>
-<a href="javascript:showhide('max_2')">
-<div class="hoverchunk">
-<p><span class="tooltipr"> import pandas <span class="tooltiprtext">pandas is a Python Package that is very useful for working with data.</span> </span><br><span class="tooltipr"> airquality <span class="tooltipRtext"><code>airquality</code> is a dataset loaded in previously.</span> </span><span class="tooltipr"> .groupby( <span class="tooltipRtext">“group_by” is a function from library(tidyverse) that allows us to split the airquality dataset into “little” datasets, one dataset for each value in the “Month” column.</span> </span><span class="tooltipr"> ‘Month’, <span class="tooltipRtext">“Month” is a column from the airquality dataset that can be treated as qualitative.</span> </span><span class="tooltipr"> as_index=False) <span class="tooltiprtext">The groupby output will have an index or multi-index on rows corresponding to your chose grouping variables. To avoid setting this index, pass “as_index=False” to the groupby operation.</span> </span><span class="tooltipr"> .agg({ <span class="tooltiprtext">A method of grouping, calculating, and renaming the results.</span> </span><span class="tooltipr"> “max_Temp”: <span class="tooltipRtext">This renames the column with the new calculated values.</span> </span><span class="tooltipr"> “max”}) <span class="tooltipRtext">The statistical method used to calculate the intended values for each group.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
-</div>
-</a>
-<div id="max_2" style="display:none;">
-<pre><code>##    Month  max_Temp
-## 0      5        81
-## 1      6        93
-## 2      7        92
-## 3      8        97
-## 4      9        93</code></pre>
-<p>Note that Python calculated the max <code>Temp</code> for each month in <code>Month</code> from the <code>airquality</code> dataset.</p>
-<p>May (5), June (6), July (7), August (8), and September (9), respectively.</p>
 </div>
 </div>
 <hr />
@@ -1353,146 +1243,6 @@ airquality %&gt;%
 </div>
 </a>
 <div id="summary2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<table style="width:60%;">
-<colgroup>
-<col width="11%" />
-<col width="8%" />
-<col width="9%" />
-<col width="8%" />
-<col width="11%" />
-<col width="11%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="center">Month</th>
-<th align="center">min</th>
-<th align="center">Q1</th>
-<th align="center">med</th>
-<th align="center">Q3</th>
-<th align="center">max</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">5</td>
-<td align="center">56</td>
-<td align="center">60</td>
-<td align="center">66</td>
-<td align="center">69</td>
-<td align="center">81</td>
-</tr>
-<tr class="even">
-<td align="center">6</td>
-<td align="center">65</td>
-<td align="center">76</td>
-<td align="center">78</td>
-<td align="center">82.75</td>
-<td align="center">93</td>
-</tr>
-<tr class="odd">
-<td align="center">7</td>
-<td align="center">73</td>
-<td align="center">81.5</td>
-<td align="center">84</td>
-<td align="center">86</td>
-<td align="center">92</td>
-</tr>
-<tr class="even">
-<td align="center">8</td>
-<td align="center">72</td>
-<td align="center">79</td>
-<td align="center">82</td>
-<td align="center">88.5</td>
-<td align="center">97</td>
-</tr>
-<tr class="odd">
-<td align="center">9</td>
-<td align="center">63</td>
-<td align="center">71</td>
-<td align="center">76</td>
-<td align="center">81</td>
-<td align="center">93</td>
-</tr>
-</tbody>
-</table>
-<p>Note that R calculated the five-number summary for <code>Temp</code> for each month in <code>Month</code> from the <code>airquality</code> dataset.</p>
-<p>May (5), June (6), July (7), August (8), and September (9), respectively.</p>
-<p>Further, to get the nicely formatted table you must use:</p>
-<pre><code>library(pander)
-airquality %&gt;% 
-  group_by(Month) %&gt;%
-  summarise(min = min(Temp),
-            Q1 = quantile(Temp, c(.25)),
-            med = median(Temp),
-            Q3 = quantile(Temp, c(.75)),
-            max = max(Temp)) %&gt;%
-  pander()</code></pre>
-</div>
-</div>
-<hr />
-</div>
-<div id="python-instructions-5" class="section level4">
-<h4>Python Instructions</h4>
-<div style="padding-left:150px;">
-<p>To calculate a five-number summary (and mean) in Python use the code:</p>
-<p><code>quantile(object, percentile)</code></p>
-<ul>
-<li><code>object</code> must be a quantitative variable, what R calls a “numeric vector.”</li>
-<li><code>percentile</code> must be a value between 0 and 1. For the first quartile, it would be 0.25. For the third, it would be 0.75.</li>
-</ul>
-<p><br></p>
-<p><strong>Example Code</strong></p>
-<p>Hover your mouse over the example codes to learn more.</p>
-<a href="javascript:showhide('summary1')">
-<div class="hoverchunk">
-<p><span class="tooltipr"> summary <span class="tooltiprtext">“summary” is an R function used to calculate the five-number summary (and mean) of data.</span> </span><span class="tooltipr"> ( <span class="tooltiprtext">Parenthesis to begin the function. Must touch the last letter of the function.</span> </span><span class="tooltipr"> airquality <span class="tooltiprtext">“airquality” is a dataset. Type “View(airquality)” in R to see it.</span> </span><span class="tooltipr"> $ <span class="tooltiprtext">The $ allows us to access any variable from the airquality dataset.</span> </span><span class="tooltipr"> Temp <span class="tooltiprtext">“Temp” is a quantitative variable (numeric vector) from the “airquality” dataset.</span> </span><span class="tooltipr"> )<br />
-<span class="tooltiprtext">Closing parenthsis for the function.</span> </span><span class="tooltipr">     <br />
-<span class="tooltiprtext">Press Enter to run the code if you have typed it in yourself. You can also click here to view the output.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
-</div>
-</a>
-<div id="summary1" style="display:none;">
-<table style="width:71%;">
-<colgroup>
-<col width="9%" />
-<col width="13%" />
-<col width="12%" />
-<col width="11%" />
-<col width="13%" />
-<col width="9%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="center">Min.</th>
-<th align="center">1st Qu.</th>
-<th align="center">Median</th>
-<th align="center">Mean</th>
-<th align="center">3rd Qu.</th>
-<th align="center">Max.</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">56</td>
-<td align="center">72</td>
-<td align="center">79</td>
-<td align="center">77.88</td>
-<td align="center">85</td>
-<td align="center">97</td>
-</tr>
-</tbody>
-</table>
-<p>Showing above are the five-number summary and mean of <code>Temp</code> from the <code>airquality</code> dataset.</p>
-<p>Note, you must use <code>pander(summary(airquality$Temp))</code> to get the nicely formatted output.</p>
-</div>
-<a href="javascript:showhide('summary2')">
-<div class="hoverchunk">
-<p><span class="tooltipr"> library(tidyverse) <span class="tooltiprtext">tidyverse is an R Package that is very useful for working with data.</span> </span><br><span class="tooltipr"> airquality <span class="tooltipRtext"><code>airquality</code> is a dataset in R.</span> </span><span class="tooltipr">  %&gt;%  <span class="tooltipRtext">The pipe operator that will send the <code>airquality</code> dataset down inside of the code on the following line.</span> </span><br/><span class="tooltipr">    group_by( <span class="tooltipRtext">“group_by” is a function from library(tidyverse) that allows us to split the airquality dataset into “little” datasets, one dataset for each value in the “Month” column.</span> </span><span class="tooltipr"> Month <span class="tooltiprtext">“Month” is a column from the airquality dataset that can be treated as qualitative.</span> </span><span class="tooltipr"> ) <span class="tooltiprtext">Functions must always end with a closing parenthesis.</span> </span><span class="tooltipr">  %&gt;%  <span class="tooltipRtext">The pipe operator that will send the grouped version of the <code>airquality</code> dataset down inside of the code on the following line.</span> </span><br/><span class="tooltipr">    summarise( <span class="tooltipRtext">“summarise” is a function from library(tidyverse) that allows us to compute numerical summaries on data.</span> </span><span class="tooltipr"> min = min(Temp),  <span class="tooltiprtext">Computes the min of the Temp column.</span> </span><span class="tooltipr"> Q1 = quantile(Temp, 0.25),  <span class="tooltiprtext">Computes the first quartile of the Temp column.</span> </span><span class="tooltipr"> med = median(Temp),  <span class="tooltiprtext">Computes the second quartile of the Temp column, known as the median.</span> </span><span class="tooltipr"> Q3 = quantile(Temp, 0.75),  <span class="tooltiprtext">Computes the third quartile of the Temp column.</span> </span><span class="tooltipr"> max = max(Temp) <span class="tooltiprtext">Computes the max of the Temp column.</span> </span><span class="tooltipr"> ) <span class="tooltiprtext">Functions must always end with a closing parenthesis.</span> </span><span class="tooltipr">     <br />
-<span class="tooltiprtext">Press Enter to run the code.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
-</div>
-</a>
-<div id="summary2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:60%;">
 <colgroup>
 <col width="11%" />
@@ -1614,7 +1364,6 @@ airquality %&gt;%
 </div>
 </a>
 <div id="sd2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:24%;">
 <colgroup>
 <col width="11%" />
@@ -1720,7 +1469,7 @@ airquality %&gt;%
   s = \sqrt{\frac{\sum_{i=1}^n(x_i-\bar{x})^2}{n-1}} = \sqrt{8.5} \approx 2.915
 \]</span></p>
 <p>The red lines below show how the standard deviation represents all deviations in this data set. Recall that the magnitudes of the individual deviations were <span class="math inline">\(4, 1, 0, 1\)</span>, and <span class="math inline">\(4\)</span>. The representative deviation is <span class="math inline">\(2.915\)</span>.</p>
-<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 </div>
 <div id="effect-of-outliers-1" class="section level5">
 <h5>Effect of Outliers</h5>
@@ -1733,7 +1482,7 @@ airquality %&gt;%
 <li><span class="math inline">\(x_5 = 20\)</span></li>
 </ul>
 <p>is now <span class="math inline">\(s \approx 6.964\)</span>. Not very “representative” of all the deviations. It is biased towards the largest deviation. It is important to be aware of outliers when reporting the standard deviation <span class="math inline">\(s\)</span>.</p>
-<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 </div>
 </div>
 <hr />
@@ -1781,7 +1530,6 @@ airquality %&gt;%
 </div>
 </a>
 <div id="var2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:25%;">
 <colgroup>
 <col width="11%" />
@@ -1867,7 +1615,6 @@ airquality %&gt;%
 </div>
 </a>
 <div id="range2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:28%;">
 <colgroup>
 <col width="11%" />
@@ -2005,7 +1752,6 @@ airquality %&gt;%
 </div>
 </a>
 <div id="cor2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:31%;">
 <colgroup>
 <col width="11%" />
@@ -2078,7 +1824,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>

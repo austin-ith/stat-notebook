@@ -1,5 +1,5 @@
 ---
-title: "Utah Football - Simple Linear Regression"
+title: "Simple Linear Regression"
 output: 
   html_document:
     theme: cerulean
@@ -10,12 +10,10 @@ output:
 # Load your libraries
 library(car)
 library(tidyverse)
-library(mosaic)
-library(pander)
-library(DT)
 
-
-utes <- read.csv("../../Data/utahfootball.csv", header=TRUE)
+# Load your data after saving a csv file in your Data folder.
+# You can use either 
+#   someName <- read.csv("../Data/YourDataFileName.csv", header=TRUE)
 # or
 #   library(readr)
 #   someName <- read_csv("../Data/YourDataFileName.csv")
@@ -44,94 +42,5 @@ Come up with a simple linear regression of your own creation.
 
 
 ## Background
-
-Weather has an impact in almost everything we do, but does it have an impact on how many points are scored in a University of Utah football game? For this study, I have gather scores and average temperatures of all the Utah football games within the last five years. This will give us a total of 75 observations to compare. A sample of the data is shown in the table below.
-
-```{r}
-datatable(utes)
-```
-
-## Analysis
-
-For this analysis, we will use the equation. 
-$$
-  \underbrace{Y_i}_\text{Final Score} = \beta_0 + \beta_1 \underbrace{X_i}_\text{Average Temperature} + \epsilon_i \quad \text{where} \ \epsilon_i \sim N(0, \sigma^2) 
-$$
-Where we'll be looking, in particular at the slope of the regression model, $\beta_1$. If the slope is zero, there is no relationship between the average actual score of the game and the reported score of game.
-
-$$
-  H_0: \beta_1 = 0
-$$
-$$
-  H_a: \beta_1 \neq 0
-$$
-$$
-  \alpha = 0.05
-$$
-
-The scatterplot below shows how Temperature plays a factor in Points scored in a football game which is only slight at a correlation of 0.1525(or the slope of the linear regression). The dots are also not close to the trend line showing that we have high variance. 
-
-```{r}
-plot(points_scored ~ avg_temperature, data=utes, pch=21, bg="blue", col="gray", 
-     xlab="Average Temperature (Fahrenheit)", ylab="Points Scored", 
-     main="Temperature vs Points in Football", las=1)
-utes.lm <- lm(points_scored ~ avg_temperature, data=utes)
-abline(utes.lm, lwd=3, col=rgb(.4,.4,.4,.2))
-abline(v=seq(40,120,20), h=seq(40,120,20), lty=2, col=rgb(.6,.6,.6,.2))
-
-```
-
-A summary of the Regression analysis is shown below for your reference. 
-
-```{r message=FALSE, warning=FALSE}
-summary(utes.lm) %>% 
-  pander()
-
-```
-
-## Appropriatenesss of the above Regression
-
-Looking at whether or not this test was appropriate for this study, examine the three plots below. The red-line or linearity in the Residuals vs Fitted Values plot is flat enough to not raise any red flags but the vertical variation seems to be pretty inconsistent. The QQ-Plot is showing a lack of normality especially in the extreme values. The Residuals vs Order doesn't give us reason for concern as there seems to be no patterns or correlations in the dots.
-
-```{r, fig.height=3}
-par(mfrow=c(1,3))
-plot(utes.lm, which=1:2)
-plot(utes.lm$residuals, main="Residuals vs Order", xlab="",
-     ylab="Residuals")
-```
-
-## Interpretation
-The estimated slope being at 0.1525, we are awfully close to zero. Looking at the p-value confirms the visual given by the scatterplot with our p-value being p = 0.1453, which is greater than alpha. Therefore we do not have sufficient evidence to reject the Null Hypothesis. Showing us that the relationship between average temperature and points scored is not significant.
-
-## Conclusion
-
-Weather plays a role in many things; however, from the test performed, it does not play a role in whether or not the Utah Utes will score a certain amount of points in a football game. The test does not tell us whether or not weather plays a role in other factors of the game. This would be an interesting aspect to look at. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

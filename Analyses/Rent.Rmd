@@ -8,15 +8,27 @@ output:
     toc_float: true
 ---
 
+<!-- Welcome to the first Analysis for Math 325! 
+The goal of this first assignment is to have you produce a graphical summary and a numerical summary of the "Rent" data set. The fun part is that you get to decide what type of graph and what type of numerical summary to create! You will need to read through the "green text" instructions of this document to find the places where you are supposed to enter R-code in order to complete the assignment. -->
+
+
 **Week 1 Analysis**
 
-```{r, include=FALSE}
+```{r, message=FALSE, warning=FALSE}
+# This gray area is called an "R-chunk". 
+# These library commands install some powerful functions for your use later on.
 library(mosaic)
 library(pander)
 library(tidyverse)
 library(DT) 
-library(plotly)
+
+# This read_csv command reads in the "Rent" data set into an object called "Rent"
 Rent <- read_csv("../Data/Rent.csv")
+
+# To load this data set into your R-Console do the following:
+#  1. From your top file menu select "Session -> Set Working Directory -> To Source File Location"
+#  2. Press the green "play button" in the top right corner of this gray box (which is called an "R-chunk").
+#  3. Then in your "Console" window of 
 ```
 
 <br />
@@ -27,94 +39,47 @@ Here is a data table showing the available approved housing apartment options at
 
 ```{r, warning=FALSE}
 # Code to get you started. 
-# Only the first 100 observations are shown here because the dataset is really too big to show all of it in a markdown file.
-datatable(Rent, options=list(lengthMenu = c(3,10,25)), extensions="Responsive")
+# View(...) works great in the Console, but datatable(...) must be
+# used instead within an R-chunk.
+datatable(Rent, options=list(lengthMenu = c(3,10,30)), extensions="Responsive")
 ```
 
 
-<!-- Write a few statements here that introduce the data table showing apartments for only your gender. -->
+## Graphic
 
-Here is a simplified data table showing only Men's Apartments. Note that Pricing and Distance in Miles to Campus is also shown.
+<!-- Present an interesting graphic using the Rent data set. Do not create the same graphics that are shown in the [Good Example Analysis](./Analyses/StudentHousing.html), but you can certainly use those graphics as a guide to inspire you on what to do yourself. -->
 
 
 ```{r}
 # Use this R-chunk to...
-# ...filter this data set down to show only your gender's apartment options. Use the R-chunk below to do this. Call your new data set `Rentf` if you are a female or `Rentm` if you are a male. Then show the new data table using the `datatable(...)` function. -->
-Rentm <- filter(Rent, Gender == "M")
-datatable(Rentm, options=list(lengthMenu = c(3,10,20)), extensions="Responsive")
+# ...Create an interesting graphic using the Rent data set.
+
 
 ```
 
 
-<!-- Write a few statements here that introduce your graphic and what it shows. -->
+<!-- Write a few statements here that explain your graphic and what it shows. -->
 
-This graph displays a pricing and distance comparison of my apartment(La Jolla Apartment) to all other Men's Apartments in Rexburg. 
+...delete this and type here...
 
 
-```{r warning=FALSE}
+
+
+```{r}
 # Use this R-chunk to...
-# ...create a graphic that shows how your apartment (or a friend's) compares to all of the options available.
-
-rentmen <- filter(Rent, Gender == "M")
-rentmyapt <- rentmen %>%
-  mutate(
-    Apartments = case_when(
-    Apartment != "LA JOLLA - MEN" ~ "OTHER",
-    Apartment == "LA JOLLA - MEN" ~ "LA JOLLA"
-  ))
-
-plot_ly(rentmyapt) %>% 
-  add_markers(x= ~MilesToCampus, 
-              y= ~Price, 
-              color= ~Apartments, 
-              text= ~Apartment,
-              colors=c("blue","red")) %>% 
-  layout(title="2018 BYU-Idaho \nMens Housing Comparison", 
-         xaxis=list(title="Distance from Manwaring Center"),
-         yaxis=list(title="One-Semester Contract Prices"), 
-         margin = list(t = -2, r = -2, b = .1, l = -.2, unit = "pt"))
+# ...compute and display a meaningful table of numerical summaries supporting your above graphic.
 
 
 ```
 
 <!-- Write a few statements here that introduce your table of numerical summaries and what they show. -->
 
-The table below shows average Price, Miles to Campus, and Minutes to Campus of Other Apartments in Rexburg in comparison to La Jolla Apartments. 
-
-
-```{r,}
-# Use this R-chunk to...
-# ...compute and display a meaningful table of numerical summaries supporting your above graphic.
-rentmyapt2 <- rentmen %>%
-  mutate(
-    Apartments = case_when(
-    Apartment != "LA JOLLA - MEN" ~ "OTHER**",
-    Apartment == "LA JOLLA - MEN" ~ "LA JOLLA"
-  ))
-simpData <- select (rentmyapt2, -c(Gender,
-                                  Address,
-                                  Phone,
-                                  PrivateRoomPrice,
-                                  Capacity,
-                                  ParkingStalls,
-                                  Deposit,
-                                  UtilityDeposit, 
-                                  FloorPlans,
-                                  Website,
-                                  Latitude,
-                                  Longitude,
-                                  Description))
-simpData2 <- filter(simpData, !is.na(Price))
-dataSummary <- simpData2 %>% 
-  group_by(Apartments) %>% 
-  summarise(Price = mean(Price), `Miles to campus` = mean(MilesToCampus), `Walking Min. to campus` = mean(WalkingMinutes))
-pander(dataSummary)
-
-```
-**Averages of all Men's Apartments in Rexburg.
-
+...delete this and type here...
 
 
 ## Conclusion
 
-As shown in the plot graph and comparison table above, the price of La Jolla is lower but comparable to the average price of all Men's Apartments in Rexburg. However, the Miles to Campus which directly relates to the Minutes to Campus is lower than the average Apartment. La Jolla is a great apartment for those looking for a shorter walk to Campus. 
+...delete this and type an interesting final conclusion about what your graphic and numerical summaries show...
+
+
+

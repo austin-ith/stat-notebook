@@ -1,15 +1,10 @@
 ---
 title: "Data Sources"
-output: 
-  html_document: 
-    theme: cerulean
-    highlight: tango
-    css: styles.css
 ---
 
 * [Kaggle](http://www.kaggle.com)
 
-* [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets.html)
+* [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets.php)
 
 * [U.S. Open Data Portal](https://www.data.gov/)
 

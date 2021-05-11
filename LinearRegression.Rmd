@@ -2,9 +2,7 @@
 title: "Linear Regression"
 output: 
   html_document:
-    theme: cerulean
     code_folding: hide
-    css: styles.css
 header-includes: 
   - \usepackage{amsmath}
 ---
@@ -835,6 +833,9 @@ method =&nbsp;
 "lm",
   <span class="tooltiprtext">lm stands for linear model. Using method = "lm" tells geom_smooth() to fit a least-squares regression line onto the graphic. The regression line is modeled using y ~ x, which variables were declared in the initial ggplot() aesthetic. There are several other methods that could be used here.</span>
 </span><span class="tooltipr">
+&nbsp;formula = y~x,
+  <span class="tooltiprtext">This tells geom_smooth to place a simple linear regression line on the plot. Other formula statements can be used in the same way as lm(...) to place more complicated models on the plot.</span>
+</span><span class="tooltipr">
 &nbsp;se = FALSE
   <span class="tooltiprtext">se stands for "standard error". Specifying FALSE turns this feature off. When TRUE, a gray band showing the "confidence band" for the regression is shown. Unless you know how to interpret this confidence band, leave it turned off.</span>
 </span><span class="tooltipr">
@@ -851,12 +852,12 @@ method =&nbsp;
 ```{}
 ggplot(cars, aes(x = speed, y = dist)) +
   geom_point() +
-  geom_smooth(method = "lm", se=FALSE)
+  geom_smooth(method = "lm", formula=y~x, se=FALSE)
 ```
 ```{r, echo=FALSE}
 ggplot(cars, aes(x = speed, y = dist)) +
   geom_point() +
-  geom_smooth(method = "lm", se=FALSE)
+  geom_smooth(method = "lm", formula=y~x, se=FALSE)
 ```
 </div>
 
@@ -910,17 +911,20 @@ method =&nbsp;
 "lm",
   <span class="tooltiprtext">lm stands for linear model. Using method = "lm" tells geom_smooth() to fit a least-squares regression line onto the graphic. The regression line is modeled using y ~ x, which variables were declared in the initial ggplot() aesthetic.</span>
 </span><span class="tooltipr">
+&nbsp;formula = y~x,
+  <span class="tooltiprtext">This tells geom_smooth to place a simple linear regression line on the plot. Other formula statements can be used in the same way as lm(...) to place more complicated models on the plot.</span>
+</span><span class="tooltipr">
+&nbsp;se = FALSE,
+  <span class="tooltiprtext">se stands for "standard error". Specifying FALSE turns this feature off. When TRUE, a gray band showing the "confidence band" for the regression is shown. Unless you know how to interpret this confidence band, leave it turned off.</span>
+</span><span class="tooltipr">
 &nbsp;size = 2,
   <span class="tooltiprtext">Use *size = 2* to adjust the thickness of the line to size 2.</span>
 </span><span class="tooltipr">
 &nbsp;color = "orange",
   <span class="tooltiprtext">Use *color = "orange"* to change the color of the line to orange.</span>
 </span><br><span class="tooltipr">
-&nbsp;&nbsp;linetype = "dashed",
+&nbsp;&nbsp;linetype = "dashed"
   <span class="tooltiprtext">Use *linetype = "dashed"* to change the solid line to a dashed line. Some linetype options include "dashed", "dotted", "longdash", "dotdash", etc.</span>
-</span><span class="tooltipr">
-&nbsp;se = FALSE
-  <span class="tooltiprtext">se stands for "standard error". Specifying FALSE turns this feature off. When TRUE, a gray band showing the "confidence band" for the regression is shown. Unless you know how to interpret this confidence band, leave it turned off.</span>
 </span><span class="tooltipr">
 )
   <span class="tooltiprtext">Closing parenthesis for the geom_smooth() function.</span>
@@ -936,8 +940,7 @@ method =&nbsp;
 ```{r, echo=FALSE}
 ggplot(cars, aes(x = speed, y = dist)) +
   geom_point() +
-  geom_smooth(method = lm, size = 2, color = "orange",
-              linetype = "dashed", se = FALSE)
+  geom_smooth(method = lm, formula=y~x, se=FALSE, size = 2, color = "orange", linetype = "dashed")
 ```
 </div>
 
@@ -1000,16 +1003,19 @@ method =&nbsp;
   <span class="tooltiprtext">Use "method =&nbsp;" to tell geom_smooth() that you are going to declare a specific smoothing function, or method, to alter the line or curve..</span>
 </span><span class="tooltipr">
 "lm",
-  <span class="tooltiprtext">lm stands for linear model. Using method = "lm" tells geom_smooth() to fit a least-squares regression line onto the graphic. The regression line is modeled using y ~ x, which variables were declared in the initial ggplot() aesthetic.</span>
+  <span class="tooltiprtext">lm stands for linear model. Using method = "lm" tells geom_smooth() to fit a least-squares regression line onto the graphic.</span>
+</span><span class="tooltipr">
+&nbsp;formula = y~x,
+  <span class="tooltiprtext">This tells geom_smooth to place a simple linear regression line on the plot. Other formula statements can be used in ways similar to lm(...) to place more complicated models on the plot.</span>
+</span><span class="tooltipr">
+&nbsp;se = FALSE,
+  <span class="tooltiprtext">se stands for "standard error". Specifying FALSE turns this feature off. When TRUE, a gray band showing the "confidence band" for the regression is shown. Unless you know how to interpret this confidence band, leave it turned off.</span>
 </span><span class="tooltipr">
 &nbsp;color = "navy",
   <span class="tooltiprtext">Use *color = "navy"* to change the color of the line to navy blue.</span>
 </span><span class="tooltipr">
-&nbsp;size = 1.5,
+&nbsp;size = 1.5
   <span class="tooltiprtext">Use *size = 1.5* to adjust the thickness of the line to 1.5.</span>
-</span><span class="tooltipr">
-&nbsp;se = FALSE
-  <span class="tooltiprtext">se stands for "standard error". Specifying FALSE turns this feature off. When TRUE, a gray band showing the "confidence band" for the regression is shown. Unless you know how to interpret this confidence band, leave it turned off.</span>
 </span><span class="tooltipr">
 )
   <span class="tooltiprtext">Closing parenthesis of geom_smooth() function.</span>
@@ -1764,15 +1770,15 @@ Click open the "Code" buttom below to the right to find code that runs a simulat
 set.seed(101) #Allows us to always get the same "random" sample
               #Change to a new number to get a new sample
 
-  n <- 30 #set the sample size
+  n <- 3 #set the sample size
 
   X_i <- runif(n, 15, 45) #Gives n random values from a uniform distribution between 15 to 45.
 
   beta0 <- 3 #Our choice for the y-intercept. 
 
-  beta1 <- 1.8 #Our choice for the slope. 
+  beta1 <- .1 #Our choice for the slope. 
 
-  sigma <- 2.5 #Our choice for the std. deviation of the error terms.
+  sigma <- 12.5 #Our choice for the std. deviation of the error terms.
 
   epsilon_i <- rnorm(n, 0, sigma) #Gives n random values from a normal distribution with mean = 0, st. dev. = sigma.
 
@@ -2742,20 +2748,32 @@ Instead of taking partial derivatives of $L$ directly (with respect to all param
 
 <div id="estimatingvariance" style="display:none;">
 
-As shown previously, we can obtain estimates for the model parameters $\beta_0$ and $\beta_1$ with either least squares estimation or maximum likelihood estimation. It turns out that these estimates for $\beta_0$ and $\beta_1$ are nice in the sense that on average they provide the correct estimate of the true parameter, i.e., they are unbiased estimators. On the other hand, the maximum likelihood estimate $\hat{\sigma}^2$ of the model variance $\sigma^2$ is a biased estimator. It is consistently wrong in its estimates of $\sigma^2$. Without going into all the details, $\hat{\sigma}^2$ is a biased estimator of $\sigma^2$ because its denominator needs to represent the degrees of freedom associated with the numerator. Since $\hat{Y}_i$ in the numerator of $\hat{\sigma}^2$ is defined by
+As shown previously in the "Estimating Model Parameters" section of this page, we can obtain estimates for the model parameters $\beta_0$ and $\beta_1$ by using either least squares estimation or maximum likelihood estimation. Those estimates were given by the formulas
+
+$$
+b_1 = \frac{\sum X_i(Y_i-\bar{Y})}{\sum(X_i-\bar{X})^2} \quad \text{(Unbiased Estimate of $\beta_1$)}
+$$
+
+$$
+b_0 = \bar{Y} - b_1\bar{X} \quad \text{(Unbiased Estimate of $\beta_0$)}
+$$
+
+It turns out that these estimates for $\beta_0$ and $\beta_1$ are nice in the sense that on average they provide the correct estimate of the true parameter, i.e., they are unbiased estimators. Unfortunately, this is not the case for the maximum likelihood estimate $\widehat{\sigma}^2$ of the model variance $\sigma^2$. This estimate turns out to be a biased estimator. This means that it is consistently wrong in its estimates of $\sigma^2$. If we left the estimator alone, our estimates for $\sigma^2$ would always be wrong. This is bad. Fortunately, there is a way to fix it, and this corrected version of the estimator is what we will actually use in practice to estimate $\sigma^2$.
+
+Without going into all the details, to "fix" the biased estimator of $\sigma^2$ that is given to us through maximum likelihood estimation, we need to correct its denominator so that it properly represent the degrees of freedom associated with the numerator, which it does not currently. To find the correct degrees of freedom, we have to notice that the $\hat{Y}_i$ in the numerator of $\widehat{\sigma}^2$ is defined by
 \begin{equation}
-  \hat{Y}_i = b_0 + b_1X_i
+  \widehat{Y}_i = b_0 + b_1X_i
   \label{hatY}
 \end{equation}
-it follows that two means, $\bar{X}$ and $\bar{Y}$, must be estimated from the data to obtain $\hat{Y}_i$, see formulas (\ref{bO}) and (\ref{bI}) for details. Anytime a mean is estimated from the data we lose a degree of freedom. Hence, the denominator for $\hat{\sigma}^2$ should be $n-2$ instead of $n$. Some incredibly long calculations will show that the estimator
+From this equation, we notice that two means, $\bar{X}$ and $\bar{Y}$, were estimated from the data in order to obtain $\hat{Y}_i$. (See the formulas for $b_0$ and $b_1$ above, and note how they use both $\bar{X}$ and $\bar{Y}$ in their calculation.) Anytime a mean is estimated from the data we lose a degree of freedom. Hence, the denominator for $\hat{\sigma}^2$ should be $n-2$ instead of $n$. Some incredibly long calculations will show that the "fixed" estimator
 \begin{equation}
-  s^2 = MSE = \frac{\sum(Y_i-\hat{Y}_i)^2}{n-2}
+  s^2 = MSE = \frac{\sum(Y_i-\hat{Y}_i)^2}{n-2} \quad \text{(Unbiased Estimator of $\sigma^2$)}
 \end{equation}
-is an unbiased estimator of $\sigma^2$. Here $MSE$ stands for mean squared error, which is the most obvious name for a formula that squares the errors $Y_i-\hat{Y}_i$ then adds them up and divides by their degrees of freedom. Similarly, we call the numerator $\sum(Y_i-\hat{Y}_i)^2$ the sum of the squared errors, denoted by $SSE$. It is also important to note that the errors are often denoted by $e_i = Y_i-\hat{Y}_i$. Putting this all together we get the following equivalent statements for $MSE$.
+is an unbiased estimator of $\sigma^2$. Here $MSE$ stands for **m**ean **s**quared **e**rror, which is the most obvious name for a formula that squares the errors $Y_i-\hat{Y}_i$ then adds them up and divides by their degrees of freedom. Similarly, we call the numerator $\sum(Y_i-\hat{Y}_i)^2$ the sum of the squared errors, denoted by $SSE$. It is also important to note that the errors are often denoted by $r_i = Y_i-\hat{Y}_i$, the residuals. Putting this all together we get the following equivalent statements for $MSE$.
 \begin{equation}
-  s^2 = MSE = \frac{SSE}{n-2} = \frac{\sum(Y_i-\hat{Y}_i)^2}{n-2} = \frac{\sum e_i^2}{n-2}
+  s^2 = MSE = \frac{SSE}{n-2} = \frac{\sum(Y_i-\widehat{Y}_i)^2}{n-2} = \frac{\sum r_i^2}{n-2}
 \end{equation}
-As a final note, even though the $E\{MSE\} = \sigma^2$, $MSE$ is an unbiased estimator of $\sigma^2$, it unfortunately isn't true that $\sqrt{MSE}$ is an unbiased estimator of $\sigma$. This presents a few problems later on.
+As a final note, even though the expected value $E\{MSE\} = \sigma^2$, which shows $MSE$ is an unbiased estimator of $\sigma^2$, it unfortunately isn't true that $\sqrt{MSE}$ is an unbiased estimator of $\sigma$. This presents a few problems later on, but these are minimal enough that we can overlook the issue and move forward.
 
 </div>
 
@@ -2886,9 +2904,43 @@ mtext(side=3, text=expression(paste("Use ", lambda == 2)), line=.5)
 
 ###### An Example
 
-Suppose $\lambda = 0.5$, so that $Y' = \sqrt{Y}$. 
+Suppose we were running a simple linear regression on the `cars` dataset.
 
-A regression is performed using `sqrt(Y)`:
+This would be done with the code
+
+`cars.lm <- lm(dist ~ speed, data=cars)`
+
+`summary(cars.lm)`
+
+Notice the line doesn't quite fit the data as well as we would hope. Instead, the data looks a little curved.
+
+```{r}
+cars.lm <-lm(dist ~ speed,data=cars)
+plot(dist ~ speed, data=cars, pch=20, col="firebrick", cex=1.2, las=1,
+     xlab="Speed of the Vehicle (mph) \n the Moment the Brakes were Applied", ylab="Distance (ft) it took the Vehicle to Stop",
+     main="Don't Step in front of a Moving 1920's Vehicle...")
+mtext(side=3, text="...they take a few feet to stop.", cex=0.7, line=.5)
+legend("topleft", legend="Stopping Distance Experiment", bty="n")
+
+abline(cars.lm, col="gray")
+```
+
+Using the `boxCox(...)` function from `library(car)` we would compute the following to determine which Y-transformation would be most meaningful.
+
+`library(car)`
+
+`boxCox(cars.lm)`
+
+The output from the `boxCox(...)` function looks as follows.
+
+```{r, echo=FALSE}
+cars.lm <-lm(dist ~ speed,data=cars)
+boxCox(cars.lm)
+```
+
+This plot tells use to use the $\lambda = 0.5$ transformation, so that $Y' = Y^0.5 = \sqrt{Y}$. (To see this yourself, click on the "Box-Cox Suggestion" tab above, as well as on the "Scatterplot Recognition" tab.)
+
+Now, a transformation regression is performed using `sqrt(Y)` in place of `Y` as follows:
 
 `cars.lm.t <- lm(sqrt(dist) ~ speed, data=cars)`
 
@@ -2902,19 +2954,19 @@ A regression is performed using `sqrt(Y)`:
 Then,
 
 $$
-  \hat{Y}_i' = 1.277 + 0.3224 X_i
+  \widehat{Y}_i' = 1.277 + 0.3224 X_i
 $$
 
 And replacing $\hat{Y}_i' = \sqrt{\hat{Y}_i}$ we have
 
 $$
-  \sqrt{\hat{Y}_i} = 1.277 + 0.3224 X_i
+  \sqrt{\widehat{Y}_i} = 1.277 + 0.3224 X_i
 $$
 
 Solving for $\hat{Y}_i$ gives
 
 $$
-  \hat{Y}_i = (1.277 + 0.3224 X_i)^2
+  \widehat{Y}_i = (1.277 + 0.3224 X_i)^2
 $$
 
 Which, using `curve((1.277 + 0.3224*x)^2, add=TRUE)` (see code for details) looks like this:
@@ -3744,24 +3796,14 @@ Note that the default of the `loess` function in R is to use quadratic regressio
 <img src="./Images/QuantYMultX.png" width=108px;>
 </div>
 
-Multiple regression allows for more than one explanatory variable to be included in the modeling of the expected value of the quantitative response variable $Y_i$. 
+Multiple regression allows for more than one explanatory variable to be included in the modeling of the expected value of the quantitative response variable $Y_i$. There are infinitely many possible multiple regression models to choose from. Here are a few "basic" models that work as building blocks to more complicated models.
 
 
 ### Overview
 
 <div style="padding-left:125px;">
 
-The multiple linear regression model is given by combining (1) a linear model for the mean y-value, denoted by $E\{Y_i\}$, and (2) a normally distributed error term, $\epsilon_i$. 
-
-$$
-  Y_i = \overbrace{\underbrace{\beta_0 + \beta_1 X_{1i} + \beta_2 X_{2i} + \cdots + \beta_{p-1} X_{p-1,i}}_{E\{Y_i\}}}^\text{"The Model"} + \epsilon_i 
-$$
-
-where $\epsilon_i \sim N(0, \sigma^2)$.
-
-----
-
-
+Select a model to see interpretation details, an example, and R Code help.
 
 <div class="tab">
   <button class="tablinks" onclick="openTab(event, 'LearnMoresimpleLinearModel')">Simple</button>
@@ -3854,16 +3896,13 @@ The Quadratic model uses the same $X$-variable twice, once with a $\beta_1 X_i$ 
 
 
 
-<span style="padding-left:15px;"><a href="javascript:showhide('quadraticmodelelexample')" style="font-size:1.1em;color:skyblue;">(Show Example...)</a></span>
-
-<div id="quadraticmodelelexample" style="display:none;">
 
 **An Example**
 
-Using the `airquality` data set, we run the following "quadratic" regression.
+Using the `airquality` data set, we run the following "quadratic" regression. Pay careful attention to how the mathematical model for $Y_i = \ldots$ is translated to R-Code inside of `lm(...)`.
 
 $$
-  \underbrace{Y_i}_\text{Temp} \underbrace{=}_{\sim} \overbrace{\beta_0}^{\text{y-int}} + \overbrace{\beta_1}^{\stackrel{\text{slope}}{\text{term}}} \underbrace{X_{i}}_\text{Month} + \overbrace{\beta_2}^{\stackrel{\text{quadratic}}{\text{term}}}  \underbrace{X_{i}^2}_\text{I(Month^2)} + \epsilon_i
+  \underbrace{Y_i}_\text{Temp} \underbrace{=}_{\sim} \overbrace{\beta_0}^{\text{y-int}} + \overbrace{\beta_1}^{\stackrel{\text{slope}}{\text{term}}} \underbrace{X_{i}}_\text{Month} \underbrace{+}_{+} \overbrace{\beta_2}^{\stackrel{\text{quadratic}}{\text{term}}}  \underbrace{X_{i}^2}_\text{I(Month^2)} + \epsilon_i
 $$
 
 
@@ -3880,7 +3919,7 @@ Temp
   <span class="tooltiprtext">Y-variable, should be quantitative.</span>
 </span><span class="tooltipr">
 &nbsp;~&nbsp;
-<span class="tooltiprtext">The tilde `~` is what lm(...) uses to state the regression equation $Y_i = ...$. Notice that the `~` is not followed by $\beta_0 + \beta_1$ like $Y_i = ...$. Instead, $X_{1i}$ is the first term following `~`. This is because the $\beta$'s are going to be estimated by the lm(...). These estimates can be found using summary(lmObject).</span>
+<span class="tooltiprtext">The tilde `~` is what lm(...) uses to state the regression equation $Y_i = ...$. Notice that the `~` is not followed by $\beta_0 + \beta_1$ like $Y_i = ...$. Instead, $X_{i}$ (Month in this case) is the first term following `~`. This is because the $\beta$'s are going to be estimated by the lm(...). These "Estimates" can be found using summary(lmObject) and looking at the **Estimates** column in the output.</span>
 </span><span class="tooltipr">
 Month
   <span class="tooltiprtext">$X_{i}$, should be quantitative.</span>
@@ -3912,14 +3951,20 @@ Pay special attention to how the lm(...) code uses $Y_i \sim X_{i} + X_{i}^2$ an
 
 ```{r}
 lm.quad <- lm(Temp ~ Month + I(Month^2), data=airquality)
-pander(summary(lm.quad)$coefficients)
+emphasize.strong.cols(1)
+pander(summary(lm.quad)$coefficients, )
 ```
 
 
+The **estimates** shown in the summary output table above approximate the $\beta$'s in the regression model: 
 
-The **estimates** shown above approximate the $\beta$'s in the regression model: $\beta_0$ is estimated by the (Intercept) value of -95.73, $\beta_1$ is estimated by the `Month` value of 48.72, and $\beta_2$ is estimated by the `I(Month^2)` value of -3.283.
+* $\beta_0$ is estimated by the (Intercept) value of -95.73, 
+* $\beta_1$ is estimated by the `Month` value of 48.72, and
+* $\beta_2$ is estimated by the `I(Month^2)` value of -3.283.
 
-Because the estimate of the $\beta_2$ term is negative, this parabola will "open down". The vertex of this parabola will be at $-(48.72)/(2\cdot (-3.283)) = 7.420043$, and the y-intercept is -95.73.
+Because the estimate of the $\beta_2$ term is negative (-3.283), this parabola will "open down" (concave). This tells us that average temperatures will increase to a point, then decrease again. The vertex of this parabola will be at $-b_1/(2b_2) = -(48.72)/(2\cdot (-3.283)) = 7.420043$ months, which tells us that the highest average temperature will occur around mid July (7.42 months to be exact). The y-intercept is -95.73, which would be awfully cold if it were possible for the month to be "month zero." Since this is not possible, the y-intercept is not meaningful for this model.
+
+Note that interpreting either $\beta_1$ or $\beta_2$ by themselves is quite difficult because they both work with together with $X_{i}$. 
 
 $$
 \hat{Y}_i = \overbrace{-95.73}^\text{y-int} + \overbrace{48.72}^{\stackrel{\text{slope}}{\text{term}}} X_{i} + \overbrace{-3.283}^{\stackrel{\text{quadratic}}{\text{term}}} X_{i}^2
@@ -3938,10 +3983,10 @@ plot(Temp ~ Month, data=airquality, col="skyblue", pch=21, bg="gray83", main="Qu
 
 #get the "Estimates" automatically:
 b <- coef(lm.quad)
-# Then b will have 3 estimates:
-# b[1] is the estimate of beta_0: 35.38
-# b[2] is the estimate of beta_1: -7.099
-# b[3] is the estimate of beta_2: 0.4759
+# Then b will have 3 numbers stored inside:
+# b[1] is the estimate of beta_0: -95.73
+# b[2] is the estimate of beta_1: 48.72
+# b[3] is the estimate of beta_2: -3.28
 curve(b[1] + b[2]*x + b[3]*x^2, col="skyblue", lwd=2, add=TRUE)
 ```
   
@@ -3971,8 +4016,6 @@ ggplot(airquality, aes(y=Temp, x=Month)) +
 </tr>
 </table>
 
-
-</div>
 
 </p>
 </div>
@@ -4023,10 +4066,6 @@ The Cubic model uses the same $X$-variable thrice, once with a $\beta_1 X_i$ ter
 
 
 
-<span style="padding-left:15px;"><a href="javascript:showhide('cubicmodelelexample')" style="font-size:1.1em;color:skyblue;">(Show Example...)</a></span>
-
-<div id="cubicmodelelexample" style="display:none;">
-
 **An Example**
 
 Using the `CO2` data set, we run the following "cubic" regression.
@@ -4066,7 +4105,7 @@ I(conc^2)
 I(conc^3)
   <span class="tooltiprtext">$X_{i}^3$, where the function I(...) protects the cubing of conc from how lm(...) would otherwise interpret that statement. The I(...) function must be used anytime you raise an x-variable to a power in the lm(...) statement.</span>
 </span><span class="tooltipr">
-, data=airquality
+, data=CO2
   <span class="tooltiprtext">This is the data set we are using for the regression.</span>
 </span><span class="tooltipr">
 )  
@@ -4171,8 +4210,6 @@ curve(b[1] + b[2]*x, col="orange", lwd=2, add=TRUE)
 
 
 
-</div>
-
 
   </p>
 </div>
@@ -4225,10 +4262,6 @@ The so called "two-lines" model uses a quantitative $X_{1i}$ variable and a 0,1 
 
 
 
-
-<span style="padding-left:15px;"><a href="javascript:showhide('twolinesmodelexample')" style="font-size:1.1em;color:skyblue;">(Show Example...)</a></span>
-
-<div id="twolinesmodelexample" style="display:none;">
 
 **An Example**
 
@@ -4362,7 +4395,6 @@ ggplot(mtcars, aes(y=mpg, x=qsec, color=factor(am))) +
 </tr>
 </table>
 
-</div>
 
 </p>
 </div>
@@ -4417,9 +4449,7 @@ The so called "3D" regression model uses two different quantitative x-variables,
 | $\beta_3$ | Interaction term that allows the model, which is a plane in three-dimensional space, to "bend". If this term is zero, then the regression surface is just a flat plane. |
 
 
-<span style="padding-left:15px;"><a href="javascript:showhide('threedmodelexample')" style="font-size:1.1em;color:skyblue;">(Show Example...)</a></span>
 
-<div id="threedmodelexample" style="display:none;">
 
 **An Example**
 
@@ -4544,8 +4574,6 @@ mycolorpalette <- colorRampPalette(c("skyblue2", "orange"))
 filled.contour(x=axis_x, y=axis_y, z=matrix(air_surface$Z, length(axis_x), length(axis_y)), col=mycolorpalette(27))
 ```
 
-</div>
-
 </p>
 </div>
 
@@ -4600,9 +4628,6 @@ The so called "HD", or "High Dimensional", regression model uses three or more d
 | $\beta_{p-1}$ | Final term in the model where there are $p$ total $\beta$'s. The reason for the $p-1$ on the last term is because we started with $\beta_0$ for the first term, leaving $\beta_{p-1}$ as the last term. |
 
 
-<span style="padding-left:15px;"><a href="javascript:showhide('hdmodelexample')" style="font-size:1.1em;color:skyblue;">(Show Example...)</a></span>
-
-<div id="hdmodelexample" style="display:none;">
 
 **An Example**
 
@@ -4647,7 +4672,6 @@ par(mfrow=c(1,3))
 ```
 
 
-</div>
 
 </p>
 </div>
@@ -4657,7 +4681,7 @@ par(mfrow=c(1,3))
 
 
 
-The coefficient $\beta_j$ is interpreted as the change in the expected value of $Y$ for a unit increase in $X_{j}$, holding all other variables constant, for $j=1,\ldots,p-1$.
+The coefficient $\beta_j$ is interpreted as the change in the expected value of $Y$ for a unit increase in $X_{j}$, holding all other variables constant, for $j=1,\ldots,p-1$. However, this interpretation breaks down when higher order terms (like $X^2$) or interaction terms (like $X1:X2$) are included in the model.
 
 See the **Explanation** tab for details about possible hypotheses here.
 
@@ -4671,6 +4695,9 @@ See the **Explanation** tab for details about possible hypotheses here.
 
 
 <div style="padding-left:125px;">
+
+**NOTE**: These are general R Commands for *all* types of multiple linear regressions. See the "Overview" section for R Commands details about a specific multiple linear regression model.
+
 **Console** Help Command: `?lm()`
 
 **Finding Variables**
@@ -4678,40 +4705,31 @@ See the **Explanation** tab for details about possible hypotheses here.
 <a href="javascript:showhide('PairsPlot')">
 <div class="hoverchunk"><span class="tooltipr">
 pairs(
-  <span class="tooltiprtext">EXPLANATION.</span>
+  <span class="tooltiprtext">A function in R that creates all possible two-variable scatterplots from a data set. It requires that all columns of the data set be either numeric or factor classes. (Character classes will throw an error.)</span>
 </span><span class="tooltipr">
 cbind(
-  <span class="tooltiprtext">EXPLANATION.</span>
+  <span class="tooltiprtext">This is the "column (c) bind" function and it joins together things as columns.</span>
 </span><span class="tooltipr">
 Res =&nbsp;
-  <span class="tooltiprtext">EXPLANATION.</span>
+  <span class="tooltiprtext">This is just any name you come up with, but Res is a good abbreviation for Residuals.</span>
 </span><span class="tooltipr">
-mylm$
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-residuals,&nbsp;
-  <span class="tooltiprtext">EXPLANATION.</span>
+mylm\$residuals,&nbsp;
+  <span class="tooltiprtext">This pulls out the residuals from the current regression and adds them as a new column inside the cbind data set.</span>
 </span><span class="tooltipr">
 YourDataSet),
-  <span class="tooltiprtext">EXPLANATION.</span>
+  <span class="tooltiprtext">This puts the original data set along side the residuals.</span>
 </span><span class="tooltipr">
-&nbsp;panel =&nbsp;
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-panel.smooth,&nbsp;
-  <span class="tooltiprtext">EXPLANATION.</span>
+&nbsp;panel=panel.smooth,&nbsp;
+  <span class="tooltiprtext">This places a lowess smoothing line on each scatterplot.</span>
 </span><span class="tooltipr">
 col =&nbsp; 
-  <span class="tooltiprtext">EXPLANATION.</span>
+  <span class="tooltiprtext">specifies the colors of the dots.</span>
 </span><span class="tooltipr">
-as.factor(
-  <span class="tooltiprtext">EXPLANATION.</span>
+as.factor(YourDataSet$Xvar)
+  <span class="tooltiprtext">This causes the coloring of the points in the plot to be colored according to the groups found in Xvar. Using palette(c("color1","color2", and so on)) prior to the plotting code allows you to specify the colors pairs will pick from when choosing colors.</span>
 </span><span class="tooltipr">
-YourDataSet$
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-X))
-  <span class="tooltiprtext">EXPLANATION.</span>
+)
+  <span class="tooltiprtext">Closing parenthesis for the pairs function.</span>
 </span>
 </div>
 </a>
@@ -4736,7 +4754,7 @@ Y
   <span class="tooltiprtext">`Y` must be a "numeric" vector of the quantitative response variable.</span>
 </span><span class="tooltipr">
 &nbsp;~&nbsp;
-  <span class="tooltiprtext">EXPLANATION.</span>
+  <span class="tooltiprtext">Formula operator in R.</span>
 </span><span class="tooltipr">
 X1 + X2
   <span class="tooltiprtext">`X1` and `X2` are the explanatory variables. These can either be quantitative or qualitative. Note that R treats "numeric" variables as quantitative and "character" or "factor" variables as qualitative. R will automatcially recode qualitative variables to become "numeric" variables using a 0,1 encoding. See the Explanation tab for details.</span>
@@ -4751,10 +4769,10 @@ X1 + X2
   <span class="tooltiprtext">`YourDataSet` is the name of your data set.</span>
 </span><br/><span class="tooltipr">
 summary(
-  <span class="tooltiprtext">EXPLANATION.</span>
+  <span class="tooltiprtext">The summary(...) function displays the results of an lm(...) in R.</span>
 </span><span class="tooltipr">
 mylm
-  <span class="tooltiprtext">EXPLANATION.</span>
+  <span class="tooltiprtext">The name of your lm that was performed earlier.</span>
 </span><span class="tooltipr">
 )
   <span class="tooltiprtext">Closing parenthesis for summary(...) function.</span>
@@ -4867,17 +4885,17 @@ Example output from a regression. Hover each piece to learn more.
 </td><td align="right">
   <span class="tooltiprout">
     &nbsp; 26.6248479
-      <span class="tooltiprouttext">This is the estimate of the y-intercept, $\beta_0$. It is called $b_0$. It is the average y-value when X is zero.</span>
+      <span class="tooltiprouttext">This is the estimate of the y-intercept, $\beta_0$. It is called $b_0$. It is the average y-value when all X-variables are zero.</span>
   </span>
 </td><td align="right">
   <span class="tooltiprout">
     &nbsp; 2.1829432
-      <span class="tooltiprouttext">This is the standard error of $b_0$. It tells you how much $b_0$ varies from sample to sample. The closer to zero, the better.</span>
+      <span class="tooltiprouttext">This is the standard error of $b_0$. It estimates how much $b_0$ varies from sample to sample. The closer to zero, the more reliable the estimate of the intercept.</span>
   </span>
 </td><td align="right">
   <span class="tooltiprout">
     12.197
-      <span class="tooltiprouttext">This is the test statistic t for the test of $\beta_0 = 0$. It is calculated by dividing the "Estimate" of the intercept (30.8735) by its standard error (3.1882). It gives the "number of standard errors" away from zero that the "estimate" has landed. In this case, the estimate of 30.8735 is 3.1882 standard errors (9.684) from zero, which is a fairly surprising distance as shown by the p-value.</span>
+      <span class="tooltiprouttext">This is the test statistic t for the test of $\beta_0 = 0$. It is calculated by dividing the "Estimate" of the intercept (26.6248479) by its standard error (2.1829432). It gives the "number of standard errors" away from zero that the "estimate" has landed. In this case, the estimate of 26.6248479 is t=12.197 standard errors away from zero, which is a fairly surprising distance as shown by the p-value.</span>
   </span>
 </td><td align="right">
   <span class="tooltiprout">
@@ -4894,22 +4912,22 @@ Example output from a regression. Hover each piece to learn more.
 <td align="left">
   <span class="tooltiprout">
     hp
-      <span class="tooltiprouttext">This is always the name of your X-variable in your lm(Y ~ X, ...).</span>
+      <span class="tooltiprouttext">This is always the name of your first X-variable in your lm(Y ~ X1 + ...).</span>
   </span>
 </td><td align="right">
   <span class="tooltiprout">
     &nbsp; -0.0591370
-      <span class="tooltiprouttext">This is the estimate of the slope, $\beta_1$. It is called $b_1$. It is the change in the average y-value as X is increased by 1 unit.</span>
+      <span class="tooltiprouttext">This is the estimate of $\beta_1$ in the regression model. It is called $b_1$. Interpreting this value depends on your choice of regression model.</span>
   </span>
 </td><td align="right">
   <span class="tooltiprout">
     &nbsp; 0.0129449
-      <span class="tooltiprouttext">This is the standard error of $b_1$. It tells you how much $b_1$ varies from sample to sample. The closer to zero, the better.</span>
+      <span class="tooltiprouttext">This is the standard error of $b_1$. It estimates how much $b_1$ varies from sample to sample. The closer to zero, the more precise the estimate.</span>
   </span>
 </td><td align="right">
   <span class="tooltiprout">
     -4.568
-      <span class="tooltiprouttext">This is the test statistic t for the test of $\beta_1 = 0$. It is calculated by dividing the "Estimate" of the slope (-1.9757) by its standard error (0.4485). It gives the "number of standard errors" away from zero that the "estimate" has landed. In this case, the estimate of -1.9757 is -4.405 standard errors (0.4485) from zero, which is a really surprising distance as shown by the smallness of the p-value.</span>
+      <span class="tooltiprouttext">This is the test statistic t for the test of $\beta_1 = 0$. It is calculated by dividing the "Estimate" by its standard error. It gives the "number of standard errors" away from zero that the "estimate" has landed.</span>
   </span>
 </td><td align="right">
   <span class="tooltiprout">
@@ -4926,59 +4944,59 @@ Example output from a regression. Hover each piece to learn more.
 <td align="left">
   <span class="tooltiprout">
     am
-      <span class="tooltiprouttext">EXPLANATION.</span>
+      <span class="tooltiprouttext">This is the second X-variable of your regression model in lm(Y ~ X1 + X2 + ...).</span>
   </span>
 </td><td align="right">
   <span class="tooltiprout">
     &nbsp; 5.2176534
-      <span class="tooltiprouttext">EXPLANATION</span>
+      <span class="tooltiprouttext">This is the estimated value for $\beta_2$ and is called $b_2$.</span>
   </span>
 </td><td align="right">
   <span class="tooltiprout">
     &nbsp; 2.6650931
-      <span class="tooltiprouttext">EXPLANATION</span>
+      <span class="tooltiprouttext">This is the standard error of $b_2$. It estimates how much $b_2$ will vary from sample to sample.</span>
   </span>
 </td><td align="right">
   <span class="tooltiprout">
     1.958
-      <span class="tooltiprouttext">EXPLANATION</span>
+      <span class="tooltiprouttext">Test statistic (t) for the test of $\beta_2 = 0$. It represents the number of standard errors that $b_2$ is from 0.</span>
   </span>
 </td><td align="right">
   <span class="tooltiprout">
     0.0603
-      <span class="tooltiprouttext">EXPLANATION</span>
+      <span class="tooltiprouttext">The p-value for the test of $\beta_2 = 0$.</span>
   </span>
 </td><td align="left">
 <span class="tooltiprout">
     .
-      <span class="tooltiprouttext">EXPLANATION.</span>
+      <span class="tooltiprouttext">The dot "." implies the result is significant at the 0.1 level.</span>
   </span>
 </td>
 </tr><tr>
 <td align="left">
   <span class="tooltiprout">
     hp:am
-      <span class="tooltiprouttext">EXPLANATION.</span>
+      <span class="tooltiprouttext">This is the interaction of $X1$ and $X2$. Not all regression models require an interaction term, and they can include more than one interaction term. This is just an example of what an interaction term would look like.</span>
   </span>
 </td><td align="right">
   <span class="tooltiprout">
     &nbsp; 0.0004029
-      <span class="tooltiprouttext">EXPLANATION.</span>
+      <span class="tooltiprouttext">This is the estimate of the coefficient of the interaction term.</span>
   </span>
 </td><td align="right">
   <span class="tooltiprout">
     &nbsp; 0.0164602
-      <span class="tooltiprouttext">EXPLANATION.</span>
+      <span class="tooltiprouttext">Estimated standard error of the interaction term.</span>
   </span>
 </td><td align="right">
   <span class="tooltiprout">
     0.024
-      <span class="tooltiprouttext">EXPLANATION.</span>
+      <span class="tooltiprouttext">Test statistic for the test that $\beta_3 = 0$.</span>
   </span>
 </td><td align="right">
   <span class="tooltiprout">
     0.9806
-      <span class="tooltiprouttext">EXPLANATION.</span>
+      <span class="tooltiprouttext">P-value for the test that $\beta_3 = 0$.</span>
   </span>
 </td>
 </tr>
@@ -5059,22 +5077,22 @@ Example output from a regression. Hover each piece to learn more.
 <td>
   <span class="tooltiprout">
     F-statistic:
-      <span class="tooltiprouttext">EXPLANATION</span>
+      <span class="tooltiprouttext">The F-statistic is the test statistic for the test of $\beta_1 = \beta_2 = \beta_3 = \ldots = 0$. In other words, it tests that ALL coefficients are zero against the alternative that "at least one is not."</span>
   </span>
 </td><td align="right">
   <span class="tooltiprout">
     &nbsp;34.11
-      <span class="tooltiprouttext">EXPLANATION.</span>
+      <span class="tooltiprouttext">This is the value of the F-statistic that should be compared to an F-distribution with 3 and 28 degrees of freedom.</span>
   </span>    
 </td><td align="right">
   <span class="tooltiprout">
     &nbsp;on 3 and 28 DF, 
-      <span class="tooltiprouttext">EXPLANATION.</span>
+      <span class="tooltiprouttext">These two numbers give the two parameters (degrees of freedom 1 and degrees of freedom 2) of the F-distribution. Knowing these parameters and the value of the F-statistic allows the computation of the p-value for the test that all regression coefficients are zero.</span>
   </span> 
 </td><td align="right">
   <span class="tooltiprout">
     &nbsp;p-value: 1.73e-09 
-      <span class="tooltiprouttext">EXPLANATION.</span>
+      <span class="tooltiprouttext">The p-value of the test that all regression coefficients are zero. If this p-value is significant, then it can be determined that "at least one" of the variables included in the regression gives significant insight about the average y-value.</span>
   </span>
 </td>
 </tr>
@@ -5086,470 +5104,7 @@ Example output from a regression. Hover each piece to learn more.
 
 **Plotting the Regression Lines**
 
-<div class="tab">
-  <button class="tablinks" onclick="openTab(event, 'BaseMultiplelm')">Base R</button>
-  <button class="tablinks" onclick="openTab(event, 'ggplotMultiplelm')">ggplot2</button>
-</div>
-
-<div id="BaseMultiplelm" class="tabcontent">
-  <p>
-
-
-To add two regression lines to a scatterplot use two `abline(...)` commands:
-
-<a href="javascript:showhide('multipleregression')">
-<div class="hoverchunk"><span class="tooltipr">
-plot(
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-Y
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-&nbsp;~&nbsp;
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-$X_1$,
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-col =
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-as.factor(
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-$X_2$),
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-data = YourDataSet)
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><br/><span class="tooltipr">
-b
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-&nbsp;<-&nbsp;
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-mylm
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-\$
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-coefficients
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><br/><span class="tooltipr">
-abline(
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-b[1],
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-b[2])
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><br/><span class="tooltipr">
-abline(
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-(b[1]+
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-b[3]),&nbsp;
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-(b[2]+
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-b[4]),&nbsp;
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-col =
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-&nbsp;"red")
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span>
-</div>
-</a>
-
-<div id="multipleregression" style="display:none;">
-```{r, echo=FALSE}
-mylm <- lm(mpg ~ hp + am + hp:am, data = mtcars)
-plot(mpg ~ hp, col = as.factor(am), data = mtcars)
-b <- mylm$coefficients
-abline(b[1], b[2])
-abline((b[1]+b[3]), (b[2]+b[4]), col = "red")
-```
-</div>
-
-Customize the look:
-
-<a href="javascript:showhide('multipleregressionCustom')">
-<div class="hoverchunk"><span class="tooltipr">
-b
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-&nbsp;<-&nbsp;
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-mylm
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-\$
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-coefficients
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><br/><span class="tooltipr">
-palette(
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-c(
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-"SomeColor",
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-"DifferentColor"))
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><br/><span class="tooltipr">
-plot(
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-Y
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-&nbsp;~&nbsp;
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-$X_1$,
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-col =
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-as.factor(
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-$X_2$),
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-data = YourDataSet,
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-pch = 16)
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><br/><span class="tooltipr">
-abline(
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-b[1],
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-b[2],
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-col = palette()[1],
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-lty = 1,
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-lwd = 1)
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><br/><span class="tooltipr">
-abline(
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-(b[1]+
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-b[3]),&nbsp;
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-(b[2]+
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-b[4]),&nbsp;
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-col = palette()[2],
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-lty = 2,
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span><span class="tooltipr">
-lwd = 2)
-  <span class="tooltiprtext">EXPLANATION.</span>
-</span>
-</div>
-</a>
-
-<div id="multipleregressionCustom" style="display:none;">
-```{r, echo=FALSE}
-mylm <- lm(mpg ~ hp + am + hp:am, data = mtcars)
-b <- mylm$coefficients
-palette(c("green","orangered"))
-plot(mpg ~ hp, col = as.factor(am), data = mtcars, pch = 16)
-abline(b[1], b[2], col = palette()[1], lty=1, lwd=1)
-abline((b[1]+b[3]), (b[2]+b[4]), col = palette()[2], lty=2, lwd=2)
-```
-</div>
-
-  </p>
-</div>
-
-<div id="ggplotMultiplelm" class="tabcontent">
-  <p>
-<a href="javascript:showhide('ggplotMultipleRegression')">
-<div class="hoverchunk"><span class="tooltipr">
-ggplot(
-  <span class="tooltiprtext">ggplot() provides a framework which you add layers to. Layers usually take the form of different *geoms*, like geom_point() or geom_boxplot(). Running ggplot() without any layers produces simply a blank graph.</span>
-</span><span class="tooltipr">
-data =&nbsp;
-  <span class="tooltiprtext">"Data = " tells ggplot() that you are going to declare the data set that you will use in the graph.</span>
-</span><span class="tooltipr">
-YourDataSet, 
-  <span class="tooltiprtext">*YourDataSet* is literally the name of the data set that you want to use to make the graph, like mtcars or KidsFeet.</span>
-</span><span class="tooltipr">
-&nbsp;aes(
-  <span class="tooltiprtext">aes stands for aesthetic. Inside of aes(), you place elements that you want to map to the framework, like x and y variables.</span>
-</span><span class="tooltipr">
-x =&nbsp;
-  <span class="tooltiprtext">"x = " declares which variable will become the x-axis of the graphic, your explanatory variable. Both "x = " and "y = " are optional phrases in the ggplot2 syntax.</span>
-</span><span class="tooltipr">
-$X_{1}$,
-  <span class="tooltiprtext">$X_{1}$ is an explanatory variable of the regression, and is typically quantitative or numeric. It is the name of a "numeric" column of YourDataSet.</span>
-</span><span class="tooltipr">
-&nbsp;y =&nbsp;
-  <span class="tooltiprtext">"y = " declares which variable will become the y-axis of the graphic.</span>
-</span><span class="tooltipr">
-$Y$,
-  <span class="tooltiprtext">$Y$ is the response variable of the regression: the variable that you are interested in predicting. It is the name of a "numeric" column of YourDataSet.</span>
-</span><span class="tooltipr"> 
-&nbsp;color =
-  <span class="tooltiprtext">"color = " tells ggplot() that you are about to declare the way in which you will color the elements in the graph. Notice that, in this case, the color argument goes inside of the aesthetic. This is because you are coloring by a variable.</span>
-</span><span class="tooltipr">
-&nbsp;factor(
-  <span class="tooltiprtext">Using factor() tells R to treat qualitative variables as factors, where each unique value or category of the variable is a level.</span>
-</span><span class="tooltipr">
-$X_{2}$
-  <span class="tooltiprtext">$X_{2}$ is a qualitative explanatory variable of the regression. It is the name of a column of YourDataSet. Casting $X_{2}$ as a factor() </span>
-</span><span class="tooltipr">
-)
-  <span class="tooltiprtext">Closing parenthesis of factor().</span>
-</span><span class="tooltipr">
-)
-  <span class="tooltiprtext">Closing parenthesis of aes().</span>
-</span><span class="tooltipr">
-)
-  <span class="tooltiprtext">Closing parenthesis of ggplot().</span>
-</span><span class="tooltipr">
-&nbsp;+
-  <span class="tooltiprtext">The + allows you to add more layers to the framework provided by ggplot(). In this case, you use + to add a geom_point() layer on the next line.</span>
-</span><br/><span class="tooltipr">
-&nbsp; geom_point()
-  <span class="tooltiprtext">geom_point() allows you to add a layer of points, a scatterplot, over the ggplot() framework. The x and y coordinates are received from the previously specified x and y variables declared in the ggplot() aesthetic.</span>
-</span><span class="tooltipr">
-&nbsp;+
-  <span class="tooltiprtext">Here the + is used to add yet another layer to ggplot().</span>
-</span><br/><span class="tooltipr">
-&nbsp; geom_smooth(
-  <span class="tooltiprtext">geom_smooth() is a smoothing function that you can use to add lines or curves to ggplot(). In this case, you will use it to add the least-squares regression line to the scatterplot.</span>
-</span><span class="tooltipr">
-method =
-  <span class="tooltiprtext">Use "method = " to tell geom_smooth() that you are going to declare a specific smoothing function, or method, to alter the line(s) or curve(s).</span>
-</span><span class="tooltipr">
-&nbsp;"lm,"
-  <span class="tooltiprtext">lm stands for linear model. Using method = "lm" tells geom_smooth() to fit a least-squares regression line (or multiple lines) to the data. In this case, the regression lines are modeled using $Y$ ~ $X_1$ + $X_2$, which variables were declared in the initial ggplot() aesthetic. There are several other methods that could be used here.</span>
-</span><span class="tooltipr">
-&nbsp;se = FALSE
-  <span class="tooltiprtext">se stands for "standard error." Specifying FALSE turns this feature off. When TRUE, a gray band showing the "confidence band" for the regression is shown. Unless you know how to interpret this confidence band, leave it turned off.</span>
-</span><span class="tooltipr">
-)
-  <span class="tooltiprtext">Closing parenthesis for geom_smooth().</span>
-</span><span class="tooltipr" style="float:right;font-size:.8em;">
-&nbsp;Click to Show Output&nbsp; 
-  <span class="tooltiprtext">Click to View Output.</span>
-</span>
-</div>
-</a>
-
-<div id="ggplotMultipleRegression" style="display:none;">
-```{}
-ggplot(data = mtcars, aes(x = hp, y = mpg, color = factor(am))) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE)
-```
-```{r, echo=FALSE}
-ggplot(data = mtcars, aes(x = hp, y = mpg, color = factor(am))) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE)
-```
-</div>
-
-Customize the look:
-
-<a href="javascript:showhide('ggplotMultipleCustom')">
-<div class="hoverchunk"><span class="tooltipr">
-ggplot(
-  <span class="tooltiprtext">ggplot() provides a framework which you add layers to. Layers usually take the form of different *geoms*, like geom_point() or geom_boxplot(). Running ggplot() without any layers produces simply a blank graph.</span>
-</span><span class="tooltipr">
-data =&nbsp;
-  <span class="tooltiprtext">"Data = " tells ggplot() that you are going to declare the data set that you will use in the graph.</span>
-</span><span class="tooltipr">
-YourDataSet, 
-  <span class="tooltiprtext">*YourDataSet* is literally the name of the data set that you want to use to make the graph, like mtcars or KidsFeet.</span>
-</span><span class="tooltipr">
-&nbsp;aes(
-  <span class="tooltiprtext">aes stands for aesthetic. Inside of aes(), you place elements that you want to map to the framework, like x and y variables.</span>
-</span><span class="tooltipr">
-x =&nbsp;
-  <span class="tooltiprtext">"x = " declares which variable will become the x-axis of the graphic, your explanatory variable. Both "x = " and "y = " are optional phrases in the ggplot2 syntax.</span>
-</span><span class="tooltipr">
-$X_{1}$,
-  <span class="tooltiprtext">$X_{1}$ is an explanatory variable of the regression, and is typically quantitative or numeric. It is the name of a "numeric" column of YourDataSet.</span>
-</span><span class="tooltipr">
-&nbsp;y =&nbsp;
-  <span class="tooltiprtext">"y = " declares which variable will become the y-axis of the graphic.</span>
-</span><span class="tooltipr">
-$Y$,
-  <span class="tooltiprtext">$Y$ is the response variable of the regression: the variable that you are interested in predicting. It is the name of a "numeric" column of YourDataSet.</span>
-</span><span class="tooltipr"> 
-&nbsp;color =
-  <span class="tooltiprtext">"color = " tells ggplot() that you are about to declare the way in which you will color the elements in the graph. Notice that, in this case, the color argument goes inside of the aesthetic. This is because you are coloring by a variable.</span>
-</span><span class="tooltipr">
-&nbsp;factor(
-  <span class="tooltiprtext">Using factor() tells R to treat qualitative variables as factors, where each unique value or category of the variable is a level.</span>
-</span><span class="tooltipr">
-$X_{2}$
-  <span class="tooltiprtext">$X_{2}$ is a qualitative explanatory variable of the regression. It is the name of a column of YourDataSet. Casting $X_{2}$ as a factor() </span>
-</span><span class="tooltipr">
-)
-  <span class="tooltiprtext">Closing parenthesis of factor().</span>
-</span><span class="tooltipr">
-)
-  <span class="tooltiprtext">Closing parenthesis of aes().</span>
-</span><span class="tooltipr">
-)
-  <span class="tooltiprtext">Closing parenthesis of ggplot().</span>
-</span><span class="tooltipr">
-&nbsp;+
-  <span class="tooltiprtext">The + allows you to add more layers to the framework provided by ggplot(). In this case, you use + to add a geom_point() layer on the next line.</span>
-</span><br/><span class="tooltipr">
-&nbsp; geom_point()
-  <span class="tooltiprtext">geom_point() allows you to add a layer of points, a scatterplot, over the ggplot() framework. The x and y coordinates are received from the previously specified x and y variables declared in the ggplot() aesthetic.</span>
-</span><span class="tooltipr">
-&nbsp;+
-  <span class="tooltiprtext">Here the + is used to add yet another layer to ggplot().</span>
-</span><br/><span class="tooltipr">
-&nbsp; geom_smooth(
-  <span class="tooltiprtext">geom_smooth() is a smoothing function that you can use to add lines or curves to ggplot(). In this case, you will use it to add the least-squares regression line to the scatterplot.</span>
-</span><span class="tooltipr">
-method =
-  <span class="tooltiprtext">Use "method = " to tell geom_smooth() that you are going to declare a specific smoothing function, or method, to alter the line(s) or curve(s).</span>
-</span><span class="tooltipr">
-&nbsp;"lm,"
-  <span class="tooltiprtext">lm stands for linear model. Using method = "lm" tells geom_smooth() to fit a least-squares regression line (or multiple lines) to the data. In this case, the regression lines are modeled using $Y$ ~ $X_1$ + $X_2$, which variables were declared in the initial ggplot() aesthetic. There are several other methods that could be used here.</span>
-</span><span class="tooltipr">
-&nbsp;se = FALSE
-  <span class="tooltiprtext">se stands for "standard error." Specifying FALSE turns this feature off. When TRUE, a gray band showing the "confidence band" for the regression is shown. Unless you know how to interpret this confidence band, leave it turned off.</span>
-</span><span class="tooltipr">
-)
-  <span class="tooltiprtext">Closing parenthesis for geom_smooth().</span>
-</span><span class="tooltipr">
-&nbsp;+
-  <span class="tooltiprtext">Here the + is used to add yet another layer to ggplot().</span>
-</span><br><span class="tooltipr">
-&nbsp; scale_color_manual(
-  <span class="tooltiprtext">This function allows you to override the default ggplot colors and specify your own colors.</span>
-</span><span class="tooltipr">
-values = 
-  <span class="tooltiprtext">This tells scale_color_manual() that you are about to declare the values for the custom colors.</span>
-</span><span class="tooltipr">
-&nbsp;c(
-  <span class="tooltiprtext">This is the combine, or "backpack" function, that combines values into a vector or list. Put the necessary number of color values in c().</span>
-</span><span class="tooltipr">
-"color1", "color2"
-  <span class="tooltiprtext">These are literally the colors that you want to show up in your plot, like "skyblue" or "orange."</span>
-</span><span class="tooltipr">
-)
-  <span class="tooltiprtext">Closing parenthesis of the c() function.</span>
-</span><span class="tooltipr">
-)
-  <span class="tooltiprtext">Closing parenthesis of the scale_color_manual() function.</span>
-</span><span class="tooltipr">
-&nbsp;+
-  <span class="tooltiprtext">Here the + is used to add yet another layer to ggplot().</span>
-</span><br><span class="tooltipr">
-&nbsp; labs(
-  <span class="tooltiprtext">labs stands for labels. Modify the labels on your graph with the labs() function.</span>
-</span><span class="tooltipr">
-title = "YourTitle",
-  <span class="tooltiprtext">Declare the title with *title =* and then write the title in quotes.</span>
-</span><br><span class="tooltipr">
-&nbsp;&nbsp;&nbsp;&nbsp;subtitle = "YourSubtitle",
-  <span class="tooltiprtext">Declare a subtitle with *subtitle =* and then write the subtitle in quotes.</span>
-</span><br><span class="tooltipr">
-&nbsp;&nbsp;&nbsp;&nbsp;caption = "Caption",
-  <span class="tooltiprtext">Declare a caption with *caption =* and then write the caption in quotes. By default, captions appear at the bottom right of the graphic.</span>
-</span><br><span class="tooltipr">
-&nbsp;&nbsp;&nbsp;&nbsp;x = "X",
-  <span class="tooltiprtext">Use *x =* to declare the label for the x-axis of your graph. "X" is the actual label that you want to appear on the x-axis.</span>
-</span><br><span class="tooltipr">
-&nbsp;&nbsp;&nbsp;&nbsp;y = "Y",
-  <span class="tooltiprtext">Use *y =* to declare the label for the y-axis of your graph. "Y" is the actual label that you want to appear on the y-axis.</span>
-</span><br><span class="tooltipr">
-&nbsp;&nbsp;&nbsp;&nbsp;color = "Legend Title"
-  <span class="tooltiprtext">Use *color =* to tell labs() that you are going modify the color legend title.</span>
-</span><span class="tooltipr">
-)
-  <span class="tooltiprtext">Closing parenthesis for labs().</span>
-</span><span class="tooltipr">
-&nbsp;+
-  <span class="tooltiprtext">Here the + is used to add yet another layer to ggplot().</span>
-</span><br><span class="tooltipr">
-&nbsp;&nbsp;theme_bw()
-  <span class="tooltiprtext">Add a theme to ggplot().</span>
-</span><span class="tooltipr" style="float:right;font-size:.8em;">
-&nbsp;Click to Show Output&nbsp; 
-  <span class="tooltiprtext">Click to View Output.</span>
-</span>
-</div>
-</a>
-
-<div id="ggplotMultipleCustom" style="display:none;">
-```{}
-ggplot(data = mtcars, aes(x = hp, y = mpg, color = factor(am))) +
-  geom_point(size = 2) +
-  geom_smooth(method = "lm", se = FALSE) +
-  scale_color_manual(values = c("skyblue", "orange")) +
-  labs(title = "Title",
-       subtitle = "Subtitle",
-       caption = "Caption",
-       x = "X",
-       y = "Y",
-       color = "Legend Title"
-       ) +
-  theme_bw()
-```
-```{r, echo=FALSE}
-ggplot(data = mtcars, aes(x = hp, y = mpg, color = factor(am))) +
-  geom_point(size = 2) +
-  geom_smooth(method = "lm", se = FALSE) +
-  scale_color_manual(values = c("skyblue", "orange")) +
-  labs(title = "Title",
-       subtitle = "Subtitle",
-       caption = "Caption",
-       x = "X",
-       y = "Y",
-       color = "Legend Title"
-       ) +
-  theme_bw()
-```
-</div>
-
-  </p>
-</div>
+See each of the "Overview" sections for details on how to plot the various types of multiple linear regression models.
 
 <br/>
 
@@ -5563,23 +5118,23 @@ predict(
 mylm,
   <span class="tooltiprtext">This is the name of a previously performed lm(...) that was saved into the name `mylm <- lm(...)`.</span>
 </span><span class="tooltipr">
-data.frame(
+newdata = data.frame(
   <span class="tooltiprtext">To specify the values of $x$ that you want to use in the prediction, you have to put those x-values into a data set, or more specifally, a data.frame(...).</span>
 </span><span class="tooltipr">
 $X_1$=
-  <span class="tooltiprtext">The value for `X=` should be whatever x-variable name was used in the original regression. For example, if `mylm <- lm(dist ~ speed, data=cars)` was the original regression, then this code would read `speed = ` instead of `X=`... Further, the value of $Xh$ should be some specific number, like `speed=12` for example.</span>
+  <span class="tooltiprtext">The value for `X=` should be whatever x-variable name was used in the original regression. For example, if `mylm <- lm(mpg ~ hp + am + hp:am, data=mtcars)` was the original regression, then this code would read `hp = ` instead of `X1 =`... Further, the value of $X_{1h}$ should be some specific number, like `hp=123` for example.</span>
 </span><span class="tooltipr">
-$X_1$h,
-  <span class="tooltiprtext">The value of $Xh$ should be some specific number, like `12`, as in `speed=12` for example.</span>
+$X_{1h}$,
+  <span class="tooltiprtext">The value of $X_{1h}$ should be some specific number, like `123`, as in `hp=123` for example.</span>
 </span><span class="tooltipr">
 $X_2$=
-  <span class="tooltiprtext">EXPLANATION.</span>
+  <span class="tooltiprtext">This is the value of the second x-variable, say `am`.</span>
 </span><span class="tooltipr">
-$X_2$h),
-  <span class="tooltiprtext">EXPLANATION.</span>
+$X_{2h}$)
+  <span class="tooltiprtext">Since the `am` column can only be a 1 or 0, we would try `am=1` for example, or `am=0`.</span>
 </span><span class="tooltipr">
-type = "response")
-  <span class="tooltiprtext">EXPLANATION.</span>
+)
+  <span class="tooltiprtext">Closing parenthesis.</span>
 </span>
 </div>
 </a>
@@ -5607,23 +5162,23 @@ predict(
 mylm,
   <span class="tooltiprtext">This is the name of a previously performed lm(...) that was saved into the name `mylm <- lm(...)`.</span>
 </span><span class="tooltipr">
-data.frame(
+&nbsp;newdata=data.frame(
   <span class="tooltiprtext">To specify the values of $x$ that you want to use in the prediction, you have to put those x-values into a data set, or more specifally, a data.frame(...).</span>
 </span><span class="tooltipr">
-$X_1$=
-  <span class="tooltiprtext">The value for `X=` should be whatever x-variable name was used in the original regression. For example, if `mylm <- lm(dist ~ speed, data=cars)` was the original regression, then this code would read `speed = ` instead of `X=`... Further, the value of $Xh$ should be some specific number, like `speed=12` for example.</span>
+X1=
+  <span class="tooltiprtext">The `X1=` should be replaced with whatever x-variable name was used in the original regression. For example, if `mylm <- lm(dist ~ speed, data=cars)` was the original regression, then this code would read `speed = ` instead of `X1=`... Further, the value of $X_{1h}$ should be some specific number, like `12` so that it reads `speed=12`, for example.</span>
 </span><span class="tooltipr">
-$X_1$h,
-  <span class="tooltiprtext">The value of $Xh$ should be some specific number, like `12`, as in `speed=12` for example.</span>
+$X_{1h}$,
+  <span class="tooltiprtext">The value of $X_{1h}$ should be some specific number, like `12`, as in `speed=12` for example.</span>
 </span><span class="tooltipr">
-$X_2$=
-  <span class="tooltiprtext">EXPLANATION.</span>
+X2=
+  <span class="tooltiprtext">If a regression of lm(Y ~ X1 + X2 + ...) was performed, then X2 is the name of the second x-variable used in the regression.</span>
 </span><span class="tooltipr">
-$X_2$h),
-  <span class="tooltiprtext">EXPLANATION.</span>
+$X_{2h}$),
+  <span class="tooltiprtext">A number should be specified for $X_{2h}$, something that would be meaningful for X2 to be equal to.</span>
 </span><span class="tooltipr">
 interval = "prediction")
-  <span class="tooltiprtext">EXPLANATION.</span>
+  <span class="tooltiprtext">This causes the prediction to include the lower bound and upper bound of the prediction interval for $Y_i$ for the given X1, X2, and so on values that have been specified.</span>
 </span>
 </div>
 </a>
@@ -5657,20 +5212,20 @@ mylm,
 data.frame(
   <span class="tooltiprtext">To specify the values of $x$ that you want to use in the prediction, you have to put those x-values into a data set, or more specifally, a data.frame(...).</span>
 </span><span class="tooltipr">
-$X_1$=
-  <span class="tooltiprtext">The value for `X=` should be whatever x-variable name was used in the original regression. For example, if `mylm <- lm(dist ~ speed, data=cars)` was the original regression, then this code would read `speed = ` instead of `X=`... Further, the value of $Xh$ should be some specific number, like `speed=12` for example.</span>
+X1=
+  <span class="tooltiprtext">The `X1=` should be replaced with whatever x-variable name was used in the original regression. For example, if `mylm <- lm(dist ~ speed, data=cars)` was the original regression, then this code would read `speed = ` instead of `X1=`... Further, the value of $X_{1h}$ should be some specific number, like `12` so that it reads `speed=12`, for example.</span>
 </span><span class="tooltipr">
-$X_1$h,
-  <span class="tooltiprtext">The value of $Xh$ should be some specific number, like `12`, as in `speed=12` for example.</span>
+$X_{1h}$,
+  <span class="tooltiprtext">The value of $X_{1h}$ should be some specific number, like `12`, as in `speed=12` for example.</span>
 </span><span class="tooltipr">
-$X_2$=
-  <span class="tooltiprtext">EXPLANATION.</span>
+X2=
+  <span class="tooltiprtext">If a regression of lm(Y ~ X1 + X2 + ...) was performed, then X2 is the name of the second x-variable used in the regression.</span>
 </span><span class="tooltipr">
-$X_2$h),
-  <span class="tooltiprtext">EXPLANATION.</span>
+$X_{2h}$),
+  <span class="tooltiprtext">A number should be specified for $X_{2h}$, something that would be meaningful for X2 to be equal to.</span>
 </span><span class="tooltipr">
 interval = "confidence")
-  <span class="tooltiprtext">EXPLANATION.</span>
+  <span class="tooltiprtext">This causes the prediction to include the lower and upper bound of a confidence interval for $E{Y_i}$ for the given $X$-values.</span>
 </span>
 </div>
 </a>
@@ -5812,43 +5367,36 @@ beta4 <- -0.8
 # Get y-value using a true model
 Y <- beta0 + beta1*X + beta2*X^2 + beta3*X^3 + beta4*X^4 + rnorm(n, 0, 0.5) #normal errors
 
+thedata <- data.frame(Y, X)
+
 # Plot it
 par(mai=c(.1,.5,.2,.1))
-plot(Y ~ X, pch=21, col="lightgray", bg="steelblue", cex=1.3, ylim=c(-5,22), yaxt='n', xaxt='n', ylab="", xlab="")
+plot(Y ~ X, data=thedata, pch=21, col="lightgray", bg="steelblue", cex=1.3, ylim=c(-5,22), yaxt='n', xaxt='n', ylab="", xlab="")
 mtext(side=3, text="Original Data (Training Data)", cex=0.7, at=-.8, line=.1)
 
 # Draw true model
 curve(beta0 + beta1*x + beta2*x^2 + beta3*x^3 + beta4*x^4, add=TRUE, col=rgb(0.2745098, 0.5098039, 0.7058824, .5), lwd=4)
-lmt <- lm(Y ~ X + I(X^2) + I(X^3) + I(X^4)) #for later
+lmt <- lm(Y ~ X + I(X^2) + I(X^3) + I(X^4), data=thedata) #for later
 
 # Draw simple linear model
-lms <- lm(Y ~ X)
+lms <- lm(Y ~ X, data=thedata)
 b <- coef(lms)
 curve(b[1] + b[2]*x, add=TRUE, col=rgb(1,0.6470588,0, .3), lwd=2)
 
 # Draw overly complicated model
-lmo <- lm(Y ~ X + I(X^2) + I(X^3) + I(X^4) + I(X^5) + I(X^6) + I(X^7) + I(X^8) + I(X^9) + I(X^10) + I(X^11) + I(X^12) + I(X^13) + I(X^14))
+lmo <- lm(Y ~ X + I(X^2) + I(X^3) + I(X^4) + I(X^5) + I(X^6) + I(X^7) + I(X^8) + I(X^9) + I(X^10) + I(X^11) + I(X^12) + I(X^13) + I(X^14), data=thedata)
 b <- coef(lmo)
 curve(b[1] + b[2]*x + b[3]*x^2 + b[4]*x^3 + b[5]*x^4 + b[6]*x^5 + b[7]*x^6 + b[8]*x^7 + b[9]*x^8 + b[10]*x^9 + b[11]*x^10 + b[12]*x^11 + b[13]*x^12 + b[14]*x^13 + b[15]*x^14, add=TRUE, col=rgb(0.6980392, 0.133333, 0.133333, .2), lwd=2)
 
 # Add legend
 legend("topleft", legend=c("True Model", "Simple Model", "Complicated Model"), lwd=c(4,2,2), col=c(rgb(0.2745098, 0.5098039, 0.7058824, .5), rgb(1,0.6470588,0, .3), rgb(0.6980392, 0.133333, 0.133333, .2)), bty='n')
 
-## Table is printed using the Rmd code:
-#| Model   | $R^2$ | Adjusted $R^2$ |
-#|---------|-------|----------------| 
-#| True    | `r summary(lmt)$r.squared`  | `r summary(lmt)$adj.r.squared` |
-#| Simple  | `r summary(lms)$r.squared`  | `r summary(lms)$adj.r.squared` |
-#| Complicated | `r summary(lmo)$r.squared`  | `r summary(lmo)$adj.r.squared` |
+my_output_table <- data.frame(Model = c("True", "Simple", "Complicated"), `R^2` = c(summary(lmt)$r.squared, summary(lms)$r.squared, summary(lmo)$r.squared), `Adjusted R^2` = c(summary(lmt)$adj.r.squared, summary(lms)$adj.r.squared, summary(lmo)$adj.r.squared))
+
+colnames(my_output_table) <- c("Model", "$R^2$", "Adjusted $R^2$")
+
+knitr::kable(my_output_table)
 ```
-
-
-| Model   | $R^2$ | Adjusted $R^2$ |
-|---------|-------|----------------|
-| True    | `r summary(lmt)$r.squared`  | `r summary(lmt)$adj.r.squared` |
-| Simple  | `r summary(lms)$r.squared`  | `r summary(lms)$adj.r.squared` |
-| Complicated | `r summary(lmo)$r.squared`  | `r summary(lmo)$adj.r.squared` |
-
 
 Now, let's remind ourselves why we use regression models in the first place. The main goal is to capture the "essence" of the data. In other words, the general pattern is what we are after. We want a model that tells us how "all such" data is created, not just the specific data we have sampled. So, the great test of a model is to see how well it works on a new sample of data. 
 
@@ -5861,27 +5409,29 @@ set.seed(14551) #get same random sample
 Xnew <- runif(n, -1.4, 3.7) #uniform X from -1.5 to 3.8
 Ynew <- beta0 + beta1*Xnew + beta2*Xnew^2 + beta3*Xnew^3 + beta4*Xnew^4 + rnorm(n, 0, 0.5) #normal errors
 
+thedata2 <- data.frame(Y=Ynew, X=Xnew)
+
 # Plot it
 par(mai=c(.1,.5,.2,.1))
-plot(Y ~ X, pch=21, col=rgb(.827451,.827451,.827451, .1), bg=rgb(.2745098,.5098039,.7058824, .2), cex=1.3, ylim=c(-5,22), yaxt='n', xaxt='n', ylab="", xlab="")
+plot(Y ~ X, data=thedata, pch=21, col=rgb(.827451,.827451,.827451, .1), bg=rgb(.2745098,.5098039,.7058824, .2), cex=1.3, ylim=c(-5,22), yaxt='n', xaxt='n', ylab="", xlab="")
 mtext(side=3, text="New Data (Testing Data)", cex=0.7, at=-.8, line=.1)
 
 # Draw true model
 curve(beta0 + beta1*x + beta2*x^2 + beta3*x^3 + beta4*x^4, add=TRUE, col=rgb(0.2745098, 0.5098039, 0.7058824, .5), lwd=4)
-lmt <- lm(Y ~ X + I(X^2) + I(X^3) + I(X^4)) #for later
+lmt <- lm(Y ~ X + I(X^2) + I(X^3) + I(X^4), data=thedata) #for later
 
 # Draw simple linear model
-lms <- lm(Y ~ X)
+lms <- lm(Y ~ X, data=thedata)
 b <- coef(lms)
 curve(b[1] + b[2]*x, add=TRUE, col=rgb(1,0.6470588,0, .3), lwd=2)
 
 # Draw overly complicated model
-lmc <- lm(Y ~ X + I(X^2) + I(X^3) + I(X^4) + I(X^5) + I(X^6) + I(X^7) + I(X^8) + I(X^9) + I(X^10) + I(X^11) + I(X^12) + I(X^13) + I(X^14))
+lmc <- lm(Y ~ X + I(X^2) + I(X^3) + I(X^4) + I(X^5) + I(X^6) + I(X^7) + I(X^8) + I(X^9) + I(X^10) + I(X^11) + I(X^12) + I(X^13) + I(X^14), data=thedata)
 b <- coef(lmc)
 curve(b[1] + b[2]*x + b[3]*x^2 + b[4]*x^3 + b[5]*x^4 + b[6]*x^5 + b[7]*x^6 + b[8]*x^7 + b[9]*x^8 + b[10]*x^9 + b[11]*x^10 + b[12]*x^11 + b[13]*x^12 + b[14]*x^13 + b[15]*x^14, add=TRUE, col=rgb(0.6980392, 0.133333, 0.133333, .2), lwd=2)
 
 # Add new data to plot
-points(Ynew ~ Xnew, pch=21, col=rgb(.827451,.827451,.827451, .5), bg="orange", cex=1.3)
+points(Y ~ X, data=thedata2, pch=21, col=rgb(.827451,.827451,.827451, .5), bg="orange", cex=1.3)
 
 # Add legend
 legend("topleft", legend=c("True Model", "Simple Model", "Complicated Model"), lwd=c(4,2,2), col=c(rgb(0.2745098, 0.5098039, 0.7058824, .5), rgb(1,0.6470588,0, .3), rgb(0.6980392, 0.133333, 0.133333, .2)), bty='n')
@@ -5892,20 +5442,20 @@ legend("bottomright", legend=c("Original Sample", "New Sample"), pch=16, col=c(r
 # Compute R-squared for each validation
 
   # Get y-hat for each model on new data.
-  yht <- predict(lmt, newdata=data.frame(X=Xnew))
-  yhs <- predict(lms, newdata=data.frame(X=Xnew))
-  yhc <- predict(lmc, newdata=data.frame(X=Xnew))
+  yht <- predict(lmt, newdata=thedata2)
+  yhs <- predict(lms, newdata=thedata2)
+  yhc <- predict(lmc, newdata=thedata2)
   
   # Compute y-bar
-  ybar <- mean(Ynew) #Yi is given by Ynew
+  ybar <- mean(thedata2$Y) #Yi is given by Ynew from the new sample of data
   
   # Compute SSTO
-  SSTO <- sum( (Ynew - ybar)^2 )
+  SSTO <- sum( (thedata2$Y - ybar)^2 )
   
-  # Compute SSE for each model
-  SSEt <- sum( (Ynew - yht)^2 )
-  SSEs <- sum( (Ynew - yhs)^2 )
-  SSEc <- sum( (Ynew - yhc)^2 )
+  # Compute SSE for each model using y - yhat
+  SSEt <- sum( (thedata2$Y - yht)^2 )
+  SSEs <- sum( (thedata2$Y - yhs)^2 )
+  SSEc <- sum( (thedata2$Y - yhc)^2 )
   
   # Compute R-squared for each
   rst <- 1 - SSEt/SSTO
@@ -5913,28 +5463,23 @@ legend("bottomright", legend=c("Original Sample", "New Sample"), pch=16, col=c(r
   rsc <- 1 - SSEc/SSTO
   
   # Compute adjusted R-squared for each
-  n <- length(Ynew)
-  pt <- length(coef(lmt))
-  ps <- length(coef(lms))
-  pc <- length(coef(lmc))
+  n <- length(thedata2$Y) #sample size
+  pt <- length(coef(lmt)) #num. parameters in model
+  ps <- length(coef(lms)) #num. parameters in model
+  pc <- length(coef(lmc)) #num. parameters in model
   rsta <- 1 - (n-1)/(n-pt)*SSEt/SSTO
   rssa <- 1 - (n-1)/(n-ps)*SSEs/SSTO
   rsca <- 1 - (n-1)/(n-pc)*SSEc/SSTO
   
-## Table is printed using the Rmd code:
-#| Model   | $R^2$ | Adjusted $R^2$ |
-#|---------|-------|----------------|
-#| True    | `r rst`  | `r rsta` |
-#| Simple  | `r rss`  | `r rssa` |
-#| Complicated | <span style="background-color:yellow;">`r rsc`</span>  | <span style="background-color:yellow;">`r rsca`</span> |
+
+my_output_table2 <- data.frame(Model = c("True", "Simple", "Complicated"), `Original R2` = c(summary(lmt)$r.squared, summary(lms)$r.squared, summary(lmo)$r.squared), `Orig. Adj. R-squared` = c(summary(lmt)$adj.r.squared, summary(lms)$adj.r.squared, summary(lmo)$adj.r.squared), `Validation R-squared` = c(rst, rss, rsc), `Validation Adj. R^2` = c(rsta, rssa, rsca))
+
+colnames(my_output_table2) <- c("Model", "Original $R^2$", "Original Adj. $R^2$", "Validation $R^2$", "Validation Adj. $R^2$")
+
+knitr::kable(my_output_table2, escape=TRUE, digits=4)
+
 ```
 
-
-| Model   | $R^2$ | Adjusted $R^2$ |
-|---------|-------|----------------|
-| True    | `r rst`  | `r rsta` |
-| Simple  | `r rss`  | `r rssa` |
-| Complicated | <span style="background-color:yellow;">`r rsc`</span>  | <span style="background-color:yellow;">`r rsca`</span> |
 
 Notice how the $R^2$ for the complicated model dropped fairly dramatically from its original value of 0.9985 to 0.8686, and the adjusted $R^2$ dropped from 0.994 to 0.501! On the other hand, the $R^2$ and adjusted $R^2$ values for the True and Simple model were relatively unchanged. This is clear evidence that the "complicated model" is overfitting the original data. It does not capture the "essence" of the data, so it is not a generalizable model. It does not fit new data very well, even though it fit the original sample of data quite well. This is what we mean by **over fitting** a model to a particular sample of data.
 
@@ -6139,6 +5684,197 @@ par(mfcol=c(3,2),  mai=c(.25,.6,.25,.6), mgp=c(1,.75,0))
 
 
 </div>
+
+</div>
+
+<br />
+
+#### Outlier Analysis <a href="javascript:showhide('outlierAnalysis')" style="font-size:.6em;color:skyblue;">(Expand)</a>
+
+<span class="expand-caption">Cook's Distances and Leverage Values...</span>
+
+<div id="outlierAnalysis" style="display:none;">
+
+The presence of outlying points in a regression can bias the regression estimates substantially. In simple linear regressions, the outlier are usually quite visible in a residuals vs. fitted-values plot. However, in higher dimensional regression models, it can become very difficult to locate points that are negatively effecting the regression. Here are two measurements that are helpful in identifying points that are negatively impacting an estimated regression model.
+
+##### Cook's Distances
+
+The idea behind Cook's Distance is to measure the impact each individual point has on the regression estimates $b_i$ for each $\beta_i$. As found in the original article ["Detection of Influential Observation in Linear Regression" (Dennis Cook, 1977)](http://www.stat.ucla.edu/~nchristo/statistics100C/1268249.pdf) the formula Cook developed for measuring this effect is given by (when adapted to fit the notation of this book)
+
+$$
+  D_i = \frac{\sum_{j=1}^n (\widehat{Y}_{j} - \widehat{Y}_{j(i)})^2}{p\cdot MSE}
+$$
+
+where $p$ is the number of parameters in the regression model, $MSE$ is the estimate of $\sigma^2$ (the mean squared error), and $\hat{Y}_{j(i)}$ represents the residual for point $j$ when the $i$th point was removed from the regression.
+
+To understand this formula, let's focus first on the numerator: $\sum_{j=1}^n \widehat{Y}_j - \widehat{Y}_{j(i)}$. Here, we are comparing the residual from the original regression for point $j$, $\widehat{Y}_j$ to the modified value of that same residual when point $i$ is removed from the regression. See the image below for a visual explanation.
+
+```{r}
+X <- c(2,3,5,6,8,13)
+Y <- c(3,5,7,9,8,12)
+
+plot(Y ~ X, pch=16, col="skyblue", ylim=c(0,14))
+points(X[4],Y[4], pch=16, cex=1.1, col="orange")
+lm1 <- lm(Y ~ X)
+lm2 <- lm(Y ~ X, w=c(1,1,1,0,1,1))
+abline(lm1, col="skyblue", lwd=2)
+abline(lm2, col="orange", lwd=2)
+legend("topleft", legend=c("All Points Included", "Orange Point Removed"), lty=1, col=c("skyblue","orange"), bty="n")
+
+for (i in 1:6){
+  lines(c(X[i]+.03,X[i]+.03), c(Y[i], lm1$fit[i]), lty=1, col="skyblue")
+  lines(c(X[i]-.03,X[i]-.03), c(Y[i], lm2$fit[i]), lty=1, col="orange")
+}
+
+pander(round(rbind(`Original Residuals` = lm1$residuals, `Orange Point Removed` = lm2$residuals, Difference = lm1$residuals - lm2$residuals),2))
+
+```
+
+Squaring the sum of the "differences" in the residuals from the original regression and the one where point $i$ (the orange dot) has been removed gives $`r round(sum( (lm1$residuals - lm2$residuals)^2), 5)`$. Then, noting that the MSE for the original regression was $1.418605$, and that $p=2$ because there were two parameters, we find the Cook's Distance for Point #4 comes out to be
+
+$$
+  D_4 = \frac{\sum_{j=1}^n (\widehat{Y}_{j} - \widehat{Y}_{j(4)})^2}{p\cdot MSE} \approx \frac{0.77186}{2\cdot 1.418605} \approx 0.272
+$$
+
+Similar calculations show the Cook's Distances for each point to be
+
+```{r}
+pander(round(cooks.distance(lm1),3), caption="Cook's Distances for each Point 1, ..., 6")
+```
+
+In R, it is simple to calculate Cook's Distances using the code `cooks.distance(lmObject)`. Also, a graph of Cook's Distances can be obtained using `plot(lmObject, which=4)` as shown here:
+
+```{r}
+plot(lm1, which=4)
+```
+
+##### Leverage Values
+
+The leverage value of a point is a measurement that lives between 0 and 1 where values close to 1 imply the point has a lot of "leverage" and is "pulling" the regression toward itself. A value near 0 implies the point is just "one of many" and that it is not unduly influencing the regression line.
+
+It is difficult to understand leverage values mathematically unless we look at regression from a linear algebra (matrix) perspective.
+
+To do this, first recall the simple linear regression model
+
+$$
+  Y_i = \beta_0 + \beta_1 X_i + \epsilon_i
+$$
+
+This could be expanded to explicity list out each value of $i$ in the model using vector notation:
+
+$$
+  \left[ \begin{array}{c} Y_1 \\ Y_2 \\ \vdots \\ Y_n\end{array}\right] = \beta_0 \left[ \begin{array}{c} 1  \\
+  1  \\
+  \vdots \\ 1  \end{array}\right] + \beta_1 \left[\begin{array}{c} X_1 \\ X_2 \\ \vdots \\ X_n  \end{array}\right] + \left[\begin{array}{c} \epsilon_1 \\ \epsilon_2 \\ \vdots \\ \epsilon_n \end{array}\right]
+$$
+
+We could then rewrite this in matrix notation using
+
+$$
+  \left[ \begin{array}{c} Y_1 \\ Y_2 \\ \vdots \\ Y_n\end{array}\right] =  \left[ \begin{array}{cc} 1 & X_1\\
+  1  & X_2 \\
+  \vdots & \vdots \\ 
+  1 & X_n \end{array}\right] \left[\begin{array}{c} \beta_0 \\ \beta_1 \end{array}\right] + \left[\begin{array}{c} \epsilon_1 \\ \epsilon_2 \\ \vdots \\ \epsilon_n \end{array}\right]
+$$
+
+Or, more concisely as
+
+$$
+  \vec{Y} = \mathbf{X}\vec{\beta} + \vec{\epsilon}
+$$
+
+The goal of regression is to choose values for $\beta_0$ and $\beta_1$ that "minimize" the sum of the squared errors. Mathematically this would be written as
+
+$$
+  \sum_{i=1}^n \epsilon_i ^2
+$$
+
+If you are familiar with vectors then you would see that this could be written with the notation
+
+$$
+  \vec{\epsilon}^t \vec{\epsilon} = \sum_{i=1}^n \epsilon_i ^2
+$$
+
+And since we can also write
+
+$$
+  \vec{\epsilon} = \vec{Y} - \mathbf{X}\vec{\beta}
+$$
+
+then we have
+
+$$
+ \sum_{i=1}^n \epsilon_i^2 = \vec{\epsilon}^t \vec{\epsilon} = (\vec{Y} - \mathbf{X}\vec{\beta})^t (\vec{Y} - \mathbf{X}\vec{\beta})
+$$
+
+To choose the values of $\vec{\beta}$ that minimize the above equation, we will take the derivative with respect to $\vec{\beta}$ which turns out to give
+
+$$
+ \frac{d}{d\vec{\beta}}(\vec{Y} - \mathbf{X}\vec{\beta})^t (\vec{Y} - \mathbf{X}\vec{\beta}) = -2\mathbf{X}^t(\vec{Y} - \mathbf{X}\vec{\beta})
+$$
+
+Setting the derivative equal to the zero vector $\vec{0}$ and solving, we obtain
+
+$$
+-2\mathbf{X}^t(\vec{Y} - \mathbf{X}\vec{\beta}) = \vec{0} \\
+-2\mathbf{X}^t\vec{Y} = -2\mathbf{X}^t\mathbf{X}\vec{\beta}) \\
+\mathbf{X}^t\vec{Y} = \mathbf{X}^t\mathbf{X}\vec{\beta}
+$$
+
+Since $\mathbf{X}^t\mathbf{X}$ is a square matrix, it is invertible. This allows us to solve for $\vec{\beta}$ by
+
+$$
+(\mathbf{X}^t\mathbf{X})^{-1}\mathbf{X}^t\vec{Y} = \vec{\beta}
+$$
+
+However, at this point istead of pretending we have found the true $\beta$'s, we change the equation to
+
+$$
+\vec{b} = (\mathbf{X}^t\mathbf{X})^{-1}\mathbf{X}^t\vec{Y}
+$$
+
+Then, if we use the equation for $\hat{Y}_i$ in vector notation, we get
+
+$$
+  \hat{\vec{Y}} = \mathbf{X}\vec{b}
+$$
+
+and substituting into $\vec{b}$ gives
+
+$$
+  \hat{\vec{Y}} = \mathbf{X}(\mathbf{X}^t\mathbf{X})^{-1}\mathbf{X}^t\vec{Y}
+$$
+
+This shows the $\hat{Y}$ values are a matrix transformation of the $Y$ values, often called a projection of $Y$ onto the $\hat{Y}$ surface. But now we have arrived at the thing we wanted to look at in order to talk about leverage, the "hat matrix" $\mathbf{H}$:
+
+$$
+  \mathbf{H} = \mathbf{X}(\mathbf{X}^t\mathbf{X})^{-1}\mathbf{X}^t
+$$
+
+This allows us to write
+
+$$
+ \hat{\vec{Y}} = \mathbf{H}\vec{Y}
+$$
+
+The diagonal elements of $\mathbf{H}$ are the "leverage values" and are notated as the $h_{ii}$ values. Essentially each of these values explain how much $\hat{Y}_i$ is being pulled towards $Y_i$ by each $Y_i$, where values of $h_{ii}$ close to 1 represent a "lot of pull," and values close to 0 represent "little pull."
+
+In R these values are obtained by the `hatvalues(...)` function:
+
+```{r}
+hatvalues(lm1) %>% pander()
+```
+
+Or, graphically depicted by `plot(lmObject, which=5)`
+
+```{r}
+plot(lm1, which=5)
+```
+
+Points with "lots of leverage" and a large "Cook's Distance" are points that should be investigated for accuracy and possibly removed (or downweighted) in the regression.
+
+
+
 
 </div>
 

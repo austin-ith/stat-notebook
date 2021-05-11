@@ -11,165 +11,10 @@ library(tidyverse)
 library(DT)
 library(pander)
 library(readr)
-library(car)
-library(ggplot2)
-
 
 HSS <- read_csv("../../Data/HighSchoolSeniors.csv")
 #Remember: select "Session, Set Working Directory, To Source File Location", and then play this R-chunk into your console to read the HSS data into R. 
-
-
-
 ```
-
-<h1>Background</h1>
-In a survey given by "U.S. Census at School" to 500 high school students around the United States, various questions were asked about demographics, hobbies, etc... 
-
-A sample of the survey is shown in the table below. 
-```{r}
-datatable(HSS, options = list(lengthMenu = c(5,30)))
-```
-
-As apart of the study they also had students take a memory test. The students would then report their score on the survey(You'll find all times in the table above). A question worth considering: Does gender play a role in the reaction time of high school students? 
-
-<h1>Hypothesis</h1>
-
-To discover if Gender truly does play a role in Reaction Time, we will ask, is there a difference between the reaction time of Men and Women? 
-
-Our Null and alternative hypothese are thus:
-$$
-H_0: \mu_1 - \mu_2 = 0
-$$
-$$
-H_0: \mu_1 - \mu_2 \ne 0
-$$
-where,<br />
-$\mu_1$ = {mean of Reaction Time(in seconds) of Men}<br />
-$\mu_2$ = {mean of Reaction Time(in seconds) of Woman}<br />
-And the level of significance is:
-$$
-\alpha = 0.05
-$$
-
-<h1>Analysis</h1>
-
-Due to the nature of students reporting their own scores, we'll remove the extreme outliers from the data set. To do this, I will remove the values greater than 1.5 seconds. The boxplot below gives us a snapshot of the  cleaned data of High School students Reaction Time by gender.
-
-<center>
-```{R}
-hssfilt <- filter(HSS, Reaction_time != "NA" & Gender != "NA" & Reaction_time < 1.5)
-boxplot(Reaction_time ~ Gender, 
-        data = hssfilt,
-        xlab = "Reaction time (in seconds)",
-        ylab = "Gender",
-        main = "High School Students Reaction Time",
-        col = "gray83",
-        horizontal = TRUE)
-```
-</center>
-
-<center>
-```{R include=FALSE}
-hssmale <- filter(hssfilt, Gender == "Male")
-hssfemale <- filter(hssfilt, Gender == "Female")
-
-hssoutlier <- hssfilt %>% 
-  mutate(
-    viabledata = ifelse(((Gender == "Male") & (Reaction_time <= quantile(hssmale$Reaction_time, 1)) & (Reaction_time >= quantile(hssmale$Reaction_time, .00))), "Viable", ifelse(((Gender == "Female") & (Reaction_time <= quantile(hssfemale$Reaction_time, 1)) & (Reaction_time >= quantile(hssfemale$Reaction_time, .00))), "Viable", "Not Viable"))
-  )
-
-hssClean <- filter(hssoutlier, viabledata == "Viable")
-
-boxplot(Reaction_time ~ Gender, 
-        data = hssClean,
-        xlab = "Reaction time (in seconds)",
-        ylab = "Gender",
-        main = "High School Students Reaction Time\n(Without Extreme Outliers)",
-        col = "gray83",
-        horizontal = TRUE)
-```
-</center>
-
-With the cleaned data our sample sizes per gender are shown in the table below.
-
-<center>
-```{r}
-hssClean %>% 
-  group_by(Gender) %>% 
-  summarize("Sample size" = n()) %>% 
-  pander()
-```
-</center>
-
-Since our sample sizes of 231 and 220 are large, we'll be able to run a t-test. Checking further for normality, we'll analyze the QQ-plots below. 
-
-<center>
-```{R echo=FALSE, results='hide'}
-hssmale2 <- filter(hssClean, Gender == "Male")
-hssfemale2 <- filter(hssClean, Gender == "Female")
-par(mfrow=c(1,2))
-qqPlot(hssmale2$Reaction_time, main = "QQ-Plot of Men", ylab = "Memory scores(in seconds)",pch=19)
-qqPlot(hssfemale2$Reaction_time, main = "QQ-Plot of Woman", ylab = "Memory scores(in seconds)",pch=19)
-```
-</center>
-
-The QQ-plots shows that the data for both Men and Woman is not perfectly distributed with outliers showing beyond the bounds. However, as previously mentioned, with the sample sizes at 231 and 220 we should be able to reasonable assume that the distribution of the sample means is normal and the results of an independent sample t-test will be valid.
-
-<br />
-
-Below is a table summarizing all of the sample statistics. 
-<center>
-```{R}
-hssClean %>% 
-  group_by(Gender) %>% 
-  summarise(Min = min(Reaction_time),
-            Q1 = quantile(Reaction_time, .25),
-            Median = median(Reaction_time),
-            Mean = mean(Reaction_time),
-            Q3 = quantile(Reaction_time, .75),
-            Max = max(Reaction_time),
-            "$\\sigma$" = sd(Reaction_time),
-            "Sample Size" = n()) %>% 
-  pander()
-```
-</center>
-When comparing the two data sets, I'd like to note that there is clearly a difference between the two sets. Below are the results of the Independent t-Test. 
-
-<center>
-```{r, eval=FALSE}
-
-t.test(Reaction_time ~ Gender, data = hssClean, mu = 0, alternative = "two.sided", conf.level = .95) %>% 
-  pander()
-```
-
-------------------------------------------
- Test statistic    df         P value        
----------------- ------- -----------------
-     7.233        315.5   3.601e-12 * * *              
-------------------------------------------
-
-Table: Welch Two Sample t-test comparing Reaction time to Gender
-
- 
-
-
-</center>
-When we compare the p-value to $\alpha$ we get:
-<center>
-$$(p = 3.601e^-16 < \alpha) $$
-</center>
-
-From the t-test, we can see that the p-value is considerable lower than $\alpha$ meaning that there is sufficient evidence to reject the null hypothesis. 
-
-<h1>Interpretation</h1>
-
-By accepting the alternative hypothesis, this would mean that Men actually have a quicker response time than Woman by an average of 0.0794 seconds. This provides valuable insights into the pursuits of Men who are typically Race car drivers, pilots, surgeons, etc... 
-
-Lets look at the history of hunting. Hunting, which relies on quick thinking and reaction time, has been the job of Men throughout history. Reaction time with archaic hunting methods would have been more important than todays methods. This could be part of the reason that Men have traditionally been hunters. 
-
-In today's world, I think we also need to keep these findings in mind as we look at sporting events and competitions. Combining Woman and Men in different competitions that rely on quick reaction time could give an unfair advantage towards the men.
-
-As a reminder, this a was a survey filled out by the students and there is a lot of room for error in the translation from the test itself to the survey. The method of testing response time could also be improved, as there are various other methods of testing reaction time that would increase accuracy. 
 
 <!-- Instructions
 
@@ -191,5 +36,12 @@ HSS <- HSS %>%
 ```
 
 -->
+
+
+
+
+
+
+
 
 

@@ -6,28 +6,31 @@ output:
     code_folding: hide
 ---
 
-<script type="text/javascript">
- function showhide(id) {
-    var e = document.getElementById(id);
-    e.style.display = (e.style.display == 'block') ? 'none' : 'block';
- }
-</script>
 
-```{r, include=FALSE}
+```{r, warning=FALSE, message=FALSE}
 library(mosaic)
 library(DT)
 library(pander)
 library(car)
+library(tidyverse)
 
 # To get the "late" dataset into your R Console, 
 # you need to go to your file menu of R-Studio and select
 # "Session, Set working directory, To source file location"
 # Then click the green "play" arrow in 
 # the top right corner of this gray R-Chunk. 
-late <- read.csv("../../Data/late.csv", header=TRUE)
-# Then type:
-# > View(late)
-# in your R Console
+
+## Wide data from original article:
+late <- read.csv("../../Data/late.csv", header=TRUE) 
+
+## Change to "long" data for use in R:
+Late <- pivot_longer(late, #Start with wide data set late
+               cols = starts_with("Week"), #Find columns to gather from long data
+               names_to = "Week", #New column name of Weeks in long data
+               names_prefix = "Week", #Remove prefix of Week from Week1, Week2, ...
+               names_transform = list(Week= ~as.numeric(.x)), #Make Week a numeric column of data
+               values_to = "NumberofLateChildren") #Name of data column in long data
+
 ```
 
 
@@ -50,11 +53,11 @@ late <- read.csv("../../Data/late.csv", header=TRUE)
 ### Overview
 <!-- Be sure to add your own background here before beginning the Analysis. -->
 
-A study was performed looking at the number of students that were picked up late by parents. In a random selection of schools they imposed a fine for a number of weeks. They then removed the fine and continued to analyze the number of students that were picked up late. See "Study Details," and data tabs for more information. 
 
-The data set thus provides us with 10 schools(randomly selected), 4 of which are in a control group and will have no changes made. The other 6 remaining schools will have a fine imposed. These two groups will make up a factor called "Treatment." Number of students at the school and number of students picked up late are recorded for each school for 20 weeks.
 
-Our purpose is to analyze the interaction between Treatment, Time, and Number of students picked up late. 
+
+
+
 
 <!--End your background before here.-->
 <!--Click the little black arrow to 
@@ -102,21 +105,6 @@ pander(late, split.tables = Inf)
 The `Late` Day Care Center data is shown here in the "long data format".
 
 ```{r}
-# This code reshapes the data into "long" format called Late.
-# To get the "Late" dataset into your R Console, 
-# you need to click the green "play" arrow in 
-# the top right corner of this gray R-Chunk. 
-# Then type:
-#   > View(Late)
-# in your R Console
-Late <- reshape(late,
-                varying = paste("Week",1:20, sep=""), 
-                v.names = "No.ofLateChildren",
-                timevar = "Week", 
-                times = 1:20, 
-                idvar = "Center",
-                new.row.names = 1:200,
-                direction = "long")
 pander(Late)
 ```
 
@@ -128,148 +116,6 @@ pander(Late)
 
 
 ## Analysis
-
-The study breaks the weeks into three distinct groups that I will call collectively as Week groups. These groups will be Pre-Fine, Fine, and Post-Fine to represent with weeks before, during, and after the Fine was imposed. For reference, the fine was imposed between weeks 5 and 16 of the 20 week study. 
-
-Using a Two-way ANOVA to study the interaction of Treatment, Week groups(Time), and number of students picked up late, we are going to ask three questions: 
-
-1. Does `Treatment` affect the number of students picked up late?
-Factor: `Treatment` with levels Control and Fine.
-
-\[
-H_0: \mu_{Control} = \mu_{Fine} = \mu
-\]
-\[
-H_a: \mu_i \neq \mu \text{ for at least one }\ i \in\{1=Control,2=Fine\}
-\]
-
-2. Does `Week_group` affect the number of students picked up late?
-Factor: `Week_group` with levels Pre-Fine, Fine, and Post-Fine.
-\[
-H_0: \mu_{Pre-Fine} = \mu_{Fine} = \mu_{Post-Fine} = \mu
-\]
-\[
-H_a: \mu_i \neq \mu \text{ for at least one }\ i \in\{1=Pre-Fine,2=Fine,3=Post-Fine\}
-\]
-
-3. Does the effect of the `Week_group` change with the `Treatment` and vice-versa? Or rather, is there an interaction between the two factors?
-
-\[
-H_0: \text{The effect of week_group is the same for all treatment groups.}
-\]
-\[
-H_a: \text{The effect of week_group is not the same for all treatment groups.}
-\]
-
-\[
-H_a: \mu \neq \mu \text{ The effect of week_group is not the same for all treatment groups.}
-\]
-
-Note: This third question will be very informative, as it will plainly display the affect of students picked up late in relation to Weekgroups and Treatment. 
-
-Our level of significance for these three questions will be:
-$$
-\alpha = 0.05
-$$
-
-Performing the ANOVA test we get the following results. 
-
-```{r, comment=NA}
-Late$Weekgroup <- cut(Late$Week, c(0,4,16,20), 
-                      labels = c("Pre-Fine","Fine","Post-Fine"), 
-                      ordered_result = TRUE)
-
-late.aov <- aov(No.ofLateChildren ~ Treatment + Weekgroup + Treatment:Weekgroup, 
-                data = Late)
-
-pander(summary(late.aov))
-```
-
-From the summary table above, we find that all three p-values are below alpha. Therefore they are all significant factors, `Treatment` with $(p=4.92e^{-12}<0.05)$, `Weekgroup` with $(p=5.46e^{-6}<0.05)$, and the interaction between the two at $(p=4.16e^{-6}<0.05)$. Thus we will reject the null hypothesis to all three questions asked and accept the alternative hypothesis. 
-
-To verify the accuracy of the ANOVA test we just perfomed, see the QQ-Plot and Residuals vs Fitted Values plot below. 
-
-```{r}
-par(mfrow=c(1,2))
-plot(late.aov, which=1:2, pch=16)
-```
-
-The fitted Values plot shows us the variance in each group. We are trying to verify that the variance between groups is small as possible. In the graph show, as the groups move forward, their is slight variance but we'll consider this variance not substantial enough to consider the test invalid. 
-
-The QQ-Plot shows the normality of the error terms. We check to see if the points are close to the dotted line shown. In this case, the data appears to be normal. 
-
-The next three graphics show the results of the each test performed. 
-
-```{r}
-xyplot(No.ofLateChildren ~ Treatment,
-       data = Late,
-       type = c("p","a"),
-       main = "Significance of Treatment",
-       ylab = "Number of Children Picked Up Late",
-       col = "red")
-```
-
-Note the significant increase of the Number of Children picked up late between the control group and the Fined group. This is counter-intuitive to the intended result that a fine would decrease the number of students picked up late. 
-
-```{r}
-xyplot(No.ofLateChildren ~ Weekgroup,
-       data = Late,
-       type = c("p","a"),
-       main = "Significance of Weekgroup",
-       ylab = "Number of Children Picked Up Late",
-       col = "blue")
-```
-
-Note that the number of students picked up late increased with the fine and yet stayed constant after the fine was removed. 
-
-```{r}
-xyplot(No.ofLateChildren ~ Weekgroup,
-       data = Late,
-       groups = Treatment,
-       type = c("p","a"),
-       main = "Significance of Interaction",
-       ylab = "Number of Children Picked Up Late",
-       auto.key = list(corner = c(1,1)),
-       col = c("red","blue"))
-```
-
-Note the stark diffence between the Control and Fined groups. It would appear that the number of students picked up late decreased during the same time the Fined group increased. 
-
-```{r}
-
-
-```
-
-<h1>Interpretation<h1/>
-
-Examine the data summary below.
-
-```{r}
-Late %>% 
-  group_by(Weekgroup, Treatment) %>% 
-  summarise(No.ofLateChildren = mean(No.ofLateChildren)) %>% 
-  pander()
-```
-
-There are several conclusions that we can derive from this table and the ANOVA Test performed.
-
-First, that the number of students picked up late by their parents significantly increased by an average of 8 students to 16.44 students with the introduction of the Fine. 
-
-Second, that the while the introduction of the Fine increased the number of students picked up late from an average of 8 students to 16.44 students, the removal of the fine did not return the number of students picked up late to it original value. Rather it increased to an average of 18.71 students.
-
-Third, we can confirm that the Fine did indeed have an effect on the number of students picked up late(averaging between 8-18.71 students), as the number of students picked up late stayed relatively constant at an average of 8.25-10 students in the control group through the same Pre-Fine, Fine, and Post Fine periods of Time. 
-
-We can ultimately conclude that the introduction of the Fine was a negative experiment resulting in more students picked up late than before. A higher fine or potentially going the other direction with a reward would be an interesting study to further the experiment. 
-
-
-```{r, include=FALSE}
-# This code was run in the Console to get the desired means.
-mean(No.ofLateChildren ~ Treatment, groups = Weekgroup, data = Late)
-```
-
-
-
-
 
 
 
