@@ -2,6 +2,9 @@
 title: "Numerical Summaries"
 output: 
   html_document: 
+    theme: cerulean
+    highlight: tango
+    css: styles.css
     toc: true
     toc_float: true
 ---
@@ -17,6 +20,7 @@ output:
 library(mosaic)
 library(pander)
 library(tidyverse)
+
 ```
 
 ----
@@ -53,7 +57,6 @@ To calculate a mean in R use the code:
 `mean(object)`
 
 * `object` must be a quantitative variable, what R calls a "numeric vector." Usually this is a column from a data set.
-* Use `na.rm=TRUE` if there are missing values in `object` so that the code reads `mean(object, na.rm=TRUE)`. 
 
 
 <br>
@@ -98,13 +101,6 @@ mean(airquality$Temp)
 
 Note that the single number showing above is the average `Temp` from the `airquality` dataset.
 </div>
-
-
-
-
-
-
-
 
 
 
@@ -185,36 +181,49 @@ airquality %>%
 
 </div>
 
-<br/>
 
-A note about missing values in data...
 
-<a href="javascript:showhide('mean1b')">
+</div>
+
+----
+
+#### Python Instructions
+
+<div style="padding-left:150px;">
+To calculate a mean in Python use the code:
+
+`import pandas`<br>
+`object.mean()`
+
+* `object` must be a quantitative variable, what Python calls a "numeric array." Usually this is a column from a data set.
+
+
+<br>
+
+**Example Code** 
+
+Hover your mouse over the example codes to learn more.
+
+<a href="javascript:showhide('mean_1')">
 <div class="hoverchunk">
 <span class="tooltipr">
-mean
-  <span class="tooltiprtext">"mean" is an R function used to calculate the mean of data.</span>
-</span><span class="tooltipr">
-(
-  <span class="tooltiprtext">Parenthesis to begin the function. Must touch the last letter of the function.</span>
-</span><span class="tooltipr">
+import pandas
+  <span class="tooltiprtext">"pandas" is a python package used for data analysis.</span>
+</span><br><span class="tooltipr">
 airquality
-  <span class="tooltiprtext">"airquality" is a dataset. Type "View(airquality)" in R to see it.</span>
+  <span class="tooltiprtext">"airquality" is a dataset that has been read in previously.</span>
 </span><span class="tooltipr">
-$
-  <span class="tooltiprtext">The $ allows us to access any variable from the airquality dataset.</span>
+[
+  <span class="tooltiprtext">The [ allows us to access any variable from the airquality dataset.</span>
 </span><span class="tooltipr">
-Ozone
-  <span class="tooltiprtext">"Ozone" is a quantitative variable (numeric vector) from the "airquality" dataset.</span>
+"Temp"
+  <span class="tooltiprtext">"Temp" is a quantitative variable (numeric vector) from the "airquality" dataset.</span>
 </span><span class="tooltipr">
-,&nbsp;
-  <span class="tooltiprtext">The comma allows us to specify optional commands.</span>
+]  
+  <span class="tooltiprtext">Closing brackets and parenthsis for the mean function.</span>
 </span><span class="tooltipr">
-na.rm=TRUE
-  <span class="tooltiprtext">Missing values are called "NA" in R. If data contains missing values, `mean(...)` will give "NA" as the result unless we "remove" (rm) the "NA" (na) values.</span>
-</span><span class="tooltipr">
-)  
-  <span class="tooltiprtext">Closing parenthsis for the mean function.</span>
+.mean()
+  <span class="tooltiprtext">".mean()" calls the mean method from the pandas package.</span>
 </span><span class="tooltipr">
 &nbsp;&nbsp;&nbsp;&nbsp;  
   <span class="tooltiprtext">Press Enter to run the code if you have typed it in yourself. You can also click here to view the output.</span>
@@ -224,18 +233,72 @@ na.rm=TRUE
 </span>
 </div>
 </a>
-<div id="mean1b" style="display:none;">
-```{r, echo=FALSE}
-mean(airquality$Ozone, na.rm=TRUE)
+<div id="mean_1" style="display:none;">
+
+```{python, echo=FALSE}
+import pandas as pd
+
+r.airquality['Temp'].mean()
+
+import matplotlib.pyplot as plt
+plt.plot([4, 3, 2, 1])
+plt.ylabel('some numbers')
+plt.show()
 ```
 
-Note that the single number showing above is the average `Ozone` from the `airquality` dataset. Because the `Ozone` column had missing values, we had to use the option `na.rm=TRUE` to get the mean to calculate. If we had left it off, we would have gotten an "NA" result:
-
-```{r}
-mean(airquality$Ozone)
-```
+Note that the single number showing above is the average `Temp` from the `airquality` dataset.
 </div>
 
+
+
+
+<a href="javascript:showhide('mean_2')">
+<div class="hoverchunk">
+<span class="tooltipr">
+import pandas
+<span class="tooltiprtext">pandas is a Python Package that is very useful for working with data.</span>
+</span><br><span class="tooltipr">
+airquality
+  <span class="tooltipRtext">`airquality` is a dataset loaded in previously.</span>
+</span><span class="tooltipr">
+.groupby(
+  <span class="tooltipRtext">"group_by" is a function from library(tidyverse) that allows us to split the airquality dataset into "little" datasets, one dataset for each value in the "Month" column.</span>
+</span><span class="tooltipr">
+'Month',
+  <span class="tooltipRtext">"Month" is a column from the airquality dataset that can be treated as qualitative.</span>
+</span><span class="tooltipr">
+as_index=False)
+  <span class="tooltiprtext">The groupby output will have an index or multi-index on rows corresponding to your chose grouping variables. To avoid setting this index, pass "as_index=False" to the groupby operation.</span>
+</span><span class="tooltipr">
+.agg({
+ <span class="tooltiprtext">A method of grouping, calculating, and renaming the results.</span>
+</span><span class="tooltipr">
+"Ave_Temp":
+  <span class="tooltipRtext">This renames the column with the new calculated values.</span>
+</span><span class="tooltipr">
+"mean"})
+  <span class="tooltipRtext">The statistical method used to calculate the intended values for each group.</span>
+</span><span class="tooltipr" style="float:right;">
+&nbsp;...&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="mean_2" style="display:none;">
+
+```{python, echo=FALSE}
+import pandas as pd
+
+r.airquality.groupby('Month', as_index=False)['Temp'].agg({'Ave_Temp':"mean"})
+```
+
+
+Note that Python calculated the mean `Temp` for each month in `Month` from the `airquality` dataset. 
+
+May (5), June (6), July (7), August (8), and September (9), respectively.
+
+
+</div>
 
 
 
@@ -477,6 +540,113 @@ airquality %>%
 </div>
 
 
+
+
+
+</div>
+
+----
+
+#### Python Instructions
+
+<div style="padding-left:150px;">
+To calculate a median in Python use the code:
+
+`import pandas`<br>
+`object.median()`
+
+* `object` must be a quantitative variable, what Python calls a "numeric array." Usually this is a column from a data set.
+
+<br>
+
+**Example Code** 
+
+<a href="javascript:showhide('median_1')">
+<div class="hoverchunk">
+<span class="tooltipr">
+import pandas
+  <span class="tooltiprtext">"pandas" is a python package used for data analysis.</span>
+</span><br><span class="tooltipr">
+airquality
+  <span class="tooltiprtext">"airquality" is a dataset that has been read in previously.</span>
+</span><span class="tooltipr">
+[
+  <span class="tooltiprtext">The [ allows us to access any variable from the airquality dataset.</span>
+</span><span class="tooltipr">
+"Temp"
+  <span class="tooltiprtext">"Temp" is a quantitative variable (numeric vector) from the "airquality" dataset.</span>
+</span><span class="tooltipr">
+]  
+  <span class="tooltiprtext">Closing brackets and parenthsis for the median function.</span>
+</span><span class="tooltipr">
+.median()
+  <span class="tooltiprtext">".median()" calls the median method from the pandas package.</span>
+</span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltiprtext">Press Enter to run the code if you have typed it in yourself. You can also click here to view the output.</span>
+</span><span class="tooltipr" style="float:right;">
+&nbsp;...&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="median_1" style="display:none;">
+```{python, echo=FALSE}
+import pandas as pd
+
+r.airquality['Temp'].median()
+```
+
+Note that the single number showing above is the median `Temp` from the `airquality` dataset.
+</div>
+
+<a href="javascript:showhide('median_2')">
+<div class="hoverchunk">
+<span class="tooltipr">
+import pandas
+<span class="tooltiprtext">pandas is a Python Package that is very useful for working with data.</span>
+</span><br><span class="tooltipr">
+airquality
+  <span class="tooltipRtext">`airquality` is a dataset loaded in previously.</span>
+</span><span class="tooltipr">
+.groupby(
+  <span class="tooltipRtext">"group_by" is a function from library(tidyverse) that allows us to split the airquality dataset into "little" datasets, one dataset for each value in the "Month" column.</span>
+</span><span class="tooltipr">
+'Month',
+  <span class="tooltipRtext">"Month" is a column from the airquality dataset that can be treated as qualitative.</span>
+</span><span class="tooltipr">
+as_index=False)
+  <span class="tooltiprtext">The groupby output will have an index or multi-index on rows corresponding to your chose grouping variables. To avoid setting this index, pass "as_index=False" to the groupby operation.</span>
+</span><span class="tooltipr">
+.agg({
+ <span class="tooltiprtext">A method of grouping, calculating, and renaming the results.</span>
+</span><span class="tooltipr">
+"AveTemp":
+  <span class="tooltipRtext">This renames the column with the new calculated values.</span>
+</span><span class="tooltipr">
+"median"})
+  <span class="tooltipRtext">The statistical method used to calculate the intended values for each group.</span>
+</span><span class="tooltipr" style="float:right;">
+&nbsp;...&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="median_2" style="display:none;">
+
+```{python, echo=FALSE}
+import pandas as pd
+
+r.airquality.groupby('Month', as_index=False)['Temp'].agg({'med_Temp':"median"})
+```
+
+
+Note that Python calculated the median `Temp` for each month in `Month` from the `airquality` dataset. 
+
+May (5), June (6), July (7), August (8), and September (9), respectively.
+
+
+</div>
 
 
 
@@ -751,6 +921,63 @@ airquality %>%
 
 ----
 
+#### Python Instructions
+
+<div style="padding-left:150px;">
+Python gets the mode(s) of each element along the selected axis, use the code:
+
+`import pandas`<br>
+`object.mode()`
+
+* `object` can be quantitative or qualitative, but should contain at least one repeated value or `.mode()` is not useful.
+
+<br>
+
+**Example Code** 
+
+Hover your mouse over the example codes to learn more.
+
+<a href="javascript:showhide('mode_1')">
+<div class="hoverchunk">
+<span class="tooltipr">
+import pandas
+  <span class="tooltiprtext">"pandas" is a python package used for data analysis.</span>
+</span><br><span class="tooltipr">
+airquality
+  <span class="tooltiprtext">"airquality" is a dataset that has been read in previously.</span>
+</span><span class="tooltipr">
+.iloc[
+  <span class="tooltiprtext">.iloc[] is a method that allows us to access different variables from the airquality dataset.</span>
+</span><span class="tooltipr">
+:, airquality.columns != "Day"]
+  <span class="tooltiprtext">'airquality.columns != "Day"' eliminates the "Day" variable from the dataset. We are not interested in know the mode of the Day, as each each month reported lists out every day.</span>
+</span><span class="tooltipr">
+.mode()
+  <span class="tooltiprtext">".mode()" calls the mode method from the pandas package.</span>
+</span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltiprtext">Press Enter to run the code if you have typed it in yourself. You can also click here to view the output.</span>
+</span><span class="tooltipr" style="float:right;">
+&nbsp;...&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="mode_1" style="display:none;">
+```{python, echo=FALSE}
+import pandas
+
+r.airquality.iloc[:, r.airquality.columns != "Day"].mode()
+```
+
+Note that the modes for Month are 5, 7, and 8 because these months all have the most (31) days in them.
+</div>
+
+
+</div>
+
+----
+
 
 ### Minimum {.tabset .tabset-fade .tabset-pills}
 
@@ -908,6 +1135,113 @@ airquality %>%
 
 ----
 
+#### Python Instructions
+
+<div style="padding-left:150px;">
+To calculate a minimum in Python use the code:
+
+`import pandas`<br>
+`object.min()`
+
+* `object` must have at least one quantitative variable, what Python calls a "numeric array." Usually this is a column from a data set.
+
+<br>
+
+**Example Code** 
+
+<a href="javascript:showhide('min_1')">
+<div class="hoverchunk">
+<span class="tooltipr">
+import pandas
+  <span class="tooltiprtext">"pandas" is a python package used for data analysis.</span>
+</span><br><span class="tooltipr">
+airquality
+  <span class="tooltiprtext">"airquality" is a dataset that has been read in previously.</span>
+</span><span class="tooltipr">
+[
+  <span class="tooltiprtext">The [ allows us to access any variable from the airquality dataset.</span>
+</span><span class="tooltipr">
+"Temp"
+  <span class="tooltiprtext">"Temp" is a quantitative variable (numeric vector) from the "airquality" dataset.</span>
+</span><span class="tooltipr">
+]  
+  <span class="tooltiprtext">Closing brackets and parenthsis for the min function.</span>
+</span><span class="tooltipr">
+.min()
+  <span class="tooltiprtext">".min()" calls the min method from the pandas package.</span>
+</span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltiprtext">Press Enter to run the code if you have typed it in yourself. You can also click here to view the output.</span>
+</span><span class="tooltipr" style="float:right;">
+&nbsp;...&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="min_1" style="display:none;">
+```{python, echo=FALSE}
+import pandas as pd
+
+r.airquality['Temp'].min()
+```
+
+Note that the single number showing above is the min `Temp` from the `airquality` dataset.
+</div>
+
+<a href="javascript:showhide('min_2')">
+<div class="hoverchunk">
+<span class="tooltipr">
+import pandas
+<span class="tooltiprtext">pandas is a Python Package that is very useful for working with data.</span>
+</span><br><span class="tooltipr">
+airquality
+  <span class="tooltipRtext">`airquality` is a dataset loaded in previously.</span>
+</span><span class="tooltipr">
+.groupby(
+  <span class="tooltipRtext">"group_by" is a function from library(tidyverse) that allows us to split the airquality dataset into "little" datasets, one dataset for each value in the "Month" column.</span>
+</span><span class="tooltipr">
+'Month',
+  <span class="tooltipRtext">"Month" is a column from the airquality dataset that can be treated as qualitative.</span>
+</span><span class="tooltipr">
+as_index=False)
+  <span class="tooltiprtext">The groupby output will have an index or multi-index on rows corresponding to your chose grouping variables. To avoid setting this index, pass "as_index=False" to the groupby operation.</span>
+</span><span class="tooltipr">
+.agg({
+ <span class="tooltiprtext">A method of grouping, calculating, and renaming the results.</span>
+</span><span class="tooltipr">
+"min_Temp":
+  <span class="tooltipRtext">This renames the column with the new calculated values.</span>
+</span><span class="tooltipr">
+"min"})
+  <span class="tooltipRtext">The statistical method used to calculate the intended values for each group.</span>
+</span><span class="tooltipr" style="float:right;">
+&nbsp;...&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="min_2" style="display:none;">
+
+```{python, echo=FALSE}
+import pandas as pd
+
+r.airquality.groupby('Month', as_index=False)['Temp'].agg({'min_Temp':"min"})
+```
+
+
+Note that Python calculated the min `Temp` for each month in `Month` from the `airquality` dataset. 
+
+May (5), June (6), July (7), August (8), and September (9), respectively.
+
+
+</div>
+
+
+
+</div>
+
+----
+
 ### Maximum {.tabset .tabset-fade .tabset-pills}
 
 <div style="float:left;width:150px;">
@@ -1055,10 +1389,116 @@ airquality %>%
 </div>
 
 
+</div>
+
+
+----
+
+#### Python Instructions
+
+<div style="padding-left:150px;">
+To calculate a maximum in Python use the code:
+
+`import pandas`<br>
+`object.max()`
+
+* `object` must have at least one quantitative variable, what Python calls a "numeric array." Usually this is a column from a data set.
+
+<br>
+
+**Example Code** 
+
+<a href="javascript:showhide('max_1')">
+<div class="hoverchunk">
+<span class="tooltipr">
+import pandas
+  <span class="tooltiprtext">"pandas" is a python package used for data analysis.</span>
+</span><br><span class="tooltipr">
+airquality
+  <span class="tooltiprtext">"airquality" is a dataset that has been read in previously.</span>
+</span><span class="tooltipr">
+[
+  <span class="tooltiprtext">The [ allows us to access any variable from the airquality dataset.</span>
+</span><span class="tooltipr">
+"Temp"
+  <span class="tooltiprtext">"Temp" is a quantitative variable (numeric vector) from the "airquality" dataset.</span>
+</span><span class="tooltipr">
+]  
+  <span class="tooltiprtext">Closing brackets and parenthsis for the max function.</span>
+</span><span class="tooltipr">
+.max()
+  <span class="tooltiprtext">".max()" calls the max method from the pandas package.</span>
+</span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltiprtext">Press Enter to run the code if you have typed it in yourself. You can also click here to view the output.</span>
+</span><span class="tooltipr" style="float:right;">
+&nbsp;...&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="max_1" style="display:none;">
+```{python, echo=FALSE}
+import pandas as pd
+
+r.airquality['Temp'].max()
+```
+
+Note that the single number showing above is the max `Temp` from the `airquality` dataset.
+</div>
+
+<a href="javascript:showhide('max_2')">
+<div class="hoverchunk">
+<span class="tooltipr">
+import pandas
+<span class="tooltiprtext">pandas is a Python Package that is very useful for working with data.</span>
+</span><br><span class="tooltipr">
+airquality
+  <span class="tooltipRtext">`airquality` is a dataset loaded in previously.</span>
+</span><span class="tooltipr">
+.groupby(
+  <span class="tooltipRtext">"group_by" is a function from library(tidyverse) that allows us to split the airquality dataset into "little" datasets, one dataset for each value in the "Month" column.</span>
+</span><span class="tooltipr">
+'Month',
+  <span class="tooltipRtext">"Month" is a column from the airquality dataset that can be treated as qualitative.</span>
+</span><span class="tooltipr">
+as_index=False)
+  <span class="tooltiprtext">The groupby output will have an index or multi-index on rows corresponding to your chose grouping variables. To avoid setting this index, pass "as_index=False" to the groupby operation.</span>
+</span><span class="tooltipr">
+.agg({
+ <span class="tooltiprtext">A method of grouping, calculating, and renaming the results.</span>
+</span><span class="tooltipr">
+"max_Temp":
+  <span class="tooltipRtext">This renames the column with the new calculated values.</span>
+</span><span class="tooltipr">
+"max"})
+  <span class="tooltipRtext">The statistical method used to calculate the intended values for each group.</span>
+</span><span class="tooltipr" style="float:right;">
+&nbsp;...&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="max_2" style="display:none;">
+
+```{python, echo=FALSE}
+import pandas as pd
+
+r.airquality.groupby('Month', as_index=False)['Temp'].agg({'max_Temp':"max"})
+```
+
+
+Note that Python calculated the max `Temp` for each month in `Month` from the `airquality` dataset. 
+
+May (5), June (6), July (7), August (8), and September (9), respectively.
+
+
+</div>
 
 
 
 </div>
+
 
 ----
 
@@ -1090,6 +1530,152 @@ Good for describing the spread of data, typically for skewed distributions. Ther
 
 <div style="padding-left:150px;">
 To calculate a five-number summary (and mean) in R use the code:
+
+`quantile(object, percentile)`
+
+* `object` must be a quantitative variable, what R calls a "numeric vector."
+* `percentile` must be a value between 0 and 1. For the first quartile, it would be 0.25. For the third, it would be 0.75.
+
+<br>
+
+**Example Code** 
+
+Hover your mouse over the example codes to learn more.
+
+<a href="javascript:showhide('summary1')">
+<div class="hoverchunk">
+<span class="tooltipr">
+summary
+  <span class="tooltiprtext">"summary" is an R function used to calculate the five-number summary (and mean) of data.</span>
+</span><span class="tooltipr">
+(
+  <span class="tooltiprtext">Parenthesis to begin the function. Must touch the last letter of the function.</span>
+</span><span class="tooltipr">
+airquality
+  <span class="tooltiprtext">"airquality" is a dataset. Type "View(airquality)" in R to see it.</span>
+</span><span class="tooltipr">
+$
+  <span class="tooltiprtext">The $ allows us to access any variable from the airquality dataset.</span>
+</span><span class="tooltipr">
+Temp
+  <span class="tooltiprtext">"Temp" is a quantitative variable (numeric vector) from the "airquality" dataset.</span>
+</span><span class="tooltipr">
+)  
+  <span class="tooltiprtext">Closing parenthsis for the function.</span>
+</span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltiprtext">Press Enter to run the code if you have typed it in yourself. You can also click here to view the output.</span>
+</span><span class="tooltipr" style="float:right;">
+&nbsp;...&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="summary1" style="display:none;">
+```{r, echo=FALSE}
+pander(summary(airquality$Temp))
+```
+
+Showing above are the five-number summary and mean of `Temp` from the `airquality` dataset.
+
+Note, you must use `pander(summary(airquality$Temp))` to get the nicely formatted output.
+</div>
+
+<a href="javascript:showhide('summary2')">
+<div class="hoverchunk">
+<span class="tooltipr">
+library(tidyverse)
+<span class="tooltiprtext">tidyverse is an R Package that is very useful for working with data.</span>
+</span><br><span class="tooltipr">
+airquality
+  <span class="tooltipRtext">`airquality` is a dataset in R.</span>
+</span><span class="tooltipr">
+&nbsp;%>%&nbsp;
+  <span class="tooltipRtext">The pipe operator that will send the `airquality` dataset down inside of the code on the following line.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp; group_by(
+  <span class="tooltipRtext">"group_by" is a function from library(tidyverse) that allows us to split the airquality dataset into "little" datasets, one dataset for each value in the "Month" column.</span>
+</span><span class="tooltipr">
+Month
+  <span class="tooltiprtext">"Month" is a column from the airquality dataset that can be treated as qualitative.</span>
+</span><span class="tooltipr">
+)
+ <span class="tooltiprtext">Functions must always end with a closing parenthesis.</span>
+</span><span class="tooltipr">
+&nbsp;%>%&nbsp;
+  <span class="tooltipRtext">The pipe operator that will send the grouped version of the `airquality` dataset down inside of the code on the following line.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp; summarise(
+  <span class="tooltipRtext">"summarise" is a function from library(tidyverse) that allows us to compute numerical summaries on data.</span>
+</span><span class="tooltipr">
+min = min(Temp),&nbsp;
+  <span class="tooltiprtext">Computes the min of the Temp column.</span>
+</span><span class="tooltipr">
+Q1 = quantile(Temp, 0.25),&nbsp;
+  <span class="tooltiprtext">Computes the first quartile of the Temp column.</span>
+</span><span class="tooltipr">
+med = median(Temp),&nbsp;
+  <span class="tooltiprtext">Computes the second quartile of the Temp column, known as the median.</span>
+</span><span class="tooltipr">
+Q3 = quantile(Temp, 0.75),&nbsp;
+  <span class="tooltiprtext">Computes the third quartile of the Temp column.</span>
+</span><span class="tooltipr">
+max = max(Temp)
+  <span class="tooltiprtext">Computes the max of the Temp column.</span>
+</span><span class="tooltipr">
+)
+ <span class="tooltiprtext">Functions must always end with a closing parenthesis.</span>
+</span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltiprtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;">
+&nbsp;...&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="summary2" style="display:none;">
+```{r, echo=FALSE}
+airquality %>% 
+  group_by(Month) %>%
+  summarise(min = min(Temp),
+            Q1 = quantile(Temp, c(.25)),
+            med = median(Temp),
+            Q3 = quantile(Temp, c(.75)),
+            max = max(Temp)) %>%
+  pander()
+```
+
+Note that R calculated the five-number summary for `Temp` for each month in `Month` from the `airquality` dataset. 
+
+May (5), June (6), July (7), August (8), and September (9), respectively.
+
+Further, to get the nicely formatted table you must use:
+
+```{}
+library(pander)
+airquality %>% 
+  group_by(Month) %>%
+  summarise(min = min(Temp),
+            Q1 = quantile(Temp, c(.25)),
+            med = median(Temp),
+            Q3 = quantile(Temp, c(.75)),
+            max = max(Temp)) %>%
+  pander()
+```
+
+</div>
+
+
+</div>
+
+
+----
+
+#### Python Instructions
+
+<div style="padding-left:150px;">
+To calculate a five-number summary (and mean) in Python use the code:
 
 `quantile(object, percentile)`
 

@@ -12,6 +12,14 @@ navbar:
           href: RCheatSheetsAndNotes.html
         - text: "Data Sources"
           href: DataSources.html
+    - text: "Python Help"
+      menu:
+        - text: "Python Commands"
+          href: PythonCommands.html
+        - text: "Python Jupyter Notebook Hints"
+          href: PythonJupyterNotebookHints.html
+        - text: "Python Cheatsheets & Notes"
+          href: PythonCheatSheetsAndNotes.html
     - text: "Describing Data"
       menu:
         - text: "Graphical Summaries"
