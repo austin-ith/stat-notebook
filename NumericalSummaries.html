@@ -449,10 +449,34 @@ div.tocify {
       <a href="./Analyses/StudentHousingPOOR.html">Poor Example Analysis</a>
     </li>
     <li>
-      <a href="./Analyses/Rent.html">Rent Analysis</a>
+      <a href="./Analyses/Rent.html">Rent</a>
     </li>
     <li>
-      <a href="./Analyses/Stephanie.html">Stephanie Analysis</a>
+      <a href="./Analyses/Stephanie.html">Stephanie</a>
+    </li>
+    <li>
+      <a href="./Analyses/t Tests/HighSchoolSeniors.html">High School Seniors</a>
+    </li>
+    <li>
+      <a href="./Analyses/Wilcoxon Tests/RecallingWords.html">Recalling Words</a>
+    </li>
+    <li>
+      <a href="./Analyses/ANOVA/DayCare.html">Day Care</a>
+    </li>
+    <li>
+      <a href="./Analyses/Kruskal-Wallis/Food.html">Food</a>
+    </li>
+    <li>
+      <a href="./Analyses/Linear Regression/MySimpleLinearRegression.html">My Simple Linear Regression</a>
+    </li>
+    <li>
+      <a href="./Analyses/Linear Regression/CarPrices.html">Car Prices</a>
+    </li>
+    <li>
+      <a href="./Analyses/Logistic Regression/MyLogisticRegression.html">My Logistic Regression</a>
+    </li>
+    <li>
+      <a href="./Analyses/Chi Squared Tests/MyChiSquaredTest.html">My Chi-sqaured Test</a>
     </li>
   </ul>
 </li>
@@ -526,7 +550,6 @@ div.tocify {
 </div>
 </a>
 <div id="mean3" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:25%;">
 <colgroup>
 <col width="11%" />
@@ -593,7 +616,6 @@ airquality %&gt;%
 </a>
 <div id="mean_1" style="display:none;">
 <pre><code>## 77.88235294117646</code></pre>
-<p><img src="NumericalSummaries_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>Note that the single number showing above is the average <code>Temp</code> from the <code>airquality</code> dataset.</p>
 </div>
 <a href="javascript:showhide('mean_2')">
@@ -720,7 +742,6 @@ airquality %&gt;%
 </div>
 </a>
 <div id="median2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:25%;">
 <colgroup>
 <col width="11%" />
@@ -790,7 +811,7 @@ airquality %&gt;%
 </div>
 <a href="javascript:showhide('median_2')">
 <div class="hoverchunk">
-<p><span class="tooltipr"> import pandas <span class="tooltiprtext">pandas is a Python Package that is very useful for working with data.</span> </span><br><span class="tooltipr"> airquality <span class="tooltipRtext"><code>airquality</code> is a dataset loaded in previously.</span> </span><span class="tooltipr"> .groupby( <span class="tooltipRtext">“group_by” is a function from library(tidyverse) that allows us to split the airquality dataset into “little” datasets, one dataset for each value in the “Month” column.</span> </span><span class="tooltipr"> ‘Month’, <span class="tooltipRtext">“Month” is a column from the airquality dataset that can be treated as qualitative.</span> </span><span class="tooltipr"> as_index=False) <span class="tooltiprtext">The groupby output will have an index or multi-index on rows corresponding to your chose grouping variables. To avoid setting this index, pass “as_index=False” to the groupby operation.</span> </span><span class="tooltipr"> .agg({ <span class="tooltiprtext">A method of grouping, calculating, and renaming the results.</span> </span><span class="tooltipr"> “AveTemp”: <span class="tooltipRtext">This renames the column with the new calculated values.</span> </span><span class="tooltipr"> “median”}) <span class="tooltipRtext">The statistical method used to calculate the intended values for each group.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
+<p><span class="tooltipr"> import pandas <span class="tooltiprtext">pandas is a Python Package that is very useful for working with data.</span> </span><br><span class="tooltipr"> airquality <span class="tooltipRtext"><code>airquality</code> is a dataset loaded in previously.</span> </span><span class="tooltipr"> .groupby( <span class="tooltipRtext">“group_by” is a function from library(tidyverse) that allows us to split the airquality dataset into “little” datasets, one dataset for each value in the “Month” column.</span> </span><span class="tooltipr"> ‘Month’, <span class="tooltipRtext">“Month” is a column from the airquality dataset that can be treated as qualitative.</span> </span><span class="tooltipr"> as_index=False) <span class="tooltiprtext">The groupby output will have an index or multi-index on rows corresponding to your chose grouping variables. To avoid setting this index, pass “as_index=False” to the groupby operation.</span> </span><span class="tooltipr"> .agg({ <span class="tooltiprtext">A method of grouping, calculating, and renaming the results.</span> </span><span class="tooltipr"> “med_Temp”: <span class="tooltipRtext">This renames the column with the new calculated values.</span> </span><span class="tooltipr"> “median”}) <span class="tooltipRtext">The statistical method used to calculate the intended values for each group.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
 </div>
 </a>
 <div id="median_2" style="display:none;">
@@ -925,7 +946,6 @@ airquality %&gt;%
 </div>
 </a>
 <div id="mode2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:56%;">
 <colgroup>
 <col width="11%" />
@@ -1058,7 +1078,6 @@ airquality %&gt;%
 </div>
 </a>
 <div id="min2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:25%;">
 <colgroup>
 <col width="11%" />
@@ -1189,7 +1208,6 @@ airquality %&gt;%
 </div>
 </a>
 <div id="max2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:25%;">
 <colgroup>
 <col width="11%" />
@@ -1353,7 +1371,6 @@ airquality %&gt;%
 </div>
 </a>
 <div id="summary2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:60%;">
 <colgroup>
 <col width="11%" />
@@ -1436,7 +1453,7 @@ airquality %&gt;%
 <h4>Python Instructions</h4>
 <div style="padding-left:150px;">
 <p>To calculate a five-number summary (and mean) in Python use the code:</p>
-<p><code>quantile(object, percentile)</code></p>
+<p><code>object, percentile)</code></p>
 <ul>
 <li><code>object</code> must be a quantitative variable, what R calls a “numeric vector.”</li>
 <li><code>percentile</code> must be a value between 0 and 1. For the first quartile, it would be 0.25. For the third, it would be 0.75.</li>
@@ -1444,44 +1461,16 @@ airquality %&gt;%
 <p><br></p>
 <p><strong>Example Code</strong></p>
 <p>Hover your mouse over the example codes to learn more.</p>
-<a href="javascript:showhide('summary1')">
+<a href="javascript:showhide('summary3')">
 <div class="hoverchunk">
 <p><span class="tooltipr"> summary <span class="tooltiprtext">“summary” is an R function used to calculate the five-number summary (and mean) of data.</span> </span><span class="tooltipr"> ( <span class="tooltiprtext">Parenthesis to begin the function. Must touch the last letter of the function.</span> </span><span class="tooltipr"> airquality <span class="tooltiprtext">“airquality” is a dataset. Type “View(airquality)” in R to see it.</span> </span><span class="tooltipr"> $ <span class="tooltiprtext">The $ allows us to access any variable from the airquality dataset.</span> </span><span class="tooltipr"> Temp <span class="tooltiprtext">“Temp” is a quantitative variable (numeric vector) from the “airquality” dataset.</span> </span><span class="tooltipr"> )<br />
 <span class="tooltiprtext">Closing parenthsis for the function.</span> </span><span class="tooltipr">     <br />
 <span class="tooltiprtext">Press Enter to run the code if you have typed it in yourself. You can also click here to view the output.</span> </span><span class="tooltipr" style="float:right;">  …  <span class="tooltiprtext">Click to View Output.</span> </span></p>
 </div>
 </a>
-<div id="summary1" style="display:none;">
-<table style="width:71%;">
-<colgroup>
-<col width="9%" />
-<col width="13%" />
-<col width="12%" />
-<col width="11%" />
-<col width="13%" />
-<col width="9%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="center">Min.</th>
-<th align="center">1st Qu.</th>
-<th align="center">Median</th>
-<th align="center">Mean</th>
-<th align="center">3rd Qu.</th>
-<th align="center">Max.</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">56</td>
-<td align="center">72</td>
-<td align="center">79</td>
-<td align="center">77.88</td>
-<td align="center">85</td>
-<td align="center">97</td>
-</tr>
-</tbody>
-</table>
+<div id="summary3" style="display:none;">
+<pre><code>##       count       mean      std   min   25%   50%   75%   max
+## Temp  153.0  77.882353  9.46527  56.0  72.0  79.0  85.0  97.0</code></pre>
 <p>Showing above are the five-number summary and mean of <code>Temp</code> from the <code>airquality</code> dataset.</p>
 <p>Note, you must use <code>pander(summary(airquality$Temp))</code> to get the nicely formatted output.</p>
 </div>
@@ -1492,81 +1481,15 @@ airquality %&gt;%
 </div>
 </a>
 <div id="summary2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<table style="width:60%;">
-<colgroup>
-<col width="11%" />
-<col width="8%" />
-<col width="9%" />
-<col width="8%" />
-<col width="11%" />
-<col width="11%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="center">Month</th>
-<th align="center">min</th>
-<th align="center">Q1</th>
-<th align="center">med</th>
-<th align="center">Q3</th>
-<th align="center">max</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">5</td>
-<td align="center">56</td>
-<td align="center">60</td>
-<td align="center">66</td>
-<td align="center">69</td>
-<td align="center">81</td>
-</tr>
-<tr class="even">
-<td align="center">6</td>
-<td align="center">65</td>
-<td align="center">76</td>
-<td align="center">78</td>
-<td align="center">82.75</td>
-<td align="center">93</td>
-</tr>
-<tr class="odd">
-<td align="center">7</td>
-<td align="center">73</td>
-<td align="center">81.5</td>
-<td align="center">84</td>
-<td align="center">86</td>
-<td align="center">92</td>
-</tr>
-<tr class="even">
-<td align="center">8</td>
-<td align="center">72</td>
-<td align="center">79</td>
-<td align="center">82</td>
-<td align="center">88.5</td>
-<td align="center">97</td>
-</tr>
-<tr class="odd">
-<td align="center">9</td>
-<td align="center">63</td>
-<td align="center">71</td>
-<td align="center">76</td>
-<td align="center">81</td>
-<td align="center">93</td>
-</tr>
-</tbody>
-</table>
+<pre><code>##        count       mean       std   min   25%   50%    75%   max
+## Month                                                           
+## 5       31.0  65.548387  6.854870  56.0  60.0  66.0  69.00  81.0
+## 6       30.0  79.100000  6.598589  65.0  76.0  78.0  82.75  93.0
+## 7       31.0  83.903226  4.315513  73.0  81.5  84.0  86.00  92.0
+## 8       31.0  83.967742  6.585256  72.0  79.0  82.0  88.50  97.0
+## 9       30.0  76.900000  8.355671  63.0  71.0  76.0  81.00  93.0</code></pre>
 <p>Note that R calculated the five-number summary for <code>Temp</code> for each month in <code>Month</code> from the <code>airquality</code> dataset.</p>
 <p>May (5), June (6), July (7), August (8), and September (9), respectively.</p>
-<p>Further, to get the nicely formatted table you must use:</p>
-<pre><code>library(pander)
-airquality %&gt;% 
-  group_by(Month) %&gt;%
-  summarise(min = min(Temp),
-            Q1 = quantile(Temp, c(.25)),
-            med = median(Temp),
-            Q3 = quantile(Temp, c(.75)),
-            max = max(Temp)) %&gt;%
-  pander()</code></pre>
 </div>
 </div>
 <hr />
@@ -1614,7 +1537,6 @@ airquality %&gt;%
 </div>
 </a>
 <div id="sd2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:24%;">
 <colgroup>
 <col width="11%" />
@@ -1781,7 +1703,6 @@ airquality %&gt;%
 </div>
 </a>
 <div id="var2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:25%;">
 <colgroup>
 <col width="11%" />
@@ -1867,7 +1788,6 @@ airquality %&gt;%
 </div>
 </a>
 <div id="range2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:28%;">
 <colgroup>
 <col width="11%" />
@@ -2005,7 +1925,6 @@ airquality %&gt;%
 </div>
 </a>
 <div id="cor2" style="display:none;">
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table style="width:31%;">
 <colgroup>
 <col width="11%" />

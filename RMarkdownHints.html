@@ -13,6 +13,7 @@
 
 <title>R Markdown Hints</title>
 
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
@@ -23,24 +24,31 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -60,7 +68,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -146,6 +154,7 @@ h6 {
   text-align: left;
 }
 </style>
+
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
@@ -447,6 +456,24 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Python Help
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="PythonCommands.html">Python Commands</a>
+    </li>
+    <li>
+      <a href="PythonJupyterNotebookHints.html">Python Jupyter Notebook Hints</a>
+    </li>
+    <li>
+      <a href="PythonCheatSheetsAndNotes.html">Python Cheatsheets &amp; Notes</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Describing Data
      
     <span class="caret"></span>
@@ -565,7 +592,7 @@ div.tocify {
 <div id="overview" class="section level1">
 <h1>Overview</h1>
 <div id="section" class="section level2 tabset tabset-pills tabset-fade">
-<h2></h2>
+<h2 class="tabset tabset-pills tabset-fade"></h2>
 <div id="click-here-to-learn-more" class="section level3">
 <h3>Click Here to Learn More</h3>
 <p>Carefully read through all parts of this image to learn…</p>
@@ -632,13 +659,13 @@ Carefully read through all parts of this image to learn...
 </div>
 <div style="padding-left:350px;">
 <p>Use the code:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>To achieve the result<span class="op">:</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="st">  </span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="er">*</span><span class="st"> </span>This is the first item.</span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="op">*</span><span class="st"> </span>This is the second.</span>
-<span id="cb2-6"><a href="#cb2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="op">*</span><span class="st"> </span>This is the third.</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>To achieve the result<span class="sc">:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="er">*</span> This is the first item.</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="sc">*</span> This is the second.</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="sc">*</span> This is the third.</span></code></pre></div>
 </div>
 <div style="clear:both;">
 
@@ -656,13 +683,13 @@ Carefully read through all parts of this image to learn...
 </div>
 <div style="padding-left:350px;">
 <p>Use the code:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>To achieve the result<span class="op">:</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="st">  </span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="fl">1.</span> This is the first item.</span>
-<span id="cb3-4"><a href="#cb3-4"></a></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="fl">2.</span> This is the second.</span>
-<span id="cb3-6"><a href="#cb3-6"></a></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="fl">3.</span> This is the third.</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>To achieve the result<span class="sc">:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fl">1.</span> This is the first item.</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fl">2.</span> This is the second.</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fl">3.</span> This is the third.</span></code></pre></div>
 </div>
 <div style="clear:both;">
 
@@ -680,13 +707,13 @@ Carefully read through all parts of this image to learn...
 </div>
 <div style="padding-left:350px;">
 <p>Use the code:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>To achieve the result<span class="op">:</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="st">  </span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>A<span class="er">)</span> This is the first item.</span>
-<span id="cb4-4"><a href="#cb4-4"></a></span>
-<span id="cb4-5"><a href="#cb4-5"></a>B<span class="er">)</span> This is the second.</span>
-<span id="cb4-6"><a href="#cb4-6"></a></span>
-<span id="cb4-7"><a href="#cb4-7"></a>C<span class="er">)</span> This is the third.</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>To achieve the result<span class="sc">:</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>A<span class="er">)</span> This is the first item.</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>B<span class="er">)</span> This is the second.</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>C<span class="er">)</span> This is the third.</span></code></pre></div>
 </div>
 <div style="clear:both;">
 
@@ -709,17 +736,17 @@ Carefully read through all parts of this image to learn...
 </ol>
 </div>
 <div style="padding-left:350px;">
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fl">1.</span> What is <span class="op">$</span><span class="dv">2</span><span class="op">+</span><span class="dv">2</span><span class="op">$</span>?</span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a>    a. <span class="op">**</span><span class="dv">4</span><span class="op">**</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="st">    </span></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="st">    </span>b. <span class="dv">8</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a>  </span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="fl">2.</span> What is <span class="op">$</span><span class="dv">3</span>\times5<span class="op">$</span>?</span>
-<span id="cb5-8"><a href="#cb5-8"></a></span>
-<span id="cb5-9"><a href="#cb5-9"></a>    a. <span class="dv">14</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a>    </span>
-<span id="cb5-11"><a href="#cb5-11"></a>    b. <span class="op">**</span><span class="dv">15</span><span class="op">**</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fl">1.</span> What is <span class="sc">$</span><span class="dv">2</span><span class="sc">+</span><span class="dv">2</span><span class="sc">$</span>?</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    a. <span class="sc">**</span><span class="dv">4</span><span class="sc">**</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    b. <span class="dv">8</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fl">2.</span> What is <span class="sc">$</span><span class="dv">3</span>\times5<span class="sc">$</span>?</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    a. <span class="dv">14</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    b. <span class="sc">**</span><span class="dv">15</span><span class="sc">**</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -832,10 +859,10 @@ $$</code></pre>
 <div id="tables" class="section level1">
 <h1>Tables</h1>
 <p>There are many ways to <a href="http://rmarkdown.rstudio.com/authoring_pandoc_markdown.html#tables">make tables</a> in R Markdown. Here is a simple way to make a “pipe” table.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="op">|</span><span class="st"> </span>Name          <span class="op">|</span><span class="st"> </span>Age           <span class="op">|</span><span class="st"> </span>Gender       <span class="op">|</span><span class="st"> </span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="er">|</span><span class="op">---------------</span><span class="er">|</span><span class="op">---------------</span><span class="er">|</span><span class="op">--------------</span><span class="er">|</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="er">|</span><span class="st"> </span>Jill          <span class="op">|</span><span class="st"> </span><span class="dv">8</span>             <span class="op">|</span><span class="st">  </span>Female      <span class="op">|</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="er">|</span><span class="st"> </span>Jack          <span class="op">|</span><span class="st"> </span><span class="dv">9</span>             <span class="op">|</span><span class="st">  </span>Male        <span class="op">|</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="sc">|</span> Name          <span class="sc">|</span> Age           <span class="sc">|</span> Gender       <span class="sc">|</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="er">|</span><span class="sc">---------------</span><span class="er">|</span><span class="sc">---------------</span><span class="er">|</span><span class="sc">--------------</span><span class="er">|</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="er">|</span> Jill          <span class="sc">|</span> <span class="dv">8</span>             <span class="sc">|</span>  Female      <span class="sc">|</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="er">|</span> Jack          <span class="sc">|</span> <span class="dv">9</span>             <span class="sc">|</span>  Male        <span class="sc">|</span></span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -868,13 +895,13 @@ $$</code></pre>
 <li>“default”, “cerulean”, “journal”, “flatly”, “readable”, “spacelab”, “united”, and “cosmo”.</li>
 </ul>
 <p>You can also change the <code>highlighting</code> by adding the line “highlight: tango” to the YAML as follows.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="op">---</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a>title<span class="op">:</span><span class="st"> &quot;Markdown Hints&quot;</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a>output<span class="op">:</span><span class="st"> </span></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="st">  </span>html_document<span class="op">:</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="st">    </span>theme<span class="op">:</span><span class="st"> </span>cerulean</span>
-<span id="cb9-6"><a href="#cb9-6"></a>    highlight<span class="op">:</span><span class="st"> </span>tango</span>
-<span id="cb9-7"><a href="#cb9-7"></a><span class="op">---</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="sc">---</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>title<span class="sc">:</span> <span class="st">&quot;Markdown Hints&quot;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>output<span class="sc">:</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  html_document<span class="sc">:</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    theme<span class="sc">:</span> cerulean</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    highlight<span class="sc">:</span> tango</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="sc">---</span></span></code></pre></div>
 <p>Other highlighting options are</p>
 <ul>
 <li>“default”, “tango”, “pygments”, “kate”, “monochrome”, “espresso”, “zenburn”, “haddock”, and “textmate”.</li>
@@ -900,7 +927,7 @@ $$</code></pre>
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

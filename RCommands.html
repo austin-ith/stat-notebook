@@ -13,6 +13,7 @@
 
 <title>R Commands</title>
 
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
@@ -23,7 +24,15 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 
@@ -54,6 +63,7 @@ h6 {
   text-align: left;
 }
 </style>
+
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
@@ -350,6 +360,24 @@ div.tocify {
     </li>
     <li>
       <a href="DataSources.html">Data Sources</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Python Help
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="PythonCommands.html">Python Commands</a>
+    </li>
+    <li>
+      <a href="PythonJupyterNotebookHints.html">Python Jupyter Notebook Hints</a>
+    </li>
+    <li>
+      <a href="PythonCheatSheetsAndNotes.html">Python Cheatsheets &amp; Notes</a>
     </li>
   </ul>
 </li>
@@ -1147,24 +1175,26 @@ div.tocify {
 <p></a></p>
 <div id="mutate1" style="display:none;padding-left:20px;">
 <p>Notice the last two columns of <code>cyl_factor</code> and <code>weight</code> are what we added to the data set <code>mtcars2</code>. As seen by <code>View(mtcars)</code>, the original <code>mtcars</code> data set did not have these two columns. We used the <code>mutate</code> function to create them and saved our work in a new data set called <code>mtcars2</code>.</p>
-<table>
+<table style="width:100%;">
 <colgroup>
-<col width="7%" />
+<col width="21%" />
+<col width="5%" />
+<col width="4%" />
 <col width="6%" />
-<col width="8%" />
+<col width="4%" />
+<col width="5%" />
 <col width="6%" />
-<col width="7%" />
-<col width="8%" />
-<col width="8%" />
+<col width="6%" />
+<col width="4%" />
+<col width="4%" />
 <col width="5%" />
 <col width="5%" />
+<col width="10%" />
 <col width="7%" />
-<col width="7%" />
-<col width="13%" />
-<col width="9%" />
 </colgroup>
 <thead>
 <tr class="header">
+<th align="center"> </th>
 <th align="center">mpg</th>
 <th align="center">cyl</th>
 <th align="center">disp</th>
@@ -1182,6 +1212,7 @@ div.tocify {
 </thead>
 <tbody>
 <tr class="odd">
+<td align="center"><strong>Mazda RX4</strong></td>
 <td align="center">21</td>
 <td align="center">6</td>
 <td align="center">160</td>
@@ -1197,6 +1228,7 @@ div.tocify {
 <td align="center">2620</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Mazda RX4 Wag</strong></td>
 <td align="center">21</td>
 <td align="center">6</td>
 <td align="center">160</td>
@@ -1212,6 +1244,7 @@ div.tocify {
 <td align="center">2875</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Datsun 710</strong></td>
 <td align="center">22.8</td>
 <td align="center">4</td>
 <td align="center">108</td>
@@ -1227,6 +1260,7 @@ div.tocify {
 <td align="center">2320</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Hornet 4 Drive</strong></td>
 <td align="center">21.4</td>
 <td align="center">6</td>
 <td align="center">258</td>
@@ -1242,6 +1276,7 @@ div.tocify {
 <td align="center">3215</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Hornet Sportabout</strong></td>
 <td align="center">18.7</td>
 <td align="center">8</td>
 <td align="center">360</td>
@@ -1257,6 +1292,7 @@ div.tocify {
 <td align="center">3440</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Valiant</strong></td>
 <td align="center">18.1</td>
 <td align="center">6</td>
 <td align="center">225</td>
@@ -1272,6 +1308,7 @@ div.tocify {
 <td align="center">3460</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Duster 360</strong></td>
 <td align="center">14.3</td>
 <td align="center">8</td>
 <td align="center">360</td>
@@ -1287,6 +1324,7 @@ div.tocify {
 <td align="center">3570</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Merc 240D</strong></td>
 <td align="center">24.4</td>
 <td align="center">4</td>
 <td align="center">146.7</td>
@@ -1302,6 +1340,7 @@ div.tocify {
 <td align="center">3190</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Merc 230</strong></td>
 <td align="center">22.8</td>
 <td align="center">4</td>
 <td align="center">140.8</td>
@@ -1317,6 +1356,7 @@ div.tocify {
 <td align="center">3150</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Merc 280</strong></td>
 <td align="center">19.2</td>
 <td align="center">6</td>
 <td align="center">167.6</td>
@@ -1332,6 +1372,7 @@ div.tocify {
 <td align="center">3440</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Merc 280C</strong></td>
 <td align="center">17.8</td>
 <td align="center">6</td>
 <td align="center">167.6</td>
@@ -1347,6 +1388,7 @@ div.tocify {
 <td align="center">3440</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Merc 450SE</strong></td>
 <td align="center">16.4</td>
 <td align="center">8</td>
 <td align="center">275.8</td>
@@ -1362,6 +1404,7 @@ div.tocify {
 <td align="center">4070</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Merc 450SL</strong></td>
 <td align="center">17.3</td>
 <td align="center">8</td>
 <td align="center">275.8</td>
@@ -1377,6 +1420,7 @@ div.tocify {
 <td align="center">3730</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Merc 450SLC</strong></td>
 <td align="center">15.2</td>
 <td align="center">8</td>
 <td align="center">275.8</td>
@@ -1392,6 +1436,7 @@ div.tocify {
 <td align="center">3780</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Cadillac Fleetwood</strong></td>
 <td align="center">10.4</td>
 <td align="center">8</td>
 <td align="center">472</td>
@@ -1407,6 +1452,7 @@ div.tocify {
 <td align="center">5250</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Lincoln Continental</strong></td>
 <td align="center">10.4</td>
 <td align="center">8</td>
 <td align="center">460</td>
@@ -1422,6 +1468,7 @@ div.tocify {
 <td align="center">5424</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Chrysler Imperial</strong></td>
 <td align="center">14.7</td>
 <td align="center">8</td>
 <td align="center">440</td>
@@ -1437,6 +1484,7 @@ div.tocify {
 <td align="center">5345</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Fiat 128</strong></td>
 <td align="center">32.4</td>
 <td align="center">4</td>
 <td align="center">78.7</td>
@@ -1452,6 +1500,7 @@ div.tocify {
 <td align="center">2200</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Honda Civic</strong></td>
 <td align="center">30.4</td>
 <td align="center">4</td>
 <td align="center">75.7</td>
@@ -1467,6 +1516,7 @@ div.tocify {
 <td align="center">1615</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Toyota Corolla</strong></td>
 <td align="center">33.9</td>
 <td align="center">4</td>
 <td align="center">71.1</td>
@@ -1482,6 +1532,7 @@ div.tocify {
 <td align="center">1835</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Toyota Corona</strong></td>
 <td align="center">21.5</td>
 <td align="center">4</td>
 <td align="center">120.1</td>
@@ -1497,6 +1548,7 @@ div.tocify {
 <td align="center">2465</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Dodge Challenger</strong></td>
 <td align="center">15.5</td>
 <td align="center">8</td>
 <td align="center">318</td>
@@ -1512,6 +1564,7 @@ div.tocify {
 <td align="center">3520</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>AMC Javelin</strong></td>
 <td align="center">15.2</td>
 <td align="center">8</td>
 <td align="center">304</td>
@@ -1527,6 +1580,7 @@ div.tocify {
 <td align="center">3435</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Camaro Z28</strong></td>
 <td align="center">13.3</td>
 <td align="center">8</td>
 <td align="center">350</td>
@@ -1542,6 +1596,7 @@ div.tocify {
 <td align="center">3840</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Pontiac Firebird</strong></td>
 <td align="center">19.2</td>
 <td align="center">8</td>
 <td align="center">400</td>
@@ -1557,6 +1612,7 @@ div.tocify {
 <td align="center">3845</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Fiat X1-9</strong></td>
 <td align="center">27.3</td>
 <td align="center">4</td>
 <td align="center">79</td>
@@ -1572,6 +1628,7 @@ div.tocify {
 <td align="center">1935</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Porsche 914-2</strong></td>
 <td align="center">26</td>
 <td align="center">4</td>
 <td align="center">120.3</td>
@@ -1587,6 +1644,7 @@ div.tocify {
 <td align="center">2140</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Lotus Europa</strong></td>
 <td align="center">30.4</td>
 <td align="center">4</td>
 <td align="center">95.1</td>
@@ -1602,6 +1660,7 @@ div.tocify {
 <td align="center">1513</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Ford Pantera L</strong></td>
 <td align="center">15.8</td>
 <td align="center">8</td>
 <td align="center">351</td>
@@ -1617,6 +1676,7 @@ div.tocify {
 <td align="center">3170</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Ferrari Dino</strong></td>
 <td align="center">19.7</td>
 <td align="center">6</td>
 <td align="center">145</td>
@@ -1632,6 +1692,7 @@ div.tocify {
 <td align="center">2770</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Maserati Bora</strong></td>
 <td align="center">15</td>
 <td align="center">8</td>
 <td align="center">301</td>
@@ -1647,6 +1708,7 @@ div.tocify {
 <td align="center">3570</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Volvo 142E</strong></td>
 <td align="center">21.4</td>
 <td align="center">4</td>
 <td align="center">121</td>
@@ -3758,7 +3820,7 @@ div.tocify {
 <pre><code>What it looks like if you don&#39;t pander:</code></pre>
 <pre><code># A tibble: 2 x 4
   sex   aveLength sdLength sampleSize
-  &lt;fct&gt;     &lt;dbl&gt;    &lt;dbl&gt;      &lt;int&gt;
+* &lt;fct&gt;     &lt;dbl&gt;    &lt;dbl&gt;      &lt;int&gt;
 1 B       25.105   1.21676         20
 2 G       24.3211  1.33024         19</code></pre>
 </div>
@@ -3781,7 +3843,7 @@ div.tocify {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

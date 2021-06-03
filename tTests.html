@@ -13,6 +13,7 @@
 
 <title>t Tests</title>
 
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
@@ -20,7 +21,15 @@
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 
@@ -51,6 +60,7 @@ h6 {
   text-align: left;
 }
 </style>
+
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
@@ -279,6 +289,24 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Python Help
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="PythonCommands.html">Python Commands</a>
+    </li>
+    <li>
+      <a href="PythonJupyterNotebookHints.html">Python Jupyter Notebook Hints</a>
+    </li>
+    <li>
+      <a href="PythonCheatSheetsAndNotes.html">Python Cheatsheets &amp; Notes</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Describing Data
      
     <span class="caret"></span>
@@ -403,7 +431,7 @@ $(document).ready(function () {
 <p>Much of statistical inference concerns the location of the population mean <span class="math inline">\(\mu\)</span> for a given parametric distribution. Some of the most common approaches to making inference about <span class="math inline">\(\mu\)</span> utilize a test statistic that follows a t distribution.</p>
 <hr />
 <div id="one-sample-t-test" class="section level3 tabset tabset-fade tabset-pills">
-<h3>One Sample t Test</h3>
+<h3 class="tabset tabset-fade tabset-pills">One Sample t Test</h3>
 <div style="float:left;width:125px;" align="center">
 <p><img src="Images/QuantY.png" width=35px;></p>
 </div>
@@ -553,7 +581,7 @@ is known to follow a t distribution with <span class="math inline">\(n-1\)</span
 </div>
 </div>
 <div id="paired-samples-t-test" class="section level3 tabset tabset-fade tabset-pills">
-<h3>Paired Samples t Test</h3>
+<h3 class="tabset tabset-fade tabset-pills">Paired Samples t Test</h3>
 <div style="float:left;width:125px;" align="center">
 <p><img src="Images/QuantY.png" width=35px;></p>
 </div>
@@ -795,7 +823,7 @@ $$</code></pre>
 </div>
 </div>
 <div id="independent-samples-t-test" class="section level3 tabset tabset-fade tabset-pills">
-<h3>Independent Samples t Test</h3>
+<h3 class="tabset tabset-fade tabset-pills">Independent Samples t Test</h3>
 <div style="float:left;width:125px;" align="center">
 <p><img src="Images/QuantYQualXg2.png" width=62px;></p>
 </div>
@@ -1053,7 +1081,7 @@ $$</code></pre>
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

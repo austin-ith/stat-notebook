@@ -20,7 +20,8 @@ output:
 library(mosaic)
 library(pander)
 library(tidyverse)
-
+library(reticulate)
+use_condaenv("base")
 ```
 
 ----
@@ -239,11 +240,6 @@ airquality
 import pandas as pd
 
 r.airquality['Temp'].mean()
-
-import matplotlib.pyplot as plt
-plt.plot([4, 3, 2, 1])
-plt.ylabel('some numbers')
-plt.show()
 ```
 
 Note that the single number showing above is the average `Temp` from the `airquality` dataset.
@@ -621,7 +617,7 @@ as_index=False)
 .agg({
  <span class="tooltiprtext">A method of grouping, calculating, and renaming the results.</span>
 </span><span class="tooltipr">
-"AveTemp":
+"med_Temp":
   <span class="tooltipRtext">This renames the column with the new calculated values.</span>
 </span><span class="tooltipr">
 "median"})
@@ -1677,7 +1673,7 @@ airquality %>%
 <div style="padding-left:150px;">
 To calculate a five-number summary (and mean) in Python use the code:
 
-`quantile(object, percentile)`
+`object, percentile)`
 
 * `object` must be a quantitative variable, what R calls a "numeric vector."
 * `percentile` must be a value between 0 and 1. For the first quartile, it would be 0.25. For the third, it would be 0.75.
@@ -1688,7 +1684,7 @@ To calculate a five-number summary (and mean) in Python use the code:
 
 Hover your mouse over the example codes to learn more.
 
-<a href="javascript:showhide('summary1')">
+<a href="javascript:showhide('summary3')">
 <div class="hoverchunk">
 <span class="tooltipr">
 summary
@@ -1717,9 +1713,12 @@ Temp
 </span>
 </div>
 </a>
-<div id="summary1" style="display:none;">
-```{r, echo=FALSE}
-pander(summary(airquality$Temp))
+<div id="summary3" style="display:none;">
+```{python, echo=FALSE}
+import pandas as pd
+import numpy as np
+
+pd.DataFrame(r.airquality['Temp']).describe().T
 ```
 
 Showing above are the five-number summary and mean of `Temp` from the `airquality` dataset.
@@ -1781,34 +1780,14 @@ max = max(Temp)
 </div>
 </a>
 <div id="summary2" style="display:none;">
-```{r, echo=FALSE}
-airquality %>% 
-  group_by(Month) %>%
-  summarise(min = min(Temp),
-            Q1 = quantile(Temp, c(.25)),
-            med = median(Temp),
-            Q3 = quantile(Temp, c(.75)),
-            max = max(Temp)) %>%
-  pander()
+```{python, echo=FALSE}
+r.airquality.groupby('Month')['Temp'].describe()
 ```
 
 Note that R calculated the five-number summary for `Temp` for each month in `Month` from the `airquality` dataset. 
 
 May (5), June (6), July (7), August (8), and September (9), respectively.
 
-Further, to get the nicely formatted table you must use:
-
-```{}
-library(pander)
-airquality %>% 
-  group_by(Month) %>%
-  summarise(min = min(Temp),
-            Q1 = quantile(Temp, c(.25)),
-            med = median(Temp),
-            Q3 = quantile(Temp, c(.75)),
-            max = max(Temp)) %>%
-  pander()
-```
 
 </div>
 
